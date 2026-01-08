@@ -3,6 +3,7 @@ console.log("Таймер боссов загружен!");
 // Глобальные переменные
 let bossData = {};
 let autoRefreshInterval;
+let historyData = [];
 
 // Основная функция загрузки боссов
 async function loadBosses() {
@@ -19,6 +20,9 @@ async function loadBosses() {
         console.log("Данные получены:", bossData);
 
         displayBosses();
+        
+        // Загружаем историю
+        await loadHistory();
 
     } catch (error) {
         console.error("Ошибка загрузки:", error);
@@ -28,6 +32,9 @@ async function loadBosses() {
 
 // Отображение боссов
 function displayBosses() {
+    console.log("=== displayBosses вызван ===");
+    console.log("bossData:", bossData);
+    
     const container = document.getElementById('bosses-container');
 
     if (!bossData || Object.keys(bossData).length === 0) {
@@ -91,9 +98,17 @@ function displayBosses() {
                     <button class="kill-btn" onclick="markBossKilled(${bossId})">
                         🗡️ Босс убит!
                     </button>
-                    <button class="details-btn" onclick="showDetails(${bossId})">
-                        📋 Подробнее
+                    <button class="edit-btn" onclick="openEditModal(${bossId})">
+                        ⏰ Редактировать
                     </button>
+                </div>
+                
+                <!-- История действий для этого босса -->
+                <div class="boss-history">
+                    <h4><i class="fas fa-history"></i> История:</h4>
+                    <div class="history-list-small" id="history-${bossId}">
+                        <div class="loading-history">Загрузка...</div>
+                    </div>
                 </div>
             </div>
         `;
@@ -104,9 +119,15 @@ function displayBosses() {
 
 // Отметить босса убитым
 async function markBossKilled(bossId) {
-    if (!confirm(`Отметить босса как убитого?\nЭто обновит таймер у всех!`)) {
-        return;
-    }
+    // Улучшенный диалог подтверждения
+    const bossName = bossData[bossId]?.name || `Босс #${bossId}`;
+    
+    const confirmed = await showConfirmDialog(
+        `⚠️ ВНИМАНИЕ!`,
+        `Ты уверен, что хочешь отметить "${bossName}" как убитого?<br><br>`
+    );
+    
+    if (!confirmed) return;
 
     try {
         const response = await fetch(`/boss_killed/${bossId}`, {
@@ -120,7 +141,7 @@ async function markBossKilled(bossId) {
 
         if (result.success) {
             showNotification(`✅ ${result.message}`);
-            loadBosses(); // Перезагружаем данные
+            await loadBosses(); // Перезагружаем данные
         } else {
             showNotification(`❌ Ошибка: ${result.message}`);
         }
@@ -133,7 +154,7 @@ async function markBossKilled(bossId) {
 
 // Сбросить все таймеры
 async function resetAllTimers() {
-    if (!confirm('ВНИМАНИЕ!\nСбросить ВСЕ таймеры?\nЭто действие нельзя отменить!')) {
+    if (!confirm('Сбросить ВСЕ таймеры?')) {
         return;
     }
 
@@ -185,21 +206,333 @@ function updateMoscowTime() {
     timeElement.textContent = `${hours}:${minutes}:${seconds}`;
 }
 
-// Показать детали босса
-function showDetails(bossId) {
+// Загрузка истории
+async function loadHistory() {
+    try {
+        console.log("Запрашиваем историю...");
+        const response = await fetch('/get_history');
+        console.log("Статус ответа:", response.status);
+        
+        historyData = await response.json();
+        console.log("Полученные данные истории:", historyData);
+        
+        // Обновляем историю для каждого босса
+        for (const bossId in bossData) {
+            displayBossHistory(bossId);
+        }
+        
+        // Обновляем глобальную историю
+        displayGlobalHistory();
+        
+    } catch (error) {
+        console.error("Ошибка загрузки истории:", error);
+        showNotification('❌ Ошибка загрузки истории');
+    }
+}
+
+// Отобразить историю для конкретного босса
+function displayBossHistory(bossId) {
+    console.log(`=== displayBossHistory для босса ${bossId} ===`);
+    
+    const container = document.getElementById(`history-${bossId}`);
+    console.log(`Ищем контейнер для босса ${bossId}:`, container);
+    
+    if (!container) {
+        console.warn(`Контейнер истории для босса ${bossId} не найден`);
+        return;
+    }
+    
+    console.log("Вся история:", historyData);
+    const bossHistory = historyData.filter(record => 
+        record.boss_id == bossId && (record.action_type === 'kill' || record.action_type === 'manual_edit')
+    ).sort((a, b) => b.id - a.id) // Сортируем по убыванию ID (новые первыми)
+    .slice(0, 3); // Берем первые 3 (самые новые)
+    
+    console.log(`История для босса ${bossId}:`, bossHistory);
+    
+    if (bossHistory.length === 0) {
+        container.innerHTML = '<div class="no-history">Нет истории</div>';
+        return;
+    }
+    
+    let html = '';
+    bossHistory.forEach(record => {
+        const actionText = record.action_type === 'kill' ? 'Убит' : 'Изменено';
+        const actionClass = record.action_type === 'kill' ? 'kill-action' : 'edit-action';
+        
+        // Проверяем наличие time_only
+        const timeDisplay = record.time_only || record.timestamp_formatted || '--:--:--';
+        
+        html += `
+            <div class="history-item-small ${actionClass}">
+                <span class="action-type">${actionText}</span>
+                <span class="action-time">${timeDisplay}</span>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+    console.log(`Обновлён контейнер для босса ${bossId}`);
+}
+
+// Отобразить глобальную историю
+function displayGlobalHistory() {
+    const container = document.getElementById('kill-history');
+    if (!container) return;
+    
+    if (historyData.length === 0) {
+        container.innerHTML = '<div class="no-history">История пуста</div>';
+        return;
+    }
+    
+    let html = '';
+    historyData.sort((a, b) => b.id - a.id) // Сортируем по убыванию ID
+              .slice(0, 10) // Берем первые 10 (самые новые)
+              .forEach(record => {
+        let icon = '📝';
+        let actionText = '';
+        
+        switch(record.action_type) {
+            case 'kill':
+                icon = '🗡️';
+                actionText = 'убил';
+                break;
+            case 'manual_edit':
+                icon = '⏰';
+                actionText = 'изменил время';
+                break;
+            case 'reset':
+                icon = '🔄';
+                actionText = 'сбросил все таймеры';
+                break;
+            case 'undo':
+                icon = '↩️';
+                actionText = 'отменил действие';
+                break;
+        }
+        
+        html += `
+            <div class="history-item">
+                <div class="history-boss">
+                    <span class="history-icon">${icon}</span>
+                    <span class="history-action">${record.boss_name} ${actionText}</span>
+                </div>
+                <div class="history-time">${record.time_only}</div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+// Открыть модальное окно редактирования
+function openEditModal(bossId) {
     const boss = bossData[bossId];
     if (!boss) return;
-
-    const details = `
-        Босс: ${boss.name}
-        ID: ${bossId}
-        Статус: ${boss.status}
-        Диапазон респавна: ${boss.respawn_range}
-        ${boss.killed ? `Убит: ${boss.last_kill}` : 'Еще не убит'}
-        ${boss.killed ? `Прошло с убийства: ${boss.time_since_kill}` : ''}
+    
+    const currentTime = boss.last_kill || '';
+    
+    const modalHtml = `
+        <div class="modal-overlay" id="edit-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>⏰ Редактировать время убийства</h3>
+                    <button class="modal-close" onclick="closeModal()">×</button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Босс:</strong> ${boss.name}</p>
+                    <p><strong>Текущее время:</strong> ${currentTime || 'Не задано'}</p>
+                    
+                    <div class="form-group">
+                        <label for="edit-time">Новое время (ЧЧ:ММ):</label>
+                        <input type="text" id="edit-time" placeholder="14:30" maxlength="5">
+                        <small>Формат: ЧЧ:ММ (например: 14:30)</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeModal()">Отмена</button>
+                    <button class="btn-confirm" onclick="saveManualEdit(${bossId})">Сохранить</button>
+                </div>
+            </div>
+        </div>
     `;
+    
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+    
+    // Фокус на поле ввода
+    setTimeout(() => {
+        document.getElementById('edit-time').focus();
+    }, 100);
+}
 
-    alert(details);
+// Закрыть модальное окно
+function closeModal() {
+    const modal = document.getElementById('edit-modal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+// Сохранить ручное редактирование
+async function saveManualEdit(bossId) {
+    const timeInput = document.getElementById('edit-time');
+    const timeValue = timeInput.value.trim();
+    
+    if (!timeValue) {
+        showNotification('❌ Введи время');
+        return;
+    }
+    
+    // Простая валидация формата
+    const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+    if (!timeRegex.test(timeValue)) {
+        showNotification('❌ Неверный формат времени (ЧЧ:ММ)');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/manual_edit_time/${bossId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ time: timeValue })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showNotification(`✅ ${result.message}`);
+            closeModal();
+            await loadBosses(); // Перезагружаем данные
+        } else {
+            showNotification(`❌ ${result.error}`);
+        }
+        
+    } catch (error) {
+        console.error("Ошибка:", error);
+        showNotification('❌ Ошибка при сохранении');
+    }
+}
+
+// Очистить историю
+async function clearHistory() {
+    if (historyData.length === 0) {
+        showNotification('ℹ️ История уже пуста');
+        return;
+    }
+    
+    const confirmed = await showConfirmDialog(
+        '🗑️ Очистка истории',
+        `Ты уверен, что хочешь очистить всю историю?<br><br>` +
+        `<strong>Будет удалено:</strong> ${historyData.length} записей<br>`
+    );
+    
+    if (!confirmed) return;
+    
+    try {
+        const response = await fetch('/clear_history', {
+            method: 'POST',
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showNotification(`✅ ${result.message}`);
+            await loadBosses(); // Перезагружаем все данные
+        } else {
+            showNotification(`❌ ${result.error}`);
+        }
+        
+    } catch (error) {
+        console.error("Ошибка:", error);
+        showNotification('❌ Ошибка при очистке истории');
+    }
+}
+
+// Откатить последнее действие
+async function undoLastAction() {
+    if (historyData.length === 0) {
+        showNotification('❌ История пуста');
+        return;
+    }
+    
+    // Сортируем по ID по убыванию и берем самую новую запись
+    const sortedHistory = [...historyData].sort((a, b) => b.id - a.id);
+    const lastAction = sortedHistory[0];
+    let actionDesc = '';
+    
+    switch(lastAction.action_type) {
+        case 'kill':
+            actionDesc = `убийство ${lastAction.boss_name}`;
+            break;
+        case 'manual_edit':
+            actionDesc = `изменение времени ${lastAction.boss_name}`;
+            break;
+        case 'reset':
+            actionDesc = 'сброс всех таймеров';
+            break;
+        default:
+            actionDesc = 'действие';
+    }
+    
+    const confirmed = await showConfirmDialog(
+        '↩️ Откат действия',
+        `Ты уверен, что хочешь отменить последнее действие?<br><br>` +
+        `<strong>Будет отменено:</strong> ${actionDesc}<br>` +
+        `<strong>Время:</strong> ${lastAction.time_only}`
+    );
+    
+    if (!confirmed) return;
+    
+    try {
+        const response = await fetch('/undo_last_action', {
+            method: 'POST',
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showNotification(`✅ ${result.message}`);
+            await loadBosses(); // Перезагружаем все данные
+        } else {
+            showNotification(`❌ ${result.error}`);
+        }
+        
+    } catch (error) {
+        console.error("Ошибка:", error);
+        showNotification('❌ Ошибка при откате');
+    }
+}
+
+// Улучшенный диалог подтверждения
+function showConfirmDialog(title, message) {
+    return new Promise((resolve) => {
+        const dialogHtml = `
+            <div class="modal-overlay" id="confirm-dialog">
+                <div class="modal-content confirm-dialog">
+                    <div class="modal-header">
+                        <h3>${title}</h3>
+                    </div>
+                    <div class="modal-body">
+                        <p>${message}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn-cancel" onclick="handleConfirm(false)">Отмена</button>
+                        <button class="btn-confirm" onclick="handleConfirm(true)">Подтвердить</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', dialogHtml);
+        
+        window.handleConfirm = function(result) {
+            const dialog = document.getElementById('confirm-dialog');
+            if (dialog) dialog.remove();
+            resolve(result);
+        };
+    });
 }
 
 // Показать уведомление
@@ -271,6 +604,174 @@ style.textContent = `
         padding: 40px;
         grid-column: 1 / -1;
     }
+    
+    /* Стили для модальных окон */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+    }
+    
+    .modal-content {
+        background: #1e1e2e;
+        border-radius: 15px;
+        padding: 0;
+        min-width: 400px;
+        max-width: 90vw;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .modal-header {
+        padding: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .modal-header h3 {
+        margin: 0;
+        color: #00c6ff;
+    }
+    
+    .modal-close {
+        background: none;
+        border: none;
+        color: #aaa;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .modal-body {
+        padding: 20px;
+    }
+    
+    .modal-footer {
+        padding: 15px 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+    
+    .btn-cancel, .btn-confirm {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    
+    .btn-cancel {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+    
+    .btn-confirm {
+        background: linear-gradient(45deg, #00c6ff, #0072ff);
+        color: white;
+    }
+    
+    .form-group {
+        margin: 15px 0;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #aaa;
+    }
+    
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(0, 0, 0, 0.3);
+        color: white;
+        font-size: 16px;
+    }
+    
+    .form-group small {
+        display: block;
+        margin-top: 5px;
+        color: #777;
+        font-size: 12px;
+    }
+    
+    /* Стили для истории */
+    .boss-history {
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .boss-history h4 {
+        color: #00c6ff;
+        margin-bottom: 10px;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .history-list-small {
+        max-height: 120px;
+        overflow-y: auto;
+    }
+    
+    .history-item-small {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 12px;
+        margin-bottom: 5px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+    }
+    
+    .kill-action {
+        background: rgba(76, 175, 80, 0.1);
+        border-left: 3px solid #4caf50;
+    }
+    
+    .edit-action {
+        background: rgba(255, 193, 7, 0.1);
+        border-left: 3px solid #FFC107;
+    }
+    
+    .action-type {
+        font-weight: bold;
+    }
+    
+    .action-time {
+        color: #aaa;
+        font-family: 'Courier New', monospace;
+    }
+    
+    .no-history {
+        color: #777;
+        font-style: italic;
+        text-align: center;
+        padding: 10px;
+    }
+    
+    .confirm-dialog .modal-body p {
+        line-height: 1.6;
+    }
 `;
 document.head.appendChild(style);
 
@@ -285,8 +786,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Загружаем боссов
     loadBosses();
 
-    // Автообновление каждые 10 секунд
-    autoRefreshInterval = setInterval(loadBosses, 10000);
+    // Автообновление каждые 3 секунды для тестирования
+    autoRefreshInterval = setInterval(async () => {
+        console.log("Автообновление запущено...");
+        await loadBosses();
+        console.log("Автообновление завершено");
+    }, 3000);
+    
+    console.log("Автообновление установлено на 3 секунды");
 
     console.log("Инициализация завершена!");
 });

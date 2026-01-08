@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 # Хранение ВСЕХ данных
 DATA_FILE = 'boss_timers.json'
+HISTORY_FILE = 'actions_history.json'
 
 # Московское время (UTC+3)
 MOSCOW_UTC_OFFSET = timedelta(hours=3)
@@ -88,6 +89,74 @@ def save_timers(timers):
 
 # Загружаем текущие таймеры
 timers = load_timers()
+
+
+def load_history():
+    """Загружаем историю действий"""
+    if os.path.exists(HISTORY_FILE):
+        try:
+            with open(HISTORY_FILE, 'r', encoding='utf-8') as f:
+                history = json.load(f)
+                # Конвертируем строки времени обратно в datetime
+                for record in history:
+                    if 'timestamp' in record and record['timestamp']:
+                        dt = datetime.datetime.fromisoformat(record['timestamp'])
+                        if dt.tzinfo:
+                            record['timestamp'] = dt.astimezone(MOSCOW_TIMEZONE)
+                        else:
+                            record['timestamp'] = dt.replace(tzinfo=MOSCOW_TIMEZONE)
+                        # Добавляем форматированные поля
+                        record['timestamp_formatted'] = record['timestamp'].strftime('%d.%m.%Y %H:%M:%S')
+                        record['time_only'] = record['timestamp'].strftime('%H:%M:%S')
+                return history
+        except Exception as e:
+            print(f"Ошибка загрузки истории: {e}")
+            return []
+    return []
+
+
+def save_history(history):
+    """Сохраняем историю действий"""
+    # Конвертируем datetime в строки для сохранения
+    history_to_save = []
+    for record in history:
+        record_copy = record.copy()
+        if 'timestamp' in record_copy and record_copy['timestamp']:
+            if record_copy['timestamp'].tzinfo is None:
+                record_copy['timestamp'] = record_copy['timestamp'].replace(tzinfo=MOSCOW_TIMEZONE)
+            else:
+                record_copy['timestamp'] = record_copy['timestamp'].astimezone(MOSCOW_TIMEZONE)
+            record_copy['timestamp'] = record_copy['timestamp'].isoformat()
+        history_to_save.append(record_copy)
+    
+    with open(HISTORY_FILE, 'w', encoding='utf-8') as f:
+        json.dump(history_to_save, f, ensure_ascii=False, indent=2)
+
+
+def add_to_history(action_type, boss_id, details=None):
+    """Добавляем запись в историю"""
+    history = load_history()
+    
+    record = {
+        'id': len(history) + 1,
+        'timestamp': get_moscow_time(),
+        'action_type': action_type,  # 'kill', 'reset', 'manual_edit', 'undo'
+        'boss_id': boss_id,
+        'boss_name': BOSSES_CONFIG.get(boss_id, {}).get('name', f'Босс #{boss_id}'),
+        'details': details or {}
+    }
+    
+    history.append(record)
+    # Ограничиваем историю последними 100 записями
+    if len(history) > 100:
+        history = history[-100:]
+    
+    save_history(history)
+    return record
+
+
+# Загружаем историю
+history = load_history()
 
 
 @app.route('/')
@@ -202,10 +271,18 @@ def boss_killed(boss_id):
 
     # Обновляем время убийства на текущее МОСКОВСКОЕ время
     now = get_moscow_time()
+    old_time = timers.get(str(boss_id))
     timers[str(boss_id)] = now
 
     # Сохраняем в файл
     save_timers(timers)
+
+    # Добавляем в историю
+    details = {
+        'previous_time': old_time.isoformat() if old_time else None,
+        'new_time': now.isoformat()
+    }
+    history_record = add_to_history('kill', boss_id, details)
 
     # Вычисляем времена респавна
     boss_info = BOSSES_CONFIG[boss_id]
@@ -219,7 +296,8 @@ def boss_killed(boss_id):
         'boss_id': boss_id,
         'min_respawn_time': min_respawn_time.strftime('%H:%M:%S'),
         'max_respawn_time': max_respawn_time.strftime('%H:%M:%S'),
-        'respawn_range': f'{boss_info["min_respawn"]}-{boss_info["max_respawn"]} часов'
+        'respawn_range': f'{boss_info["min_respawn"]}-{boss_info["max_respawn"]} часов',
+        'history_id': history_record['id']
     })
 
 
@@ -227,12 +305,21 @@ def boss_killed(boss_id):
 def reset_all():
     """Сбросить ВСЕ таймеры (админская функция)"""
     global timers
+    
+    # Сохраняем старые значения для истории
+    old_timers = timers.copy()
+    
     timers = {}
     save_timers(timers)
+    
+    # Добавляем в историю
+    details = {'old_timers': {k: v.isoformat() if v else None for k, v in old_timers.items()}}
+    history_record = add_to_history('reset', 0, details)  # 0 = все боссы
 
     return jsonify({
         'success': True,
-        'message': 'Все таймеры сброшены!'
+        'message': 'Все таймеры сброшены!',
+        'history_id': history_record['id']
     })
 
 
@@ -247,6 +334,177 @@ def get_moscow_time_api():
     })
 
 
+@app.route('/get_history')
+def get_history():
+    """Получить историю действий"""
+    history = load_history()
+    
+    # Форматируем для фронтенда
+    formatted_history = []
+    for record in reversed(history[-20:]):  # Последние 20 действий
+        formatted_record = record.copy()
+        if 'timestamp' in formatted_record:
+            formatted_record['timestamp_formatted'] = formatted_record['timestamp'].strftime('%d.%m.%Y %H:%M:%S')
+            formatted_record['time_only'] = formatted_record['timestamp'].strftime('%H:%M:%S')
+        formatted_history.append(formatted_record)
+    
+    return jsonify(formatted_history)
+
+
+@app.route('/manual_edit_time/<int:boss_id>', methods=['POST'])
+def manual_edit_time(boss_id):
+    """Ручное редактирование времени убийства"""
+    if boss_id not in BOSSES_CONFIG:
+        return jsonify({'error': 'Босс не найден'}), 404
+    
+    data = request.get_json()
+    if not data or 'time' not in data:
+        return jsonify({'error': 'Не указано время'}), 400
+    
+    try:
+        # Парсим время из строки
+        time_str = data['time']
+        # Ожидаем формат HH:MM или HH:MM:SS
+        time_parts = time_str.split(':')
+        if len(time_parts) == 2:
+            time_parts.append('00')  # Добавляем секунды если их нет
+        
+        hour, minute, second = map(int, time_parts)
+        
+        # Получаем сегодняшнюю дату
+        today = get_moscow_time().date()
+        new_time = datetime.datetime(
+            year=today.year,
+            month=today.month,
+            day=today.day,
+            hour=hour,
+            minute=minute,
+            second=second,
+            tzinfo=MOSCOW_TIMEZONE
+        )
+        
+        # Проверяем, что время не в будущем
+        now = get_moscow_time()
+        if new_time > now:
+            return jsonify({'error': 'Время не может быть в будущем'}), 400
+        
+        # Сохраняем старое значение
+        old_time = timers.get(str(boss_id))
+        
+        # Обновляем время
+        timers[str(boss_id)] = new_time
+        save_timers(timers)
+        
+        # Добавляем в историю
+        details = {
+            'previous_time': old_time.isoformat() if old_time else None,
+            'new_time': new_time.isoformat(),
+            'edited_manually': True
+        }
+        history_record = add_to_history('manual_edit', boss_id, details)
+        
+        # Вычисляем времена респавна
+        boss_info = BOSSES_CONFIG[boss_id]
+        min_respawn_time = new_time + datetime.timedelta(hours=boss_info['min_respawn'])
+        max_respawn_time = new_time + datetime.timedelta(hours=boss_info['max_respawn'])
+        
+        return jsonify({
+            'success': True,
+            'message': f'Время убийства {boss_info["name"]} обновлено!',
+            'new_time': new_time.strftime('%H:%M:%S'),
+            'min_respawn_time': min_respawn_time.strftime('%H:%M:%S'),
+            'max_respawn_time': max_respawn_time.strftime('%H:%M:%S'),
+            'history_id': history_record['id']
+        })
+        
+    except ValueError as e:
+        return jsonify({'error': f'Неверный формат времени: {str(e)}'}), 400
+    except Exception as e:
+        return jsonify({'error': f'Ошибка: {str(e)}'}), 500
+
+
+@app.route('/clear_history', methods=['POST'])
+def clear_history():
+    """Очистить всю историю действий"""
+    global history
+    
+    history_count = len(history)
+    history = []
+    save_history(history)
+    
+    return jsonify({
+        'success': True,
+        'message': f'История очищена ({history_count} записей удалено)!',
+        'cleared_count': history_count
+    })
+
+
+@app.route('/undo_last_action', methods=['POST'])
+def undo_last_action():
+    """Откатить последнее действие"""
+    history_list = load_history()
+    
+    if not history_list:
+        return jsonify({'error': 'История пуста'}), 400
+    
+    # Получаем последнюю запись
+    last_action = history_list[-1]
+    action_type = last_action['action_type']
+    boss_id = last_action['boss_id']
+    details = last_action.get('details', {})
+    
+    # Откатываем действие
+    if action_type == 'kill' or action_type == 'manual_edit':
+        # Возвращаем предыдущее время или удаляем запись
+        previous_time = details.get('previous_time')
+        if previous_time:
+            # Восстанавливаем предыдущее время
+            prev_dt = datetime.datetime.fromisoformat(previous_time)
+            if prev_dt.tzinfo:
+                prev_dt = prev_dt.astimezone(MOSCOW_TIMEZONE)
+            else:
+                prev_dt = prev_dt.replace(tzinfo=MOSCOW_TIMEZONE)
+            timers[str(boss_id)] = prev_dt
+        else:
+            # Удаляем запись (был первый kill)
+            timers.pop(str(boss_id), None)
+        
+        save_timers(timers)
+        
+    elif action_type == 'reset':
+        # Восстанавливаем все таймеры
+        old_timers = details.get('old_timers', {})
+        for bid, time_str in old_timers.items():
+            if time_str:
+                dt = datetime.datetime.fromisoformat(time_str)
+                if dt.tzinfo:
+                    dt = dt.astimezone(MOSCOW_TIMEZONE)
+                else:
+                    dt = dt.replace(tzinfo=MOSCOW_TIMEZONE)
+                timers[bid] = dt
+            else:
+                timers.pop(bid, None)
+        save_timers(timers)
+    
+    # Добавляем запись об откате
+    undo_details = {
+        'undone_action_id': last_action['id'],
+        'undone_action_type': action_type,
+        'boss_name': last_action['boss_name']
+    }
+    add_to_history('undo', boss_id, undo_details)
+    
+    # Удаляем откаченное действие из истории
+    history_list.pop()
+    save_history(history_list)
+    
+    return jsonify({
+        'success': True,
+        'message': f'Действие "{action_type}" для {last_action["boss_name"]} отменено!',
+        'undone_action': last_action
+    })
+
+
 @app.route('/health')
 def health():
     now = get_moscow_time()
@@ -254,6 +512,7 @@ def health():
         'status': 'ok',
         'bosses_count': len(BOSSES_CONFIG),
         'timers_count': len(timers),
+        'history_count': len(load_history()),
         'moscow_time': now.strftime('%H:%M:%S'),
         'timezone': 'Moscow (UTC+3)'
     })

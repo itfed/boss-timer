@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-skull-crossbones"></i> Таймеры боссов</h1>
+            <h1><i class="fas fa-dragon"></i> Boss Timer</h1>
             <div class="server-time">
                 Текущее время: <span id="server-time">--:--:--</span>
             </div>
@@ -21,6 +21,12 @@
             <div class="controls">
                 <button class="refresh-btn" onclick="refreshAllTimers()">
                     <i class="fas fa-sync-alt"></i> Обновить
+                </button>
+                <button class="undo-btn" onclick="undoLastAction()">
+                    <i class="fas fa-undo"></i> Отменить последнее
+                </button>
+                <button class="clear-history-btn" onclick="clearHistory()">
+                    <i class="fas fa-history"></i> Очистить историю
                 </button>
                 <button class="reset-btn" onclick="resetAllTimers()">
                     <i class="fas fa-trash-alt"></i> Сбросить все
@@ -41,6 +47,6 @@
         </main>
     </div>
 
-    <script src="/static/script.js"></script>
+    <script src="/static/script.js?v=2"></script>
 </body>
 </html>
