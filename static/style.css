@@ -1,0 +1,547 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    color: #fff;
+    min-height: 100vh;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Шапка */
+header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.server-time {
+    background: rgba(0, 114, 255, 0.15);
+    padding: 8px 15px;
+    border-radius: 8px;
+    display: inline-block;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    border: 1px solid rgba(0, 114, 255, 0.2);
+}
+
+/* Панель управления */
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.refresh-btn {
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    color: white;
+}
+
+.refresh-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 198, 255, 0.4);
+}
+
+.reset-btn {
+    background: rgba(255, 65, 108, 0.2);
+    color: #ff416c;
+    border: 1px solid rgba(255, 65, 108, 0.3);
+}
+
+.reset-btn:hover {
+    background: rgba(255, 65, 108, 0.3);
+}
+
+/* Сетка боссов */
+.bosses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.boss-card {
+    background: linear-gradient(145deg, rgba(30, 30, 46, 0.9), rgba(20, 20, 36, 0.9));
+    border-radius: 15px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.boss-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border-color: rgba(0, 198, 255, 0.3);
+}
+
+.boss-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+}
+
+.boss-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.boss-name {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.boss-icon {
+    font-size: 2.5rem;
+}
+
+.boss-title h2 {
+    font-size: 1.6rem;
+    color: #00c6ff;
+    margin-bottom: 5px;
+}
+
+.boss-title .respawn-range {
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+.boss-id {
+    background: rgba(0, 198, 255, 0.2);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: #00c6ff;
+}
+
+.boss-info {
+    margin: 25px 0;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.label {
+    color: #aaa;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.value {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.status {
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 1rem;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status.alive {
+    background: rgba(76, 175, 80, 0.2);
+    color: #4caf50;
+    border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.status.respawning {
+    background: rgba(0, 198, 255, 0.2);
+    color: #00c6ff;
+    border: 1px solid rgba(0, 198, 255, 0.3);
+}
+
+.status.respawning-now {
+    background: linear-gradient(45deg, rgba(255, 193, 7, 0.3), rgba(255, 152, 0, 0.3));
+    color: #FFC107;
+    border: 2px solid #FFC107;
+    font-weight: bold;
+    animation: pulse-glow 2s infinite;
+}
+
+.status.ready {
+    background: rgba(255, 65, 108, 0.2);
+    color: #ff416c;
+    border: 1px solid rgba(255, 65, 108, 0.3);
+}
+
+/* Таймер */
+.timer {
+    font-family: 'Courier New', monospace;
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #00c6ff;
+    text-align: center;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    margin: 15px 0;
+    border: 2px solid rgba(0, 198, 255, 0.3);
+    letter-spacing: 2px;
+}
+
+.timer-label {
+    text-align: center;
+    color: #aaa;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+/* Для босса в респавне - другой цвет таймера */
+.boss-card.respawning-now .timer {
+    color: #FFC107;
+    border-color: rgba(255, 193, 7, 0.3);
+    animation: pulse-glow 2s infinite;
+}
+
+.kill-time {
+    color: #4caf50;
+    font-family: 'Courier New', monospace;
+}
+
+/* Стили для диапазона времени */
+.time-range {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.range-bar {
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.range-min {
+    height: 100%;
+    background: linear-gradient(90deg, #4CAF50, #8BC34A);
+    border-radius: 15px 0 0 15px;
+    position: relative;
+    transition: width 0.5s ease;
+    width: 30%;
+}
+
+.range-max {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #FFC107, #FF9800);
+    border-radius: 15px;
+    opacity: 0.3;
+}
+
+.range-label {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0 10px;
+    font-size: 0.8rem;
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.range-min .range-label {
+    left: 10px;
+}
+
+.range-max .range-label {
+    right: 10px;
+}
+
+.boss-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.kill-btn {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    color: white;
+    flex: 1;
+    justify-content: center;
+}
+
+.kill-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4);
+}
+
+.details-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    justify-content: center;
+}
+
+.details-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* История */
+.history {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 0;
+}
+
+.history h3 {
+    color: #00c6ff;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.history-list {
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    border-left: 4px solid #00c6ff;
+}
+
+.history-boss {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.history-time {
+    color: #4caf50;
+    font-family: 'Courier New', monospace;
+}
+
+/* Анимации */
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 5px rgba(255, 193, 7, 0.5);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 193, 7, 0.8);
+        transform: scale(1.05);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(255, 193, 7, 0.5);
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+}
+
+.boss-card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.loading {
+    text-align: center;
+    padding: 50px;
+    grid-column: 1 / -1;
+    color: #aaa;
+    font-size: 1.2rem;
+}
+
+.fa-spin {
+    margin-right: 10px;
+}
+
+/* Уведомления */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Скроллбар */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 198, 255, 0.3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 198, 255, 0.5);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 2rem;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .controls {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+
+    .bosses-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .timer {
+        font-size: 1.8rem;
+        padding: 10px;
+    }
+
+    .boss-actions {
+        flex-direction: column;
+    }
+
+    button {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .boss-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .boss-name {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .boss-icon {
+        font-size: 2rem;
+    }
+
+    .info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .timer {
+        font-size: 1.5rem;
+    }
+}

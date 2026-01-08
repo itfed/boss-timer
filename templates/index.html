@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таймеры боссов</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-skull-crossbones"></i> Таймеры боссов</h1>
+            <div class="server-time">
+                Текущее время: <span id="server-time">--:--:--</span>
+            </div>
+        </header>
+
+        <main>
+            <div class="controls">
+                <button class="refresh-btn" onclick="refreshAllTimers()">
+                    <i class="fas fa-sync-alt"></i> Обновить
+                </button>
+                <button class="reset-btn" onclick="resetAllTimers()">
+                    <i class="fas fa-trash-alt"></i> Сбросить все
+                </button>
+            </div>
+
+            <div class="bosses-grid" id="bosses-container">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> Загрузка боссов...
+                </div>
+            </div>
+
+            <div class="history">
+                <h3><i class="fas fa-history"></i> Последние убийства:</h3>
+                <div class="history-list" id="kill-history">
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
