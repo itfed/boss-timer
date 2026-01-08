@@ -39,6 +39,30 @@ BOSSES_CONFIG = {
         'max_respawn': 2,  # максимальное
         'icon': '🐓',
         'description': 'Респавн: 1-2 часа'
+    },
+    3: {
+        'id': 3,
+        'name': 'Тайфун',
+        'min_respawn': 12,  # минимальное
+        'max_respawn': 20,  # максимальное
+        'icon': '🌪',
+        'description': 'Респавн: 12-20 часа'
+    },
+    4: {
+        'id': 4,
+        'name': 'Гордон',
+        'min_respawn': 12,  # минимальное
+        'max_respawn': 16,  # максимальное
+        'icon': '',
+        'description': 'Респавн: 12-16 часа'
+    },
+    5: {
+        'id': 5,
+        'name': 'Лилит/Анаким',
+        'min_respawn': 12,  # минимальное
+        'max_respawn': 20,  # максимальное
+        'icon': '',
+        'description': 'Респавн: 12-20 часа'
     }
 }
 

@@ -786,14 +786,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Загружаем боссов
     loadBosses();
 
-    // Автообновление каждые 3 секунды для тестирования
+    // Автообновление каждые 30 секунд
     autoRefreshInterval = setInterval(async () => {
         console.log("Автообновление запущено...");
         await loadBosses();
         console.log("Автообновление завершено");
-    }, 3000);
+    }, 30000);
     
-    console.log("Автообновление установлено на 3 секунды");
+    console.log("Автообновление установлено на 30 секунд");
 
     console.log("Инициализация завершена!");
 });
