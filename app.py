@@ -53,7 +53,7 @@ BOSSES_CONFIG = {
         'name': 'Гордон',
         'min_respawn': 12,  # минимальное
         'max_respawn': 16,  # максимальное
-        'icon': '',
+        'icon': '👹',
         'description': 'Респавн: 12-16 часа'
     },
     5: {
@@ -445,6 +445,32 @@ def manual_edit_time(boss_id):
         return jsonify({'error': f'Неверный формат времени: {str(e)}'}), 400
     except Exception as e:
         return jsonify({'error': f'Ошибка: {str(e)}'}), 500
+
+
+@app.route('/reset_boss_timer/<int:boss_id>', methods=['POST'])
+def reset_boss_timer(boss_id):
+    """Сбросить таймер конкретного босса"""
+    if str(boss_id) in timers:
+        # Сохраняем старое значение для истории
+        old_time = timers[str(boss_id)]
+        
+        # Удаляем таймер
+        del timers[str(boss_id)]
+        save_timers(timers)
+        
+        # Добавляем в историю
+        details = {'old_time': old_time.isoformat() if old_time else None}
+        add_to_history('auto_reset', boss_id, details)
+        
+        boss_name = BOSSES_CONFIG.get(boss_id, {}).get('name', f'Босс #{boss_id}')
+        
+        return jsonify({
+            'success': True,
+            'message': f'Таймер {boss_name} автоматически сброшен',
+            'boss_id': boss_id
+        })
+    
+    return jsonify({'error': 'Босс не найден или таймер уже сброшен'}), 404
 
 
 @app.route('/clear_history', methods=['POST'])

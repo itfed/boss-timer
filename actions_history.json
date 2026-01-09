@@ -1,1 +1,173 @@
-[]
+[
+  {
+    "id": 1,
+    "timestamp": "2026-01-08T22:06:34.133441+03:00",
+    "action_type": "kill",
+    "boss_id": 2,
+    "boss_name": "Петушара",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-08T22:06:34.132327+03:00"
+    },
+    "timestamp_formatted": "08.01.2026 22:06:34",
+    "time_only": "22:06:34"
+  },
+  {
+    "id": 2,
+    "timestamp": "2026-01-08T22:06:37.717232+03:00",
+    "action_type": "kill",
+    "boss_id": 1,
+    "boss_name": "Мистический дух",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-08T22:06:37.716454+03:00"
+    },
+    "timestamp_formatted": "08.01.2026 22:06:37",
+    "time_only": "22:06:37"
+  },
+  {
+    "id": 3,
+    "timestamp": "2026-01-08T22:06:41.202494+03:00",
+    "action_type": "kill",
+    "boss_id": 3,
+    "boss_name": "Тайфун",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-08T22:06:41.201652+03:00"
+    },
+    "timestamp_formatted": "08.01.2026 22:06:41",
+    "time_only": "22:06:41"
+  },
+  {
+    "id": 4,
+    "timestamp": "2026-01-08T22:06:45.055545+03:00",
+    "action_type": "kill",
+    "boss_id": 5,
+    "boss_name": "Лилит/Анаким",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-08T22:06:45.054744+03:00"
+    },
+    "timestamp_formatted": "08.01.2026 22:06:45",
+    "time_only": "22:06:45"
+  },
+  {
+    "id": 5,
+    "timestamp": "2026-01-09T16:55:28.839257+03:00",
+    "action_type": "kill",
+    "boss_id": 1,
+    "boss_name": "Мистический дух",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-09T16:55:28.836704+03:00"
+    },
+    "timestamp_formatted": "09.01.2026 16:55:28",
+    "time_only": "16:55:28"
+  },
+  {
+    "id": 6,
+    "timestamp": "2026-01-09T17:07:20.911272+03:00",
+    "action_type": "kill",
+    "boss_id": 2,
+    "boss_name": "Петушара",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-09T17:07:20.909131+03:00"
+    },
+    "timestamp_formatted": "09.01.2026 17:07:20",
+    "time_only": "17:07:20"
+  },
+  {
+    "id": 7,
+    "timestamp": "2026-01-09T17:26:56.931506+03:00",
+    "action_type": "kill",
+    "boss_id": 3,
+    "boss_name": "Тайфун",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-09T17:26:56.929337+03:00"
+    },
+    "timestamp_formatted": "09.01.2026 17:26:56",
+    "time_only": "17:26:56"
+  },
+  {
+    "id": 8,
+    "timestamp": "2026-01-09T17:52:04.025732+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 2,
+    "boss_name": "Петушара",
+    "details": {
+      "previous_time": "2026-01-09T17:07:20.909131+03:00",
+      "new_time": "2026-01-09T16:30:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "09.01.2026 17:52:04",
+    "time_only": "17:52:04"
+  },
+  {
+    "id": 9,
+    "timestamp": "2026-01-09T17:52:17.667656+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 2,
+    "boss_name": "Петушара",
+    "details": {
+      "previous_time": "2026-01-09T16:30:00+03:00",
+      "new_time": "2026-01-09T16:00:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "09.01.2026 17:52:17",
+    "time_only": "17:52:17"
+  },
+  {
+    "id": 10,
+    "timestamp": "2026-01-09T17:52:35.620089+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 2,
+    "boss_name": "Петушара",
+    "details": {
+      "previous_time": "2026-01-09T16:00:00+03:00",
+      "new_time": "2026-01-09T15:55:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "09.01.2026 17:52:35",
+    "time_only": "17:52:35"
+  },
+  {
+    "id": 11,
+    "timestamp": "2026-01-09T17:53:50.352892+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 2,
+    "boss_name": "Петушара",
+    "details": {
+      "previous_time": "2026-01-09T15:55:00+03:00",
+      "new_time": "2026-01-09T15:54:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "09.01.2026 17:53:50",
+    "time_only": "17:53:50"
+  },
+  {
+    "id": 12,
+    "timestamp": "2026-01-09T17:54:23.341895+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 2,
+    "boss_name": "Петушара",
+    "details": {
+      "previous_time": "2026-01-09T15:54:00+03:00",
+      "new_time": "2026-01-09T15:44:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "09.01.2026 17:54:23",
+    "time_only": "17:54:23"
+  },
+  {
+    "id": 13,
+    "timestamp": "2026-01-09T17:54:30.602240+03:00",
+    "action_type": "auto_reset",
+    "boss_id": 2,
+    "boss_name": "Петушара",
+    "details": {
+      "old_time": "2026-01-09T15:44:00+03:00"
+    }
+  }
+]

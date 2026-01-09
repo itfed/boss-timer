@@ -44,7 +44,35 @@ function displayBosses() {
 
     let html = '';
 
-    for (const [bossId, boss] of Object.entries(bossData)) {
+// Сортируем боссов: 1-й Мистический дух, 2-й Петушара, остальные убитые по времени, не убитые в конце
+    const sortedBosses = Object.entries(bossData).sort((a, b) => {
+        const [idA, bossA] = a;
+        const [idB, bossB] = b;
+        
+        // Мистический дух всегда первый (ID 1)
+        if (idA === '1') return -1;
+        if (idB === '1') return 1;
+        
+        // Петушара всегда второй (ID 2)
+        if (idA === '2') return -1;
+        if (idB === '2') return 1;
+        
+        // Не убитые в самый конец
+        const killedA = bossA.killed || false;
+        const killedB = bossB.killed || false;
+        
+        if (!killedA && !killedB) return 0; // Оба не убиты - порядок не важен
+        if (!killedA) return 1; // A не убит - ставим в конец
+        if (!killedB) return -1; // B не убит - ставим в конец
+        
+        // Оба убиты - сортируем по времени до минимального респавна
+        const timeLeftA = bossA.time_left || '99:99:99';
+        const timeLeftB = bossB.time_left || '99:99:99';
+        
+        return timeLeftA.localeCompare(timeLeftB);
+    });
+
+    for (const [bossId, boss] of sortedBosses) {
         // Определяем класс статуса
         let statusClass = 'status ';
         if (boss.status === 'Не убит') statusClass += 'alive';
@@ -83,15 +111,12 @@ function displayBosses() {
                         <span class="kill-time">${boss.last_kill}</span>
                     </div>
                     <div class="info-row">
-                        <span class="label">⏱️ Прошло:</span>
-                        <span class="value">${boss.time_since_kill || '--:--:--'}</span>
+                        <span class="label">⏱️ Появится с:</span>
+                        <span class="value">${boss.min_respawn_time || '--:--:--'}</span>
                     </div>
                     ` : ''}
 
-                    <div class="info-row">
-                        <span class="label">🎯 Диапазон:</span>
-                        <span class="value">${boss.respawn_range || '--'}</span>
-                    </div>
+
                 </div>
 
                 <div class="boss-actions">
@@ -180,6 +205,65 @@ async function resetAllTimers() {
 function refreshAllTimers() {
     console.log("Ручное обновление...");
     loadBosses();
+}
+
+// Авто-сброс таймеров боссов через 15 минут после появления
+function checkAndResetBossTimers() {
+    const now = new Date();
+    
+    for (const [bossId, boss] of Object.entries(bossData)) {
+        // Проверяем только боссов со статусом "ПОЯВИЛСЯ!"
+        if (boss.status === 'ПОЯВИЛСЯ!' && boss.last_kill) {
+            // Парсим время последнего убийства
+            const lastKillTime = new Date();
+            const [hours, minutes, seconds] = boss.last_kill.split(':').map(Number);
+            
+            // Получаем сегодняшнюю дату
+            const today = new Date();
+            lastKillTime.setHours(hours, minutes, seconds, 0);
+            
+            // Если время убийства было сегодня, но позже текущего времени
+            // (переход через полночь)
+            if (lastKillTime > now) {
+                lastKillTime.setDate(lastKillTime.getDate() - 1);
+            }
+            
+            // Вычисляем максимальное время респавна
+            const bossConfig = {
+                1: { max_respawn: 5 },
+                2: { max_respawn: 2 },
+                3: { max_respawn: 20 },
+                4: { max_respawn: 16 },
+                5: { max_respawn: 20 }
+            };
+            
+            const maxRespawnHours = bossConfig[bossId]?.max_respawn || 24;
+            const maxRespawnTime = new Date(lastKillTime.getTime() + maxRespawnHours * 60 * 60 * 1000);
+            
+            // Если прошло 15 минут с момента максимального респавна
+            const fifteenMinutes = 15 * 60 * 1000;
+            if (now.getTime() > maxRespawnTime.getTime() + fifteenMinutes) {
+                console.log(`Авто-сброс таймера босса ${boss.name} (ID: ${bossId})`);
+                resetBossTimer(bossId);
+            }
+        }
+    }
+}
+
+// Сброс таймера конкретного босса
+async function resetBossTimer(bossId) {
+    try {
+        const response = await fetch(`/reset_boss_timer/${bossId}`, {
+            method: 'POST',
+        });
+        
+        if (response.ok) {
+            console.log(`Таймер босса ${bossId} сброшен`);
+            await loadBosses(); // Обновляем интерфейс
+        }
+    } catch (error) {
+        console.error(`Ошибка сброса таймера босса ${bossId}:`, error);
+    }
 }
 
 // ПРОСТАЯ функция для московского времени (UTC+3)
@@ -795,6 +879,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log("Автообновление установлено на 30 секунд");
 
+    // Авто-сброс таймеров боссов через 15 минут после появления
+    setInterval(checkAndResetBossTimers, 60000); // Проверяем каждую минуту
+    
     console.log("Инициализация завершена!");
 });
 
