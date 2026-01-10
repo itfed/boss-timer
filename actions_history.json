@@ -253,6 +253,19 @@
     "details": {
       "previous_time": null,
       "new_time": "2026-01-10T18:41:22.952972+03:00"
+    },
+    "timestamp_formatted": "10.01.2026 18:41:22",
+    "time_only": "18:41:22"
+  },
+  {
+    "id": 20,
+    "timestamp": "2026-01-10T19:30:45.104021+03:00",
+    "action_type": "kill",
+    "boss_id": 2,
+    "boss_name": "Петушара",
+    "details": {
+      "previous_time": "2026-01-11T18:23:04+03:00",
+      "new_time": "2026-01-10T19:30:45.100640+03:00"
     }
   }
 ]

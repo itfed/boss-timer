@@ -33,6 +33,17 @@ function saveKillTimestamps() {
 // Инициализация при загрузке страницы
 loadKillTimestamps();
 
+// Автообновление состояния кнопок каждые 30 секунд
+setInterval(async () => {
+    try {
+        // Загружаем актуальные данные с сервера
+        await loadBosses();
+        console.log("Автообновление состояния кнопок");
+    } catch (error) {
+        console.log("Автообновление не удалось:", error);
+    }
+}, 30000); // 30 секунд
+
 // Функция для переключения отображения истории босса
 function toggleBossHistory(bossId) {
     const historyContainer = document.getElementById(`history-${bossId}`);
