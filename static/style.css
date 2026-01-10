@@ -293,6 +293,35 @@ button {
 .kill-time {
     color: #4caf50;
     font-family: 'Courier New', monospace;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.kill-time:hover {
+    background-color: rgba(76, 175, 80, 0.2);
+}
+
+.kill-time-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.edit-icon {
+    font-size: 1rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.2s ease;
+    padding: 2px;
+    border-radius: 4px;
+}
+
+.edit-icon:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
 }
 
 /* Стили для диапазона времени */
@@ -440,6 +469,39 @@ button {
 .history-time {
     color: #4caf50;
     font-family: 'Courier New', monospace;
+}
+
+/* Стили для истории босса */
+.boss-history {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.history-header:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.history-header h4 {
+    margin: 0;
+    color: #aaa;
+    font-size: 1.1rem;
+}
+
+.toggle-icon {
+    font-size: 1.2rem;
+    color: #777;
+    transition: transform 0.3s ease;
 }
 
 /* Анимации */

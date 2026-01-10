@@ -5,6 +5,7 @@ let bossData = {};
 let autoRefreshInterval;
 let historyData = [];
 let lastKillTimestamps = {}; // Храним время последнего убийства для каждого босса
+let historyCollapsed = {}; // Храним состояние свернутости истории для каждого босса
 
 // Загружаем сохраненные времена нажатий из localStorage
 function loadKillTimestamps() {
@@ -31,6 +32,30 @@ function saveKillTimestamps() {
 
 // Инициализация при загрузке страницы
 loadKillTimestamps();
+
+// Функция для переключения отображения истории босса
+function toggleBossHistory(bossId) {
+    const historyContainer = document.getElementById(`history-${bossId}`);
+    const header = historyContainer.previousElementSibling;
+    const toggleIcon = header.querySelector('.toggle-icon');
+    
+    if (historyContainer.style.display === 'none' || !historyContainer.style.display) {
+        // Развернуть
+        historyContainer.style.display = 'block';
+        toggleIcon.textContent = '▲';
+        historyCollapsed[bossId] = false;
+        
+        // Загружаем историю если она еще не загружена
+        if (historyContainer.innerHTML.includes('Загрузка')) {
+            displayBossHistory(bossId);
+        }
+    } else {
+        // Свернуть
+        historyContainer.style.display = 'none';
+        toggleIcon.textContent = '▼';
+        historyCollapsed[bossId] = true;
+    }
+}
 
 // Основная функция загрузки боссов
 async function loadBosses() {
@@ -148,7 +173,10 @@ function displayBosses() {
                     ${boss.killed ? `
                     <div class="info-row">
                         <span class="label">🗡️ Убит:</span>
-                        <span class="kill-time">${boss.last_kill}</span>
+                        <span class="kill-time-container">
+                            <span class="kill-time" onclick="openEditModal(${bossId})">${boss.last_kill}</span>
+                            <span class="edit-icon" onclick="openEditModal(${bossId})" title="Редактировать время">✏️</span>
+                        </span>
                     </div>
                     <div class="info-row">
                         <span class="label">⏱️ Появится с:</span>
@@ -163,15 +191,15 @@ function displayBosses() {
                     <button class="kill-btn" onclick="markBossKilled(${bossId})">
                         🗡️ Босс убит!
                     </button>
-                    <button class="edit-btn" onclick="openEditModal(${bossId})">
-                        ⏰ Редактировать
-                    </button>
                 </div>
                 
                 <!-- История действий для этого босса -->
                 <div class="boss-history">
-                    <h4><i class="fas fa-history"></i> История:</h4>
-                    <div class="history-list-small" id="history-${bossId}">
+                    <div class="history-header" onclick="toggleBossHistory(${bossId})">
+                        <h4><i class="fas fa-history"></i> История:</h4>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="history-list-small" id="history-${bossId}" style="display: none;">
                         <div class="loading-history">Загрузка...</div>
                     </div>
                 </div>
@@ -277,7 +305,7 @@ async function markBossKilled(bossId) {
             // Обновляем визуальное состояние кнопок
             updateKillButtonStates();
         } else {
-            showNotification(`❌ Ошибка: ${result.message}`);
+            showNotification(`❌ ${result.error || result.message}`);
         }
 
     } catch (error) {

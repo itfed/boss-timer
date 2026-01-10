@@ -159,6 +159,86 @@ BOSSES_CONFIG = {
         'max_respawn': 16,  # максимальное
         'icon': '🐎',
         'description': 'Респавн: 12-16 часа'
+    },
+    18: {
+        'id': 18,
+        'name': 'Хорус',
+        'min_respawn': 12,  # минимальное
+        'max_respawn': 16,  # максимальное
+        'icon': '🐻‍❄️',
+        'description': 'Респавн: 12-16 часа'
+    },
+    19: {
+        'id': 19,
+        'name': 'Беква',
+        'min_respawn': 12,  # минимальное
+        'max_respawn': 16,  # максимальное
+        'icon': '🐙',
+        'description': 'Респавн: 12-16 часа'
+    },
+    20: {
+        'id': 20,
+        'name': 'Кло',
+        'min_respawn': 10,  # минимальное
+        'max_respawn': 14,  # максимальное
+        'icon': '🦑',
+        'description': 'Респавн: 12-16 часа'
+    },
+    21: {
+        'id': 21,
+        'name': 'Эмбер',
+        'min_respawn': 12,  # минимальное
+        'max_respawn': 16,  # максимальное
+        'icon': '🦀',
+        'description': 'Респавн: 12-16 часа'
+    },
+    22: {
+        'id': 22,
+        'name': 'Бракки',
+        'min_respawn': 12,  # минимальное
+        'max_respawn': 16,  # максимальное
+        'icon': '🐎',
+        'description': 'Респавн: 12-16 часа'
+    },
+    23: {
+        'id': 23,
+        'name': 'Ашакиэль',
+        'min_respawn': 12,  # минимальное
+        'max_respawn': 16,  # максимальное
+        'icon': '🐏',
+        'description': 'Респавн: 12-16 часа'
+    },
+    24: {
+        'id': 24,
+        'name': 'Нага',
+        'min_respawn': 12,  # минимальное
+        'max_respawn': 16,  # максимальное
+        'icon': '🀄️',
+        'description': 'Респавн: 12-16 часа'
+    },
+    25: {
+        'id': 25,
+        'name': 'Декарбия',
+        'min_respawn': 12,  # минимальное
+        'max_respawn': 16,  # максимальное
+        'icon': '🐎',
+        'description': 'Респавн: 12-16 часа'
+    },
+    26: {
+        'id': 26,
+        'name': 'Танатос',
+        'min_respawn': 10,  # минимальное
+        'max_respawn': 14,  # максимальное
+        'icon': '🐎',
+        'description': 'Респавн: 12-16 часа'
+    },
+    27: {
+        'id': 27,
+        'name': 'Налетчик',
+        'min_respawn': 10,  # минимальное
+        'max_respawn': 14,  # максимальное
+        'icon': '🐦‍🔥',
+        'description': 'Респавн: 12-16 часа'
     }
 }
 
@@ -209,6 +289,8 @@ def save_timers(timers):
 
 # Загружаем текущие таймеры
 timers = load_timers()
+# Храним время последнего нажатия для каждого босса (серверная блокировка)
+last_kill_timestamps = {}
 
 
 def load_history():
@@ -385,14 +467,30 @@ def get_boss_timers():
 
 @app.route('/boss_killed/<int:boss_id>', methods=['POST'])
 def boss_killed(boss_id):
-    """Кто-то убил босса - обновляем для ВСЕХ"""
+    """Кто-то убил босса - обновляем для ВСЕХ с проверкой блокировки"""
     if boss_id not in BOSSES_CONFIG:
         return jsonify({'error': 'Босс не найден'}), 404
 
-    # Обновляем время убийства на текущее МОСКОВСКОЕ время
+    # Проверяем серверную блокировку (5 минут)
     now = get_moscow_time()
+    last_kill_time = last_kill_timestamps.get(boss_id)
+    
+    if last_kill_time:
+        time_diff = now - last_kill_time
+        if time_diff.total_seconds() < 300:  # 5 минут = 300 секунд
+            remaining_time = 300 - time_diff.total_seconds()
+            minutes = int(remaining_time // 60)
+            seconds = int(remaining_time % 60)
+            return jsonify({
+                'error': f'Босс заблокирован! Подожди еще {minutes}:{seconds:02d}'
+            }), 429  # Too Many Requests
+
+    # Обновляем время убийства на текущее МОСКОВСКОЕ время
     old_time = timers.get(str(boss_id))
     timers[str(boss_id)] = now
+    
+    # Сохраняем время последнего нажатия для блокировки
+    last_kill_timestamps[boss_id] = now
 
     # Сохраняем в файл
     save_timers(timers)
