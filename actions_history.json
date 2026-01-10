@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "timestamp": "2026-01-10T12:12:31.150260+03:00",
+    "action_type": "reset",
+    "boss_id": 0,
+    "boss_name": "Босс #0",
+    "details": {
+      "old_timers": {
+        "2": "2026-01-10T12:01:52.818173+03:00"
+      }
+    },
+    "timestamp_formatted": "10.01.2026 12:12:31",
+    "time_only": "12:12:31"
+  },
+  {
+    "id": 2,
+    "timestamp": "2026-01-10T12:13:04.428969+03:00",
+    "action_type": "kill",
+    "boss_id": 2,
+    "boss_name": "Петушара",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-10T12:13:04.427304+03:00"
+    }
+  }
+]
