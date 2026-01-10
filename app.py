@@ -221,7 +221,7 @@ BOSSES_CONFIG = {
         'name': 'Декарбия',
         'min_respawn': 12,  # минимальное
         'max_respawn': 16,  # максимальное
-        'icon': '🐎',
+        'icon': '🦫',
         'description': 'Респавн: 12-16 часа'
     },
     26: {
@@ -259,8 +259,9 @@ def load_timers():
                             # Конвертируем в московское время
                             data[boss_id] = dt.astimezone(MOSCOW_TIMEZONE)
                         else:
-                            # Предполагаем, что время уже в московском (UTC+3)
-                            data[boss_id] = dt.replace(tzinfo=MOSCOW_TIMEZONE)
+                            # Время без таймзоны - интерпретируем как UTC и конвертируем в Москву
+                            utc_time = dt.replace(tzinfo=timezone.utc)
+                            data[boss_id] = utc_time.astimezone(MOSCOW_TIMEZONE)
                 return data
         except Exception as e:
             print(f"Ошибка загрузки файла: {e}")
@@ -475,15 +476,23 @@ def boss_killed(boss_id):
     now = get_moscow_time()
     last_kill_time = last_kill_timestamps.get(boss_id)
     
+    print(f"DEBUG: Проверка блокировки для босса {boss_id}")
+    print(f"DEBUG: Текущее время: {now}")
+    print(f"DEBUG: Последнее нажатие: {last_kill_time}")
+    
     if last_kill_time:
         time_diff = now - last_kill_time
+        print(f"DEBUG: Разница времени: {time_diff.total_seconds()} секунд")
         if time_diff.total_seconds() < 300:  # 5 минут = 300 секунд
             remaining_time = 300 - time_diff.total_seconds()
             minutes = int(remaining_time // 60)
             seconds = int(remaining_time % 60)
+            print(f"DEBUG: Босс заблокирован, осталось {minutes}:{seconds:02d}")
             return jsonify({
                 'error': f'Босс заблокирован! Подожди еще {minutes}:{seconds:02d}'
             }), 429  # Too Many Requests
+    else:
+        print(f"DEBUG: Нет предыдущих нажатий для босса {boss_id}")
 
     # Обновляем время убийства на текущее МОСКОВСКОЕ время
     old_time = timers.get(str(boss_id))
@@ -491,6 +500,8 @@ def boss_killed(boss_id):
     
     # Сохраняем время последнего нажатия для блокировки
     last_kill_timestamps[boss_id] = now
+    print(f"DEBUG: Сохранено время нажатия для босса {boss_id}: {now}")
+    print(f"DEBUG: Текущее состояние last_kill_timestamps: {last_kill_timestamps}")
 
     # Сохраняем в файл
     save_timers(timers)
