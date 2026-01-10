@@ -239,6 +239,14 @@ BOSSES_CONFIG = {
         'max_respawn': 14,  # максимальное
         'icon': '🐦‍🔥',
         'description': 'Респавн: 12-16 часа'
+    },
+    28: {
+        'id': 28,
+        'name': 'Тайр',
+        'min_respawn': 12,  # минимальное
+        'max_respawn': 16,  # максимальное
+        'icon': '🦔',
+        'description': 'Респавн: 12-16 часа'
     }
 }
 
