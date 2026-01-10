@@ -4,6 +4,33 @@ console.log("Таймер боссов загружен!");
 let bossData = {};
 let autoRefreshInterval;
 let historyData = [];
+let lastKillTimestamps = {}; // Храним время последнего убийства для каждого босса
+
+// Загружаем сохраненные времена нажатий из localStorage
+function loadKillTimestamps() {
+    try {
+        const saved = localStorage.getItem('bossKillTimestamps');
+        if (saved) {
+            lastKillTimestamps = JSON.parse(saved);
+            console.log("Загружены сохраненные времена нажатий:", lastKillTimestamps);
+        }
+    } catch (e) {
+        console.error("Ошибка загрузки времён нажатий:", e);
+        lastKillTimestamps = {};
+    }
+}
+
+// Сохраняем времена нажатий в localStorage
+function saveKillTimestamps() {
+    try {
+        localStorage.setItem('bossKillTimestamps', JSON.stringify(lastKillTimestamps));
+    } catch (e) {
+        console.error("Ошибка сохранения времён нажатий:", e);
+    }
+}
+
+// Инициализация при загрузке страницы
+loadKillTimestamps();
 
 // Основная функция загрузки боссов
 async function loadBosses() {
@@ -44,7 +71,12 @@ function displayBosses() {
 
     let html = '';
 
-// Сортируем боссов: 1-й Мистический дух, 2-й Петушара, остальные убитые по времени, не убитые в конце
+// Сортируем боссов по приоритету:
+    // 1. Мистический дух (ID 1)
+    // 2. Петушара (ID 2)
+    // 3. В РЕСПАВНЕ (ближе к появлению - выше)
+    // 4. ВОЗРОЖДАЕТСЯ (ближе к мин. респавну - выше)
+    // 5. Не убит (в конце)
     const sortedBosses = Object.entries(bossData).sort((a, b) => {
         const [idA, bossA] = a;
         const [idB, bossB] = b;
@@ -61,11 +93,19 @@ function displayBosses() {
         const killedA = bossA.killed || false;
         const killedB = bossB.killed || false;
         
-        if (!killedA && !killedB) return 0; // Оба не убиты - порядок не важен
-        if (!killedA) return 1; // A не убит - ставим в конец
-        if (!killedB) return -1; // B не убит - ставим в конец
+        if (!killedA && !killedB) return 0; // Оба не убиты
+        if (!killedA) return 1; // A не убит - в конец
+        if (!killedB) return -1; // B не убит - в конец
         
-        // Оба убиты - сортируем по времени до минимального респавна
+        // Оба убиты - сортируем по статусу и времени
+        const statusA = bossA.status;
+        const statusB = bossB.status;
+        
+        // В РЕСПАВНЕ выше чем ВОЗРОЖДАЕТСЯ
+        if (statusA === 'В РЕСПАВНЕ' && statusB === 'ВОЗРОЖДАЕТСЯ') return -1;
+        if (statusA === 'ВОЗРОЖДАЕТСЯ' && statusB === 'В РЕСПАВНЕ') return 1;
+        
+        // Внутри одного статуса - сортируем по времени (меньше времени = выше)
         const timeLeftA = bossA.time_left || '99:99:99';
         const timeLeftB = bossB.time_left || '99:99:99';
         
@@ -140,10 +180,74 @@ function displayBosses() {
     }
 
     container.innerHTML = html;
+    
+    // Обновляем визуальное состояние кнопок после отображения
+    updateKillButtonStates();
+}
+
+// Проверить, можно ли нажать кнопку убийства
+function canKillBoss(bossId) {
+    const lastKillTime = lastKillTimestamps[bossId];
+    if (!lastKillTime) return true; // Никогда не нажимали
+    
+    const now = Date.now();
+    const fiveMinutes = 5 * 60 * 1000; // 5 минут в миллисекундах
+    
+    return (now - lastKillTime) >= fiveMinutes;
+}
+
+// Обновить визуальное состояние кнопок
+function updateKillButtonStates() {
+    // Находим все кнопки убийства
+    const killButtons = document.querySelectorAll('.kill-btn');
+    
+    killButtons.forEach(button => {
+        // Извлекаем bossId из onclick атрибута
+        const onclickAttr = button.getAttribute('onclick');
+        const bossIdMatch = onclickAttr?.match(/markBossKilled\((\d+)\)/);
+        
+        if (bossIdMatch) {
+            const bossId = bossIdMatch[1];
+            
+            if (!canKillBoss(bossId)) {
+                // Блокируем кнопку
+                button.disabled = true;
+                button.classList.add('disabled');
+                button.textContent = '🗡️ Уже нажали';
+                
+                // Добавляем таймер обратного отсчета
+                const lastKillTime = lastKillTimestamps[bossId];
+                const remainingTime = 5 * 60 * 1000 - (Date.now() - lastKillTime);
+                const seconds = Math.ceil(remainingTime / 1000);
+                const minutes = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                
+                if (seconds > 0) {
+                    button.title = `Доступно через ${minutes}:${secs.toString().padStart(2, '0')}`;
+                }
+            } else {
+                // Разблокируем кнопку
+                button.disabled = false;
+                button.classList.remove('disabled');
+                button.textContent = '🗡️ Босс убит!';
+                button.title = '';
+            }
+        }
+    });
 }
 
 // Отметить босса убитым
 async function markBossKilled(bossId) {
+    // Проверяем блокировку
+    if (!canKillBoss(bossId)) {
+        const lastKillTime = lastKillTimestamps[bossId];
+        const remainingTime = 5 * 60 * 1000 - (Date.now() - lastKillTime);
+        const minutes = Math.ceil(remainingTime / 60000);
+        
+        showNotification(`❌ Уже нажали! Подожди еще ${minutes} мин.`);
+        return;
+    }
+    
     // Улучшенный диалог подтверждения
     const bossName = bossData[bossId]?.name || `Босс #${bossId}`;
     
@@ -166,7 +270,12 @@ async function markBossKilled(bossId) {
 
         if (result.success) {
             showNotification(`✅ ${result.message}`);
+            // Сохраняем время последнего нажатия
+            lastKillTimestamps[bossId] = Date.now();
+            saveKillTimestamps(); // Сохраняем в localStorage
             await loadBosses(); // Перезагружаем данные
+            // Обновляем визуальное состояние кнопок
+            updateKillButtonStates();
         } else {
             showNotification(`❌ Ошибка: ${result.message}`);
         }
@@ -579,6 +688,18 @@ async function undoLastAction() {
         if (result.success) {
             showNotification(`✅ ${result.message}`);
             await loadBosses(); // Перезагружаем все данные
+            
+            // Снимаем блокировку для отмененного босса
+            if (lastAction.boss_id) {
+                delete lastKillTimestamps[lastAction.boss_id];
+                console.log(`Снята блокировка для босса ${lastAction.boss_id}`);
+            }
+            
+            // Сохраняем обновленные времена
+            saveKillTimestamps();
+            
+            // Обновляем визуальное состояние кнопок
+            updateKillButtonStates();
         } else {
             showNotification(`❌ ${result.error}`);
         }
