@@ -153,8 +153,8 @@ function displayBosses() {
 
         html += `
             <div class="boss-card">
-                <div class="boss-header">
-                    <div class="boss-name">
+                <div class="boss-header-section">
+                    <div class="boss-header">
                         <div class="boss-icon">${boss.icon || '👾'}</div>
                         <div class="boss-title">
                             <h2>${boss.name}</h2>
@@ -162,31 +162,29 @@ function displayBosses() {
                         </div>
                     </div>
 
+                    <div class="boss-info">
+                        <div class="info-row">
+                            <span class="${statusClass}">${boss.status}</span>
+                        </div>
+
+                        ${boss.killed ? `
+                        <div class="info-row">
+                            <span class="label">🗡️ Убит:</span>
+                            <span class="kill-time" onclick="openEditModal(${bossId})">${boss.last_kill}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">⏱️ Появится с:</span>
+                            <span class="value">${boss.min_respawn_time || '--:--:--'}</span>
+                        </div>
+                        ` : ''}
+                    </div>
                 </div>
 
-                <div class="boss-info">
-                    <div class="info-row">
-                        <span class="${statusClass}">${boss.status}</span>
-                    </div>
-
+                <div class="timer-section">
                     <div class="timer" id="timer-${bossId}">
                         ${boss.time_left}
                     </div>
-
                     <div class="timer-label">${boss.timer_label || 'До возрождения:'}</div>
-
-                    ${boss.killed ? `
-                    <div class="info-row">
-                        <span class="label">🗡️ Убит:</span>
-                        <span class="kill-time" onclick="openEditModal(${bossId})">${boss.last_kill}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="label">⏱️ Появится с:</span>
-                        <span class="value">${boss.min_respawn_time || '--:--:--'}</span>
-                    </div>
-                    ` : ''}
-
-
                 </div>
 
                 <div class="boss-actions">
