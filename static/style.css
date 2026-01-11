@@ -270,7 +270,7 @@ button {
 }
 
 .kill-btn {
-    background: linear-gradient(145deg, #1E88E5, #1976D2);
+    background: linear-gradient(145deg, #ff416c, #ff4b2b); /* Красный градиент */
     color: white;
     border: none;
     padding: 12px 20px;
@@ -281,11 +281,12 @@ button {
     transition: all 0.2s ease;
     white-space: nowrap;
     width: 100%;
+    box-shadow: 0 2px 8px rgba(255, 65, 108, 0.3);
 }
 
 .kill-btn:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(30, 136, 229, 0.4);
+    box-shadow: 0 6px 16px rgba(255, 65, 108, 0.5);
 }
 
 .kill-btn:disabled {
@@ -350,22 +351,47 @@ button {
     }
 }
 
-/* Анимации */
+/* Статусы боссов - оригинальные стили из ветки main */
+.status.alive {
+    background: rgba(76, 175, 80, 0.2);
+    color: #4caf50;
+    border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.status.respawning {
+    background: rgba(0, 198, 255, 0.2);
+    color: #00c6ff;
+    border: 1px solid rgba(0, 198, 255, 0.3);
+}
+
+.status.respawning-now {
+    background: linear-gradient(45deg, rgba(255, 193, 7, 0.3), rgba(255, 152, 0, 0.3));
+    color: #FFC107;
+    border: 2px solid #FFC107;
+    font-weight: bold;
+    animation: pulse-glow 2s infinite;
+}
+
+.status.ready {
+    background: rgba(255, 65, 108, 0.2);
+    color: #ff416c;
+    border: 1px solid rgba(255, 65, 108, 0.3);
+}
+
+/* Анимация для активного статуса */
 @keyframes pulse-glow {
     0% {
         box-shadow: 0 0 5px rgba(255, 193, 7, 0.5);
-        transform: scale(1);
     }
     50% {
         box-shadow: 0 0 20px rgba(255, 193, 7, 0.8);
-        transform: scale(1.05);
     }
     100% {
         box-shadow: 0 0 5px rgba(255, 193, 7, 0.5);
-        transform: scale(1);
     }
 }
 
+/* Анимации */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
