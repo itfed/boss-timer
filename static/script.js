@@ -146,7 +146,10 @@ function displayBosses() {
     for (const [bossId, boss] of sortedBosses) {
         // Определяем класс статуса
         let statusClass = 'status ';
-        if (boss.status === 'Не убит') statusClass += 'alive';
+        if (boss.status === 'Не убит') {
+            statusClass += 'alive';
+            boss.status = 'НЕ УБИТ'; // Изменяем текст на большие буквы
+        }
         else if (boss.status === 'ВОЗРОЖДАЕТСЯ') statusClass += 'respawning';
         else if (boss.status === 'В РЕСПАВНЕ') statusClass += 'respawning-now';
         else statusClass += 'ready';
@@ -168,16 +171,17 @@ function displayBosses() {
                                 <span class="${statusClass}">${boss.status}</span>
                             </div>
 
-                            ${boss.killed ? `
+                            <!-- Всегда показываем информацию об убийстве -->
                             <div class="info-row">
                                 <span class="label">🗡️ Убит:</span>
-                                <span class="kill-time" onclick="openEditModal(${bossId})">${boss.last_kill}</span>
+                                <span class="kill-time" onclick="${boss.killed ? `openEditModal(${bossId})` : ''}">
+                                    ${boss.last_kill || '--:--:--'}
+                                </span>
                             </div>
                             <div class="info-row">
                                 <span class="label">⏱️ С:</span>
                                 <span class="value">${boss.min_respawn_time || '--:--:--'}</span>
                             </div>
-                            ` : ''}
                         </div>
                     </div>
 
@@ -190,7 +194,7 @@ function displayBosses() {
 
                     <div class="boss-actions">
                         <button class="kill-btn" onclick="markBossKilled(${bossId})">
-                            🗡️ Босс убит!
+                            Босс убит!
                         </button>
                     </div>
                 </div>
@@ -244,7 +248,7 @@ function updateKillButtonStates() {
                 // Блокируем кнопку
                 button.disabled = true;
                 button.classList.add('disabled');
-                button.textContent = '🗡️ Уже нажали';
+                button.textContent = 'Уже нажали';
                 
                 // Добавляем таймер обратного отсчета
                 const lastKillTime = lastKillTimestamps[bossId];
@@ -260,7 +264,7 @@ function updateKillButtonStates() {
                 // Разблокируем кнопку
                 button.disabled = false;
                 button.classList.remove('disabled');
-                button.textContent = '🗡️ Босс убит!';
+                button.textContent = 'Босс убит!';
                 button.title = '';
             }
         }
