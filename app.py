@@ -441,50 +441,61 @@ def get_boss_timers():
             # Сколько прошло с момента убийства
             time_since_kill = now - last_kill_time
 
-            # Сколько времени до минимального респавна
-            time_to_min = min_respawn_time - now
-            time_to_max = max_respawn_time - now
-
-            if time_to_max.total_seconds() <= 0:
+            # Определяем статус босса на основе текущего времени и времени респавна
+            if max_respawn_time <= now:
+                # Босс уже доступен (прошло максимальное время респавна)
                 status = 'ПОЯВИЛСЯ!'
                 time_left_str = '00:00:00'
                 timer_label = 'Появился!'
                 min_time_str = 'Прошло'
                 max_time_str = 'Прошло'
-
-            elif time_to_min.total_seconds() <= 0:
-
+            elif min_respawn_time <= now < max_respawn_time:
+                # Босс в респавне (прошло минимальное время, но еще не прошло максимальное)
                 status = 'В РЕСПАВНЕ'
-
+                time_to_max = max_respawn_time - now
                 total_seconds = int(time_to_max.total_seconds())
+                if total_seconds <= 0:
+                    # Защита от возможной ошибки округления
+                    time_left_str = '00:00:00'
+                    timer_label = 'Появился!'
+                    min_time_str = 'Прошло'
+                    max_time_str = 'Прошло'
+                    status = 'ПОЯВИЛСЯ!'
+                else:
+                    hours = total_seconds // 3600
+                    minutes = (total_seconds % 3600) // 60
+                    seconds = total_seconds % 60
+                    time_left_str = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+                    timer_label = 'До макс. респавна:'
+                    min_time_str = 'Прошло'
+                    max_time_str = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+            else:
+                # Босс еще не доступен (не прошло минимальное время)
+                status = 'ВОЗРОЖДАЕТСЯ'
+                time_to_min = now - min_respawn_time  # Это отрицательное число
+                time_left_to_min = min_respawn_time - now
+                total_seconds = int(time_left_to_min.total_seconds())
                 hours = total_seconds // 3600
                 minutes = (total_seconds % 3600) // 60
                 seconds = total_seconds % 60
                 time_left_str = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
-                timer_label = 'До макс. респавна:'
-                min_time_str = 'Прошло'
-                max_time_str = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
-
-            else:
-                # Еще не прошло минимальное время
-                status = 'ВОЗРОЖДАЕТСЯ'
-
-                # Время до минимального респавна
-                total_seconds_min = int(time_to_min.total_seconds())
-                hours_min = total_seconds_min // 3600
-                minutes_min = (total_seconds_min % 3600) // 60
-                seconds_min = total_seconds_min % 60
-
-                # Время до максимального респавна
-                total_seconds_max = int(time_to_max.total_seconds())
-                hours_max = total_seconds_max // 3600
-                minutes_max = (total_seconds_max % 3600) // 60
-                seconds_max = total_seconds_max % 60
-
-                time_left_str = f"{hours_min:02d}:{minutes_min:02d}:{seconds_min:02d}"
                 timer_label = 'До мин. респавна:'
-                min_time_str = f"{hours_min:02d}:{minutes_min:02d}:{seconds_min:02d}"
-                max_time_str = f"{hours_max:02d}:{minutes_max:02d}:{seconds_max:02d}"
+                # Время до минимального и максимального респавна
+                time_to_min_full = min_respawn_time - now
+                time_to_max_full = max_respawn_time - now
+                
+                min_total = int(time_to_min_full.total_seconds())
+                max_total = int(time_to_max_full.total_seconds())
+                
+                min_hours = abs(min_total) // 3600
+                min_minutes = (abs(min_total) % 3600) // 60
+                min_seconds = abs(min_total) % 60
+                min_time_str = f"{min_hours:02d}:{min_minutes:02d}:{min_seconds:02d}"
+                
+                max_hours = abs(max_total) // 3600
+                max_minutes = (abs(max_total) % 3600) // 60
+                max_seconds = abs(max_total) % 60
+                max_time_str = f"{max_hours:02d}:{max_minutes:02d}:{max_seconds:02d}"
 
             result[boss_id] = {
                 'name': boss_info['name'],
