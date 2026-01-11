@@ -538,24 +538,107 @@ button {
     background: rgba(0, 255, 255, 0.2);
 }
 
-/* Адаптивность для мобильных */
-@media (max-width: 768px) {
-    .boss-card {
-        padding: 15px;
-    }
-    
-    .first-row {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .boss-header {
-        min-width: auto;
-    }
-    
-    .boss-actions {
-        min-width: auto;
-        justify-content: center;
-    }
+/* Компактные таймеры Море и Глубина */
+.compact-timers {
+    display: flex;
+    gap: 20px;
+    margin: 20px 0;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
+.compact-timer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 200px;
+}
+
+.timer-label {
+    color: #888899;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.timer-value {
+    font-family: 'Courier New', monospace;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #00FFFF;
+    letter-spacing: 1px;
+}
+
+.play-btn {
+    background: transparent;
+    color: #00FFFF;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 6px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+}
+
+.play-btn:hover {
+    background: rgba(0, 255, 255, 0.1);
+    border-color: rgba(0, 255, 255, 0.5);
+    transform: scale(1.1);
+}
+
+.stop-btn {
+    background: transparent;
+    color: #FF5252;
+    border: 1px solid rgba(255, 82, 82, 0.3);
+    border-radius: 6px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stop-btn:hover {
+    background: rgba(255, 82, 82, 0.1);
+    border-color: rgba(255, 82, 82, 0.5);
+    transform: scale(1.1);
+}
+
+/* Убираю цветные подсветки
+.sea-timer {
+    border-left: 3px solid #00c6ff;
+}
+
+.depth-timer {
+    border-left: 3px solid #FFC107;
+}
+*/
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .compact-timers {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .compact-timer {
+        min-width: 180px;
+        padding: 10px 15px;
+    }
+    
+    .timer-value {
+        font-size: 1.1rem;
+    }
+}

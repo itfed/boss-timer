@@ -9,6 +9,8 @@ app = Flask(__name__)
 # Хранение ВСЕХ данных
 DATA_FILE = 'boss_timers.json'
 HISTORY_FILE = 'actions_history.json'
+# НОВЫЙ файл для общих таймеров
+SEA_DEPTH_FILE = 'sea_depth_timers.json'
 
 # Московское время (UTC+3)
 MOSCOW_UTC_OFFSET = timedelta(hours=3)
@@ -301,6 +303,37 @@ timers = load_timers()
 # Храним время последнего нажатия для каждого босса (серверная блокировка)
 last_kill_timestamps = {}
 
+# НОВОЕ: Общие таймеры Море и Глубина
+def load_sea_depth_timers():
+    """Загружаем общие таймеры Море и Глубина из файла"""
+    if os.path.exists(SEA_DEPTH_FILE):
+        try:
+            with open(SEA_DEPTH_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Ошибка загрузки файла общих таймеров: {e}")
+            return {
+                'sea_timer': 2 * 60 * 60,  # 2 часа в секундах
+                'depth_timer': 2 * 60 * 60,  # 2 часа в секундах
+                'sea_running': False,
+                'depth_running': False,
+                'last_update': datetime.datetime.now(MOSCOW_TIMEZONE).isoformat()
+            }
+    return {
+        'sea_timer': 2 * 60 * 60,  # 2 часа в секундах
+        'depth_timer': 2 * 60 * 60,  # 2 часа в секундах
+        'sea_running': False,
+        'depth_running': False,
+        'last_update': datetime.datetime.now(MOSCOW_TIMEZONE).isoformat()
+    }
+
+def save_sea_depth_timers(data):
+    """Сохраняем общие таймеры Море и Глубина в файл"""
+    with open(SEA_DEPTH_FILE, 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+# Загружаем общие таймеры
+sea_depth_timers = load_sea_depth_timers()
 
 def load_history():
     """Загружаем историю действий"""
@@ -767,6 +800,109 @@ def undo_last_action():
         'undone_action': last_action
     })
 
+
+@app.route('/get_sea_depth_timers')
+def get_sea_depth_timers():
+    """Получить общие таймеры Море и Глубина"""
+    # Обновляем таймеры в зависимости от времени
+    current_time = get_moscow_time()
+    last_update = datetime.datetime.fromisoformat(sea_depth_timers['last_update'])
+    
+    # Вычисляем сколько времени прошло с последнего обновления
+    time_diff = (current_time - last_update).total_seconds()
+    
+    # Обновляем таймеры если они работают
+    updated_data = sea_depth_timers.copy()
+    if updated_data['sea_running'] and updated_data['sea_timer'] > 0:
+        new_time = int(updated_data['sea_timer'] - time_diff)
+        updated_data['sea_timer'] = max(0, new_time)
+    if updated_data['depth_running'] and updated_data['depth_timer'] > 0:
+        new_time = int(updated_data['depth_timer'] - time_diff)
+        updated_data['depth_timer'] = max(0, new_time)
+    
+    # Обновляем время последнего обновления
+    updated_data['last_update'] = current_time.isoformat()
+    
+    # Сохраняем обновленные таймеры
+    save_sea_depth_timers(updated_data)
+    
+    # Форматируем время для клиента
+    import math
+    sea_hours = math.floor(updated_data['sea_timer'] / 3600)
+    sea_minutes = math.floor((updated_data['sea_timer'] % 3600) / 60)
+    sea_seconds = updated_data['sea_timer'] % 60
+    
+    depth_hours = math.floor(updated_data['depth_timer'] / 3600)
+    depth_minutes = math.floor((updated_data['depth_timer'] % 3600) / 60)
+    depth_seconds = updated_data['depth_timer'] % 60
+    
+    return jsonify({
+        'sea_timer': updated_data['sea_timer'],
+        'depth_timer': updated_data['depth_timer'],
+        'sea_running': updated_data['sea_running'],
+        'depth_running': updated_data['depth_running'],
+        'sea_formatted': f"{sea_hours:02d}:{sea_minutes:02d}:{sea_seconds:02d}",
+        'depth_formatted': f"{depth_hours:02d}:{depth_minutes:02d}:{depth_seconds:02d}",
+        'last_update': updated_data['last_update']
+    })
+
+
+@app.route('/update_sea_depth_timer/<timer_type>', methods=['POST'])
+def update_sea_depth_timer(timer_type):
+    """Обновить состояние таймера Море или Глубина"""
+    if timer_type not in ['sea', 'depth']:
+        return jsonify({'error': 'Неверный тип таймера'}), 400
+    
+    data = request.get_json()
+    if not data or 'action' not in data:
+        return jsonify({'error': 'Не указано действие'}), 400
+    
+    action = data['action']  # 'start', 'stop', 'reset'
+    
+    current_time = get_moscow_time()
+    
+    if action == 'start':
+        # Запускаем таймер
+        sea_depth_timers[f'{timer_type}_running'] = True
+        sea_depth_timers['last_update'] = current_time.isoformat()
+        save_sea_depth_timers(sea_depth_timers)
+        
+        return jsonify({
+            'success': True,
+            'message': f'Таймер {timer_type} запущен',
+            f'{timer_type}_running': True
+        })
+        
+    elif action == 'stop':
+        # Останавливаем таймер и устанавливаем на 2 часа
+        sea_depth_timers[f'{timer_type}_timer'] = 2 * 60 * 60  # 2 часа
+        sea_depth_timers[f'{timer_type}_running'] = False
+        sea_depth_timers['last_update'] = current_time.isoformat()
+        save_sea_depth_timers(sea_depth_timers)
+        
+        return jsonify({
+            'success': True,
+            'message': f'Таймер {timer_type} остановлен и установлен на 2 часа',
+            f'{timer_type}_timer': 2 * 60 * 60,
+            f'{timer_type}_running': False
+        })
+        
+    elif action == 'reset':
+        # Сбрасываем таймер на 2 часа и запускаем
+        sea_depth_timers[f'{timer_type}_timer'] = 2 * 60 * 60  # 2 часа
+        sea_depth_timers[f'{timer_type}_running'] = True
+        sea_depth_timers['last_update'] = current_time.isoformat()
+        save_sea_depth_timers(sea_depth_timers)
+        
+        return jsonify({
+            'success': True,
+            'message': f'Таймер {timer_type} сброшен на 2 часа и запущен',
+            f'{timer_type}_timer': 2 * 60 * 60,
+            f'{timer_type}_running': True
+        })
+    
+    else:
+        return jsonify({'error': 'Неизвестное действие'}), 400
 
 @app.route('/health')
 def health():

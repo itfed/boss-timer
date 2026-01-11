@@ -7,6 +7,14 @@ let historyData = [];
 let lastKillTimestamps = {}; // Храним время последнего убийства для каждого босса
 let historyCollapsed = {}; // Храним состояние свернутости истории для каждого босса
 
+// Глобальные переменные для моря и глубины (теперь используем серверные таймеры)
+let seaTimer = 2 * 60 * 60; // 2 часа в секундах
+let depthTimer = 2 * 60 * 60; // 2 часа в секундах
+let seaRunning = false;
+let depthRunning = false;
+let seaInterval = null;
+let depthInterval = null;
+
 // Загружаем сохраненные времена нажатий из localStorage
 function loadKillTimestamps() {
     try {
@@ -433,7 +441,7 @@ async function resetBossTimer(bossId) {
 }
 
 // ПРОСТАЯ функция для московского времени (UTC+3)
-function updateMoscowTime() {
+function updateServerTime() {
     const timeElement = document.getElementById('server-time');
     if (!timeElement) return;
 
@@ -1037,30 +1045,197 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+// Инициализация таймеров моря и глубины (загружаем с сервера)
+async function initSeaDepthTimers() {
+    try {
+        const response = await fetch('/get_sea_depth_timers');
+        const data = await response.json();
+        
+        seaTimer = data.sea_timer;
+        depthTimer = data.depth_timer;
+        seaRunning = data.sea_running;
+        depthRunning = data.depth_running;
+        
+        updateSeaDisplay();
+        updateDepthDisplay();
+        
+        // Запускаем интервалы обновления если таймеры активны
+        if (seaRunning) startSeaTimer();
+        if (depthRunning) startDepthTimer();
+    } catch (error) {
+        console.error('Ошибка загрузки общих таймеров:', error);
+        // Используем значения по умолчанию
+        updateSeaDisplay();
+        updateDepthDisplay();
+    }
+}
+
+// Запуск таймера моря
+function startSeaTimer() {
+    if (seaInterval) clearInterval(seaInterval);
+    
+    seaInterval = setInterval(() => {
+        if (seaRunning && seaTimer > 0) {
+            seaTimer--;
+            updateSeaDisplay();
+            
+            // Останавливаем таймер когда он достигает 0
+            if (seaTimer <= 0) {
+                seaRunning = false;
+                updateSeaDisplay();
+                showNotification('🔔 Таймер Море завершен!');
+            }
+        }
+    }, 1000);
+}
+
+// Запуск таймера глубины
+function startDepthTimer() {
+    if (depthInterval) clearInterval(depthInterval);
+    
+    depthInterval = setInterval(() => {
+        if (depthRunning && depthTimer > 0) {
+            depthTimer--;
+            updateDepthDisplay();
+            
+            // Останавливаем таймер когда он достигает 0
+            if (depthTimer <= 0) {
+                depthRunning = false;
+                updateDepthDisplay();
+                showNotification('🔔 Таймер Глубина завершен!');
+            }
+        }
+    }, 1000);
+}
+
+// Обновление отображения моря
+function updateSeaDisplay() {
+    const seaElement = document.getElementById('sea-timer');
+    if (seaElement) {
+        seaElement.textContent = formatTime(seaTimer);
+        // Добавляем визуальный индикатор остановки
+        if (!seaRunning) {
+            seaElement.style.color = '#FF5252'; // Красный когда остановлен
+        } else {
+            seaElement.style.color = '#00FFFF'; // Голубой когда работает
+        }
+    }
+}
+
+// Обновление отображения глубины
+function updateDepthDisplay() {
+    const depthElement = document.getElementById('depth-timer');
+    if (depthElement) {
+        depthElement.textContent = formatTime(depthTimer);
+        // Добавляем визуальный индикатор остановки
+        if (!depthRunning) {
+            depthElement.style.color = '#FF5252'; // Красный когда остановлен
+        } else {
+            depthElement.style.color = '#00FFFF'; // Голубой когда работает
+        }
+    }
+}
+
+// Сброс таймера моря (оставляю для совместимости)
+function resetSeaTimer() {
+    updateSeaDepthTimer('sea', 'reset');
+}
+
+// Переключение таймера моря (плей/пауза)
+function toggleSeaTimer() {
+    updateSeaDepthTimer('sea', seaRunning ? 'stop' : 'start');
+}
+
+// Остановка таймера моря (установка на 2 часа и остановка)
+function stopSeaTimer() {
+    updateSeaDepthTimer('sea', 'stop');
+}
+
+// Сброс таймера глубины (оставляю для совместимости)
+function resetDepthTimer() {
+    updateSeaDepthTimer('depth', 'reset');
+}
+
+// Переключение таймера глубины (плей/пауза)
+function toggleDepthTimer() {
+    updateSeaDepthTimer('depth', depthRunning ? 'stop' : 'start');
+}
+
+// Остановка таймера глубины (установка на 2 часа и остановка)
+function stopDepthTimer() {
+    updateSeaDepthTimer('depth', 'stop');
+}
+
+// Обновление таймера через API
+async function updateSeaDepthTimer(timerType, action) {
+    try {
+        const response = await fetch(`/update_sea_depth_timer/${timerType}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ action: action })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Обновляем состояние таймера
+            if (timerType === 'sea') {
+                seaTimer = data.sea_timer || 2 * 60 * 60;
+                seaRunning = data.sea_running !== undefined ? data.sea_running : seaRunning;
+                
+                // Перезапускаем интервал если таймер запущен
+                if (seaInterval) clearInterval(seaInterval);
+                if (seaRunning) startSeaTimer();
+                
+                updateSeaDisplay();
+            } else if (timerType === 'depth') {
+                depthTimer = data.depth_timer || 2 * 60 * 60;
+                depthRunning = data.depth_running !== undefined ? data.depth_running : depthRunning;
+                
+                // Перезапускаем интервал если таймер запущен
+                if (depthInterval) clearInterval(depthInterval);
+                if (depthRunning) startDepthTimer();
+                
+                updateDepthDisplay();
+            }
+            
+            showNotification(data.message);
+        } else {
+            showNotification(`Ошибка: ${data.message || data.error}`);
+        }
+    } catch (error) {
+        console.error('Ошибка обновления таймера:', error);
+        showNotification('Ошибка связи с сервером');
+    }
+}
+
+// Форматирование времени (ЧЧ:ММ:СС)
+function formatTime(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
 // Когда страница загрузится
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Страница загружена, инициализируем...");
-
-    // Обновляем московское время каждую секунду
-    updateMoscowTime();
-    setInterval(updateMoscowTime, 1000);
-
-    // Загружаем боссов
+    
+    // Загружаем сохраненные времена нажатий
+    loadKillTimestamps();
+    
+    // Инициализируем таймеры моря и глубины
+    initSeaDepthTimers();
+    
+    // Загружаем данные боссов
     loadBosses();
-
-    // Автообновление каждые 30 секунд
-    autoRefreshInterval = setInterval(async () => {
-        console.log("Автообновление запущено...");
-        await loadBosses();
-        console.log("Автообновление завершено");
-    }, 30000);
     
-    console.log("Автообновление установлено на 30 секунд");
-
-    // Авто-сброс таймеров боссов через 15 минут после появления
-    setInterval(checkAndResetBossTimers, 60000); // Проверяем каждую минуту
-    
-    console.log("Инициализация завершена!");
+    // Обновляем время сервера
+    updateServerTime();
+    setInterval(updateServerTime, 1000);
 });
 
 // Очистка интервалов при закрытии страницы
