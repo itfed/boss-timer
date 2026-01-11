@@ -153,54 +153,57 @@ function displayBosses() {
 
         html += `
             <div class="boss-card">
-                <div class="boss-header-section">
-                    <div class="boss-header">
-                        <div class="boss-icon">${boss.icon || '👾'}</div>
-                        <div class="boss-title">
-                            <h2>${boss.name}</h2>
-                            <div class="respawn-range">${boss.respawn_range || ''}</div>
+                <div class="first-row">
+                    <div class="boss-header-info">
+                        <div class="boss-header">
+                            <div class="boss-icon">${boss.icon || '👾'}</div>
+                            <div class="boss-title">
+                                <h2>${boss.name}</h2>
+                                <div class="respawn-range">${boss.respawn_range || ''}</div>
+                            </div>
+                        </div>
+
+                        <div class="boss-info">
+                            <div class="info-row">
+                                <span class="${statusClass}">${boss.status}</span>
+                            </div>
+
+                            ${boss.killed ? `
+                            <div class="info-row">
+                                <span class="label">🗡️ Убит:</span>
+                                <span class="kill-time" onclick="openEditModal(${bossId})">${boss.last_kill}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">⏱️ С:</span>
+                                <span class="value">${boss.min_respawn_time || '--:--:--'}</span>
+                            </div>
+                            ` : ''}
                         </div>
                     </div>
 
-                    <div class="boss-info">
-                        <div class="info-row">
-                            <span class="${statusClass}">${boss.status}</span>
+                    <div class="timer-section">
+                        <div class="timer" id="timer-${bossId}">
+                            ${boss.time_left}
                         </div>
-
-                        ${boss.killed ? `
-                        <div class="info-row">
-                            <span class="label">🗡️ Убит:</span>
-                            <span class="kill-time" onclick="openEditModal(${bossId})">${boss.last_kill}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="label">⏱️ Появится с:</span>
-                            <span class="value">${boss.min_respawn_time || '--:--:--'}</span>
-                        </div>
-                        ` : ''}
+                        <div class="timer-label">${boss.timer_label || 'До возрождения:'}</div>
                     </div>
-                </div>
 
-                <div class="timer-section">
-                    <div class="timer" id="timer-${bossId}">
-                        ${boss.time_left}
+                    <div class="boss-actions">
+                        <button class="kill-btn" onclick="markBossKilled(${bossId})">
+                            🗡️ Босс убит!
+                        </button>
                     </div>
-                    <div class="timer-label">${boss.timer_label || 'До возрождения:'}</div>
-                </div>
-
-                <div class="boss-actions">
-                    <button class="kill-btn" onclick="markBossKilled(${bossId})">
-                        🗡️ Босс убит!
-                    </button>
                 </div>
                 
-                <!-- История действий для этого босса -->
-                <div class="boss-history">
-                    <div class="history-header" onclick="toggleBossHistory(${bossId})">
-                        <h4><i class="fas fa-history"></i> История:</h4>
-                        <span class="toggle-icon">▼</span>
-                    </div>
-                    <div class="history-list-small" id="history-${bossId}" style="display: none;">
-                        <div class="loading-history">Загрузка...</div>
+                <div class="second-row">
+                    <div class="boss-history">
+                        <div class="history-header" onclick="toggleBossHistory(${bossId})">
+                            <h4><i class="fas fa-history"></i> История:</h4>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="history-list-small" id="history-${bossId}" style="display: none;">
+                            <div class="loading-history">Загрузка...</div>
+                        </div>
                     </div>
                 </div>
             </div>

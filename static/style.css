@@ -133,7 +133,7 @@ button {
     width: 100%;
 }
 
-/* Карточка босса - одна на строку, внутренняя структура вертикальная */
+/* Карточка босса - структура из 2 строк */
 .boss-card {
     background: linear-gradient(145deg, #2D2D3A, #1F1F28);
     border-radius: 12px;
@@ -143,7 +143,7 @@ button {
     position: relative;
     overflow: hidden;
     margin-bottom: 10px;
-    /* Карточка занимает всю ширину, внутренняя структура вертикальная */
+    /* Вертикальная структура из 2 строк */
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -157,61 +157,73 @@ button {
     border-color: #555566;
 }
 
-/* Верхняя секция - заголовок и информация */
-.boss-header-section {
+/* Первая строка - имя босса, информация, таймер и кнопка */
+.first-row {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 20px;
+    width: 100%;
 }
 
-/* Заголовок */
+/* Левая часть первой строки - имя босса и информация */
+.boss-header-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+    min-width: 0;
+}
+
+/* Заголовок босса */
 .boss-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    min-width: 200px;
+    gap: 10px;
+    min-width: 180px;
 }
 
 .boss-icon {
-    font-size: 1.8rem;
-    min-width: 30px;
+    font-size: 1.6rem;
+    min-width: 28px;
     text-align: center;
 }
 
 .boss-title h2 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #E0E0E0;
     margin: 0;
     font-weight: 500;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .boss-title .respawn-range {
     color: #AAAAAA;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 400;
-    margin-top: 2px;
+    margin-top: 1px;
 }
 
-/* Информация */
+/* Информация о боссе */
 .boss-info {
-    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 5px;
+    min-width: 150px;
 }
 
 .info-row {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 0.9rem;
+    gap: 6px;
+    font-size: 0.85rem;
+    white-space: nowrap;
 }
 
 .info-row .label {
     color: #888899;
     font-weight: 500;
-    white-space: nowrap;
 }
 
 .info-row .value,
@@ -220,38 +232,38 @@ button {
     font-weight: 400;
 }
 
-/* Центральная секция - таймер */
+/* Центральная часть первой строки - таймер */
 .timer-section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 15px;
-    background: rgba(0, 0, 0, 0.25);
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    min-width: 140px;
 }
 
 .timer {
     font-family: 'Courier New', monospace;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     font-weight: bold;
     text-align: center;
     color: #00FFFF;
-    letter-spacing: 2px;
-    margin-bottom: 8px;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
 }
 
 .timer-label {
     color: #888899;
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     text-align: center;
 }
 
-/* Нижняя секция - кнопки */
+/* Правая часть первой строки - кнопка */
 .boss-actions {
     display: flex;
-    justify-content: center;
-    gap: 15px;
+    min-width: 130px;
 }
 
 .kill-btn {
@@ -265,6 +277,7 @@ button {
     font-weight: 500;
     transition: all 0.2s ease;
     white-space: nowrap;
+    width: 100%;
 }
 
 .kill-btn:hover:not(:disabled) {
@@ -279,9 +292,13 @@ button {
     box-shadow: none;
 }
 
-/* История */
+/* Вторая строка - история */
+.second-row {
+    width: 100%;
+}
+
 .boss-history {
-    margin-top: 15px;
+    margin-top: 5px;
     padding-top: 15px;
     border-top: 1px solid #333344;
     width: 100%;
@@ -328,9 +345,10 @@ button {
 .kill-time {
     color: #4FC3F7;
     cursor: pointer;
-    padding: 2px 6px;
-    border-radius: 4px;
+    padding: 1px 5px;
+    border-radius: 3px;
     transition: all 0.2s ease;
+    font-size: 0.85rem;
 }
 
 .kill-time:hover {
@@ -344,10 +362,17 @@ button {
         padding: 12px;
     }
     
-    .boss-header-section {
+    .first-row {
         flex-direction: column;
         align-items: center;
         gap: 15px;
+    }
+    
+    .boss-header-info {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        min-width: auto;
     }
     
     .boss-header {
@@ -357,16 +382,13 @@ button {
     
     .boss-info {
         align-items: center;
+        min-width: auto;
     }
     
     .boss-actions {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-    }
-    
-    .timer {
-        font-size: 1.5rem;
+        min-width: auto;
+        width: 100%;
+        max-width: 200px;
     }
 }
 
