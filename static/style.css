@@ -157,10 +157,10 @@ button {
     border-color: #555566;
 }
 
-/* Первая строка - точное вертикальное выравнивание */
+/* Первая строка - центрирование ключевых элементов */
 .first-row {
     display: flex;
-    align-items: baseline; /* Все элементы по базовой линии */
+    align-items: baseline;
     justify-content: space-between;
     width: 100%;
     gap: 20px;
@@ -177,36 +177,14 @@ button {
     flex-shrink: 0;
 }
 
-.boss-icon {
-    font-size: 1.6rem;
-    min-width: 28px;
-    text-align: center;
-}
-
-.boss-title h2 {
-    font-size: 1.1rem;
-    color: #E0E0E0;
-    margin: 0;
-    font-weight: 500;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.boss-title .respawn-range {
-    color: #AAAAAA;
-    font-size: 0.75rem;
-    font-weight: 400;
-    margin-top: 1px;
-}
-
-/* Статус - оптимальная фиксированная ширина */
+/* Статус - центрирован по вертикали */
 .boss-status {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 140px; /* Оптимальная ширина для выравнивания */
+    min-width: 140px;
     flex-shrink: 0;
+    align-self: center; /* Центрируем по вертикали */
 }
 
 .boss-status .status {
@@ -221,7 +199,7 @@ button {
     box-sizing: border-box;
 }
 
-/* Таймер - по базовой линии */
+/* Таймер - центрирован по вертикали */
 .timer-section {
     display: flex;
     flex-direction: column;
@@ -232,6 +210,7 @@ button {
     border: 1px solid rgba(255, 255, 255, 0.15);
     min-width: 140px;
     flex-shrink: 0;
+    align-self: center; /* Центрируем по вертикали */
 }
 
 .timer {
@@ -240,7 +219,7 @@ button {
     font-weight: bold;
     text-align: center;
     color: #00FFFF;
-    letter-spacing: 1px; /* Вернул letter-spacing */
+    letter-spacing: 1px;
     margin-bottom: 0;
 }
 
@@ -251,13 +230,14 @@ button {
     margin-top: 2px;
 }
 
-/* Информация - по базовой линии */
+/* Информация - базовое выравнивание */
 .boss-kill-info {
     display: flex;
     flex-direction: column;
     gap: 5px;
     min-width: 150px;
     flex-shrink: 0;
+    align-self: center; /* Только вертикальное центрирование */
 }
 
 .info-row {
@@ -266,6 +246,7 @@ button {
     gap: 6px;
     font-size: 0.85rem;
     white-space: nowrap;
+    /* Убрал justify-content: center */
 }
 
 .info-row .label {
@@ -279,12 +260,13 @@ button {
     font-weight: 400;
 }
 
-/* Кнопка - прижата к правой стороне */
+/* Кнопка - центрирована по вертикали */
 .boss-actions {
     display: flex;
     min-width: 130px;
     flex-shrink: 0;
-    justify-content: flex-end;
+    justify-content: center; /* Центрируем по горизонтали */
+    align-self: center; /* Центрируем по вертикали */
 }
 
 .kill-btn {
