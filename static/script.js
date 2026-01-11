@@ -166,12 +166,20 @@ function displayBosses() {
                             </div>
                         </div>
 
-                        <div class="boss-info">
-                            <div class="info-row">
-                                <span class="${statusClass}">${boss.status}</span>
-                            </div>
+                        <!-- Статус отдельно -->
+                        <div class="boss-status">
+                            <span class="${statusClass}">${boss.status}</span>
+                        </div>
 
-                            <!-- Всегда показываем информацию об убийстве -->
+                        <div class="timer-section">
+                            <div class="timer" id="timer-${bossId}">
+                                ${boss.time_left}
+                            </div>
+                            <div class="timer-label">${boss.timer_label || 'До возрождения:'}</div>
+                        </div>
+
+                        <!-- Информация об убийстве -->
+                        <div class="boss-kill-info">
                             <div class="info-row">
                                 <span class="label">🗡️ Убит:</span>
                                 <span class="kill-time" onclick="${boss.killed ? `openEditModal(${bossId})` : ''}">
@@ -183,13 +191,6 @@ function displayBosses() {
                                 <span class="value">${boss.min_respawn_time || '--:--:--'}</span>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="timer-section">
-                        <div class="timer" id="timer-${bossId}">
-                            ${boss.time_left}
-                        </div>
-                        <div class="timer-label">${boss.timer_label || 'До возрождения:'}</div>
                     </div>
 
                     <div class="boss-actions">

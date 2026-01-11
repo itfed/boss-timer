@@ -182,57 +182,24 @@ button {
     min-width: 180px;
 }
 
-.boss-icon {
-    font-size: 1.6rem;
-    min-width: 28px;
-    text-align: center;
-}
-
-.boss-title h2 {
-    font-size: 1.1rem;
-    color: #E0E0E0;
-    margin: 0;
-    font-weight: 500;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.boss-title .respawn-range {
-    color: #AAAAAA;
-    font-size: 0.75rem;
-    font-weight: 400;
-    margin-top: 1px;
-}
-
-/* Информация о боссе */
-.boss-info {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    min-width: 150px;
-}
-
-.info-row {
+/* Отдельный статус босса */
+.boss-status {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 0.85rem;
+    min-width: 120px;
+    justify-content: center;
+}
+
+.boss-status .status {
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-align: center;
     white-space: nowrap;
 }
 
-.info-row .label {
-    color: #888899;
-    font-weight: 500;
-}
-
-.info-row .value,
-.info-row .status {
-    color: #CCCCCC;
-    font-weight: 400;
-}
-
-/* Центральная часть первой строки - таймер */
+/* Таймер */
 .timer-section {
     display: flex;
     flex-direction: column;
@@ -258,6 +225,33 @@ button {
     color: #888899;
     font-size: 0.75rem;
     text-align: center;
+}
+
+/* Информация об убийстве */
+.boss-kill-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 150px;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.info-row .label {
+    color: #888899;
+    font-weight: 500;
+}
+
+.info-row .value,
+.info-row .status {
+    color: #CCCCCC;
+    font-weight: 400;
 }
 
 /* Правая часть первой строки - кнопка */
