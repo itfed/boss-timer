@@ -26,7 +26,7 @@ def get_moscow_time():
 BOSSES_CONFIG = {
     1: {
         'id': 1,
-        'name': 'Мистический дух',
+        'name': 'Дух',
         'min_respawn': 4,  # минимальное
         'max_respawn': 5,  # максимальное
         'icon': '👻',
@@ -58,7 +58,7 @@ BOSSES_CONFIG = {
     },
     5: {
         'id': 5,
-        'name': 'Лилит/Анаким',
+        'name': 'Лилит',
         'min_respawn': 12,  # минимальное
         'max_respawn': 20,  # максимальное
         'icon': '',

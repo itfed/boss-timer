@@ -157,39 +157,37 @@ function displayBosses() {
         html += `
             <div class="boss-card">
                 <div class="first-row">
-                    <div class="boss-header-info">
-                        <div class="boss-header">
-                            <div class="boss-icon">${boss.icon || '👾'}</div>
-                            <div class="boss-title">
-                                <h2>${boss.name}</h2>
-                                <div class="respawn-range">${boss.respawn_range || ''}</div>
-                            </div>
+                    <div class="boss-header">
+                        <div class="boss-icon">${boss.icon || '👾'}</div>
+                        <div class="boss-title">
+                            <h2>${boss.name}</h2>
+                            <div class="respawn-range">${boss.respawn_range || ''}</div>
                         </div>
+                    </div>
 
-                        <!-- Статус отдельно -->
-                        <div class="boss-status">
-                            <span class="${statusClass}">${boss.status}</span>
+                    <!-- Статус отдельно -->
+                    <div class="boss-status">
+                        <span class="${statusClass}">${boss.status}</span>
+                    </div>
+
+                    <div class="timer-section">
+                        <div class="timer" id="timer-${bossId}">
+                            ${boss.time_left}
                         </div>
+                        <div class="timer-label">${boss.timer_label || 'До возрождения:'}</div>
+                    </div>
 
-                        <div class="timer-section">
-                            <div class="timer" id="timer-${bossId}">
-                                ${boss.time_left}
-                            </div>
-                            <div class="timer-label">${boss.timer_label || 'До возрождения:'}</div>
+                    <!-- Информация об убийстве -->
+                    <div class="boss-kill-info">
+                        <div class="info-row">
+                            <span class="label">🗡️ Убит:</span>
+                            <span class="kill-time" onclick="${boss.killed ? `openEditModal(${bossId})` : ''}">
+                                ${boss.last_kill || '--:--:--'}
+                            </span>
                         </div>
-
-                        <!-- Информация об убийстве -->
-                        <div class="boss-kill-info">
-                            <div class="info-row">
-                                <span class="label">🗡️ Убит:</span>
-                                <span class="kill-time" onclick="${boss.killed ? `openEditModal(${bossId})` : ''}">
-                                    ${boss.last_kill || '--:--:--'}
-                                </span>
-                            </div>
-                            <div class="info-row">
-                                <span class="label">⏱️ С:</span>
-                                <span class="value">${boss.min_respawn_time || '--:--:--'}</span>
-                            </div>
+                        <div class="info-row">
+                            <span class="label">⏱️ Появится с:</span>
+                            <span class="value">${boss.min_respawn_time || '--:--:--'}</span>
                         </div>
                     </div>
 

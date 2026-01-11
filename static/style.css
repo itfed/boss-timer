@@ -157,37 +157,56 @@ button {
     border-color: #555566;
 }
 
-/* Первая строка - имя босса, информация, таймер и кнопка */
+/* Первая строка - точное вертикальное выравнивание */
 .first-row {
     display: flex;
-    align-items: center;
-    gap: 20px;
+    align-items: baseline; /* Все элементы по базовой линии */
+    justify-content: space-between;
     width: 100%;
+    gap: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
 }
 
-/* Левая часть первой строки - имя босса и информация */
-.boss-header-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    flex: 1;
-    min-width: 0;
-}
-
-/* Заголовок босса */
+/* Имя босса - прижато к левой стороне */
 .boss-header {
     display: flex;
     align-items: center;
     gap: 10px;
-    min-width: 180px;
+    min-width: 200px;
+    flex-shrink: 0;
 }
 
-/* Отдельный статус босса */
+.boss-icon {
+    font-size: 1.6rem;
+    min-width: 28px;
+    text-align: center;
+}
+
+.boss-title h2 {
+    font-size: 1.1rem;
+    color: #E0E0E0;
+    margin: 0;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.boss-title .respawn-range {
+    color: #AAAAAA;
+    font-size: 0.75rem;
+    font-weight: 400;
+    margin-top: 1px;
+}
+
+/* Статус - оптимальная фиксированная ширина */
 .boss-status {
     display: flex;
     align-items: center;
-    min-width: 120px;
     justify-content: center;
+    min-width: 140px; /* Оптимальная ширина для выравнивания */
+    flex-shrink: 0;
 }
 
 .boss-status .status {
@@ -197,9 +216,12 @@ button {
     border-radius: 6px;
     text-align: center;
     white-space: nowrap;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Таймер */
+/* Таймер - по базовой линии */
 .timer-section {
     display: flex;
     flex-direction: column;
@@ -209,6 +231,7 @@ button {
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.15);
     min-width: 140px;
+    flex-shrink: 0;
 }
 
 .timer {
@@ -217,22 +240,24 @@ button {
     font-weight: bold;
     text-align: center;
     color: #00FFFF;
-    letter-spacing: 1px;
-    margin-bottom: 5px;
+    letter-spacing: 1px; /* Вернул letter-spacing */
+    margin-bottom: 0;
 }
 
 .timer-label {
     color: #888899;
     font-size: 0.75rem;
     text-align: center;
+    margin-top: 2px;
 }
 
-/* Информация об убийстве */
+/* Информация - по базовой линии */
 .boss-kill-info {
     display: flex;
     flex-direction: column;
     gap: 5px;
     min-width: 150px;
+    flex-shrink: 0;
 }
 
 .info-row {
@@ -254,10 +279,12 @@ button {
     font-weight: 400;
 }
 
-/* Правая часть первой строки - кнопка */
+/* Кнопка - прижата к правой стороне */
 .boss-actions {
     display: flex;
     min-width: 130px;
+    flex-shrink: 0;
+    justify-content: flex-end;
 }
 
 .kill-btn {
@@ -286,70 +313,6 @@ button {
     box-shadow: none;
 }
 
-/* Вторая строка - история */
-.second-row {
-    width: 100%;
-}
-
-.boss-history {
-    margin-top: 5px;
-    padding-top: 15px;
-    border-top: 1px solid #333344;
-    width: 100%;
-}
-
-.history-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    padding: 8px 0;
-}
-
-.history-header h4 {
-    color: #BBBBCC;
-    font-size: 1rem;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.toggle-icon {
-    color: #888899;
-    transition: transform 0.3s ease;
-}
-
-.history-header:hover .toggle-icon {
-    color: #AAAAAA;
-}
-
-.history-list-small {
-    margin-top: 10px;
-}
-
-.loading-history {
-    color: #888899;
-    font-style: italic;
-    text-align: center;
-    padding: 10px;
-}
-
-/* Кликабельное время убийства */
-.kill-time {
-    color: #4FC3F7;
-    cursor: pointer;
-    padding: 1px 5px;
-    border-radius: 3px;
-    transition: all 0.2s ease;
-    font-size: 0.85rem;
-}
-
-.kill-time:hover {
-    background: rgba(79, 195, 247, 0.2);
-    color: #29B6F6;
-}
-
 /* Адаптивность для мобильных */
 @media (max-width: 768px) {
     .boss-card {
@@ -357,32 +320,20 @@ button {
     }
     
     .first-row {
-        flex-direction: column;
-        align-items: center;
+        grid-template-columns: 1fr;
         gap: 15px;
-    }
-    
-    .boss-header-info {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        min-width: auto;
     }
     
     .boss-header {
         justify-content: center;
-        min-width: auto;
     }
     
-    .boss-info {
-        align-items: center;
-        min-width: auto;
+    .boss-status {
+        justify-content: center;
     }
     
     .boss-actions {
-        min-width: auto;
-        width: 100%;
-        max-width: 200px;
+        justify-content: center;
     }
 }
 
