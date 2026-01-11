@@ -260,12 +260,12 @@ button {
     font-weight: 400;
 }
 
-/* Кнопка - центрирована по вертикали */
+/* Кнопка - прижата к правой стороне (оригинальное позиционирование) */
 .boss-actions {
     display: flex;
     min-width: 130px;
     flex-shrink: 0;
-    justify-content: center; /* Центрируем по горизонтали */
+    justify-content: flex-end; /* Прижимаем к правому краю */
     align-self: center; /* Центрируем по вертикали */
 }
 
@@ -295,26 +295,57 @@ button {
     box-shadow: none;
 }
 
+/* Кнопка истории в первой строке */
+.boss-history-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 120px;
+    flex-shrink: 0;
+    align-self: center;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.boss-history-trigger:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.history-text {
+    color: #888899;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.toggle-icon {
+    color: #00FFFF;
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.boss-history-trigger.expanded .toggle-icon {
+    transform: rotate(180deg);
+}
+
 /* Адаптивность для мобильных */
 @media (max-width: 768px) {
     .boss-card {
-        padding: 12px;
+        padding: 15px;
     }
     
     .first-row {
-        grid-template-columns: 1fr;
+        flex-direction: column;
         gap: 15px;
     }
     
     .boss-header {
-        justify-content: center;
-    }
-    
-    .boss-status {
-        justify-content: center;
+        min-width: auto;
     }
     
     .boss-actions {
+        min-width: auto;
         justify-content: center;
     }
 }
@@ -462,3 +493,43 @@ button {
         font-size: 1.5rem;
     }
 }
+
+/* Стили для времени убийства */
+.kill-time {
+    color: #00FFFF;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.kill-time:hover {
+    background: rgba(0, 255, 255, 0.1);
+}
+
+.kill-time:active {
+    background: rgba(0, 255, 255, 0.2);
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .boss-card {
+        padding: 15px;
+    }
+    
+    .first-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .boss-header {
+        min-width: auto;
+    }
+    
+    .boss-actions {
+        min-width: auto;
+        justify-content: center;
+    }
+}
+

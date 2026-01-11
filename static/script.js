@@ -191,6 +191,12 @@ function displayBosses() {
                         </div>
                     </div>
 
+                    <!-- Кнопка истории в первой строке -->
+                    <div class="boss-history-trigger" onclick="toggleBossHistoryInRow(${bossId})">
+                        <span class="history-text">История:</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+
                     <div class="boss-actions">
                         <button class="kill-btn" onclick="markBossKilled(${bossId})">
                             Босс убит!
@@ -200,10 +206,6 @@ function displayBosses() {
                 
                 <div class="second-row">
                     <div class="boss-history">
-                        <div class="history-header" onclick="toggleBossHistory(${bossId})">
-                            <h4><i class="fas fa-history"></i> История:</h4>
-                            <span class="toggle-icon">▼</span>
-                        </div>
                         <div class="history-list-small" id="history-${bossId}" style="display: none;">
                             <div class="loading-history">Загрузка...</div>
                         </div>
@@ -217,6 +219,27 @@ function displayBosses() {
     
     // Обновляем визуальное состояние кнопок после отображения
     updateKillButtonStates();
+}
+
+// Новая функция для переключения истории в первой строке
+function toggleBossHistoryInRow(bossId) {
+    const trigger = event.currentTarget;
+    const historyList = document.getElementById(`history-${bossId}`);
+    
+    if (historyList.style.display === 'none' || !historyList.style.display) {
+        // Показываем историю
+        historyList.style.display = 'block';
+        trigger.classList.add('expanded');
+        
+        // Загружаем историю если еще не загружена
+        if (historyList.querySelector('.loading-history')) {
+            displayBossHistory(bossId);
+        }
+    } else {
+        // Скрываем историю
+        historyList.style.display = 'none';
+        trigger.classList.remove('expanded');
+    }
 }
 
 // Проверить, можно ли нажать кнопку убийства
