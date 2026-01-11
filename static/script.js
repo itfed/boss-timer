@@ -108,20 +108,15 @@ function displayBosses() {
     let html = '';
 
 // Сортируем боссов по приоритету:
-    // 1. Мистический дух (ID 1)
-    // 2. Петушара (ID 2)
-    // 3. В РЕСПАВНЕ (ближе к появлению - выше)
-    // 4. ВОЗРОЖДАЕТСЯ (ближе к мин. респавну - выше)
-    // 5. Не убит (в конце)
+    // 1. Петушара (ID 2) - всегда первый
+    // 2. В РЕСПАВНЕ (ближе к появлению - выше)
+    // 3. ВОЗРОЖДАЕТСЯ (ближе к мин. респавну - выше)
+    // 4. Не убит (в конце)
     const sortedBosses = Object.entries(bossData).sort((a, b) => {
         const [idA, bossA] = a;
         const [idB, bossB] = b;
         
-        // Мистический дух всегда первый (ID 1)
-        if (idA === '1') return -1;
-        if (idB === '1') return 1;
-        
-        // Петушара всегда второй (ID 2)
+        // Петушара всегда первый (ID 2)
         if (idA === '2') return -1;
         if (idB === '2') return 1;
         
@@ -166,12 +161,11 @@ function displayBosses() {
                             <div class="respawn-range">${boss.respawn_range || ''}</div>
                         </div>
                     </div>
-                    <div class="boss-id">#${bossId}</div>
+
                 </div>
 
                 <div class="boss-info">
                     <div class="info-row">
-                        <span class="label">📊 Статус:</span>
                         <span class="${statusClass}">${boss.status}</span>
                     </div>
 
@@ -184,10 +178,7 @@ function displayBosses() {
                     ${boss.killed ? `
                     <div class="info-row">
                         <span class="label">🗡️ Убит:</span>
-                        <span class="kill-time-container">
-                            <span class="kill-time" onclick="openEditModal(${bossId})">${boss.last_kill}</span>
-                            <span class="edit-icon" onclick="openEditModal(${bossId})" title="Редактировать время">✏️</span>
-                        </span>
+                        <span class="kill-time" onclick="openEditModal(${bossId})">${boss.last_kill}</span>
                     </div>
                     <div class="info-row">
                         <span class="label">⏱️ Появится с:</span>

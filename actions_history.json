@@ -266,6 +266,18 @@
     "details": {
       "previous_time": "2026-01-11T18:23:04+03:00",
       "new_time": "2026-01-10T19:30:45.100640+03:00"
+    },
+    "timestamp_formatted": "10.01.2026 19:30:45",
+    "time_only": "19:30:45"
+  },
+  {
+    "id": 21,
+    "timestamp": "2026-01-11T05:58:42.615021+03:00",
+    "action_type": "auto_reset",
+    "boss_id": 2,
+    "boss_name": "Петушара",
+    "details": {
+      "old_time": "2026-01-10T19:30:45.100640+03:00"
     }
   }
 ]
