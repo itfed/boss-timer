@@ -1125,6 +1125,8 @@ function toggleDepthTimer() {
 // Обновление таймера через API
 async function updateSeaDepthTimer(timerType, action) {
     try {
+        console.log('Отправляем запрос:', `/update_sea_depth_timer/${timerType}`, { action: action });
+        
         const response = await fetch(`/update_sea_depth_timer/${timerType}`, {
             method: 'POST',
             headers: {
@@ -1133,7 +1135,14 @@ async function updateSeaDepthTimer(timerType, action) {
             body: JSON.stringify({ action: action })
         });
         
+        console.log('Получен ответ:', response.status, response.statusText);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const data = await response.json();
+        console.log('Распарсенные данные:', data);
         
         if (data.success) {
             // Обновляем состояние таймера
