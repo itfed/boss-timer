@@ -845,38 +845,37 @@ def get_sea_depth_timers():
     time_diff = (current_time - last_update).total_seconds()
     
     # Обновляем таймеры если они работают
-    updated_data = sea_depth_timers.copy()
-    if updated_data['sea_running'] and updated_data['sea_timer'] > 0:
-        new_time = int(updated_data['sea_timer'] - time_diff)
-        updated_data['sea_timer'] = max(0, new_time)
-    if updated_data['depth_running'] and updated_data['depth_timer'] > 0:
-        new_time = int(updated_data['depth_timer'] - time_diff)
-        updated_data['depth_timer'] = max(0, new_time)
+    if sea_depth_timers['sea_running'] and sea_depth_timers['sea_timer'] > 0:
+        new_time = int(sea_depth_timers['sea_timer'] - time_diff)
+        sea_depth_timers['sea_timer'] = max(0, new_time)
+    if sea_depth_timers['depth_running'] and sea_depth_timers['depth_timer'] > 0:
+        new_time = int(sea_depth_timers['depth_timer'] - time_diff)
+        sea_depth_timers['depth_timer'] = max(0, new_time)
     
     # Обновляем время последнего обновления
-    updated_data['last_update'] = current_time.isoformat()
+    sea_depth_timers['last_update'] = current_time.isoformat()
     
     # Сохраняем обновленные таймеры
-    save_sea_depth_timers(updated_data)
+    save_sea_depth_timers(sea_depth_timers)
     
     # Форматируем время для клиента
     import math
-    sea_hours = math.floor(updated_data['sea_timer'] / 3600)
-    sea_minutes = math.floor((updated_data['sea_timer'] % 3600) / 60)
-    sea_seconds = updated_data['sea_timer'] % 60
+    sea_hours = math.floor(sea_depth_timers['sea_timer'] / 3600)
+    sea_minutes = math.floor((sea_depth_timers['sea_timer'] % 3600) / 60)
+    sea_seconds = sea_depth_timers['sea_timer'] % 60
     
-    depth_hours = math.floor(updated_data['depth_timer'] / 3600)
-    depth_minutes = math.floor((updated_data['depth_timer'] % 3600) / 60)
-    depth_seconds = updated_data['depth_timer'] % 60
+    depth_hours = math.floor(sea_depth_timers['depth_timer'] / 3600)
+    depth_minutes = math.floor((sea_depth_timers['depth_timer'] % 3600) / 60)
+    depth_seconds = sea_depth_timers['depth_timer'] % 60
     
     return jsonify({
-        'sea_timer': updated_data['sea_timer'],
-        'depth_timer': updated_data['depth_timer'],
-        'sea_running': updated_data['sea_running'],
-        'depth_running': updated_data['depth_running'],
+        'sea_timer': sea_depth_timers['sea_timer'],
+        'depth_timer': sea_depth_timers['depth_timer'],
+        'sea_running': sea_depth_timers['sea_running'],
+        'depth_running': sea_depth_timers['depth_running'],
         'sea_formatted': f"{sea_hours:02d}:{sea_minutes:02d}:{sea_seconds:02d}",
         'depth_formatted': f"{depth_hours:02d}:{depth_minutes:02d}:{depth_seconds:02d}",
-        'last_update': updated_data['last_update']
+        'last_update': sea_depth_timers['last_update']
     })
 
 
