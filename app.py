@@ -903,7 +903,12 @@ def update_sea_depth_timer(timer_type):
         return jsonify({
             'success': True,
             'message': f'Таймер {timer_type} запущен',
-            f'{timer_type}_running': True
+            f'{timer_type}_timer': sea_depth_timers[f'{timer_type}_timer'],
+            f'{timer_type}_running': True,
+            'sea_timer': sea_depth_timers['sea_timer'],
+            'depth_timer': sea_depth_timers['depth_timer'],
+            'sea_running': sea_depth_timers['sea_running'],
+            'depth_running': sea_depth_timers['depth_running']
         })
         
     elif action == 'stop':
@@ -917,7 +922,11 @@ def update_sea_depth_timer(timer_type):
             'success': True,
             'message': f'Таймер {timer_type} остановлен и установлен на 2 часа',
             f'{timer_type}_timer': 2 * 60 * 60,
-            f'{timer_type}_running': False
+            f'{timer_type}_running': False,
+            'sea_timer': sea_depth_timers['sea_timer'],
+            'depth_timer': sea_depth_timers['depth_timer'],
+            'sea_running': sea_depth_timers['sea_running'],
+            'depth_running': sea_depth_timers['depth_running']
         })
         
     elif action == 'reset':
@@ -931,7 +940,11 @@ def update_sea_depth_timer(timer_type):
             'success': True,
             'message': f'Таймер {timer_type} сброшен на 2 часа и запущен',
             f'{timer_type}_timer': 2 * 60 * 60,
-            f'{timer_type}_running': True
+            f'{timer_type}_running': True,
+            'sea_timer': sea_depth_timers['sea_timer'],
+            'depth_timer': sea_depth_timers['depth_timer'],
+            'sea_running': sea_depth_timers['sea_running'],
+            'depth_running': sea_depth_timers['depth_running']
         })
     
     else:

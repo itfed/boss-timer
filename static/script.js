@@ -1141,8 +1141,7 @@ async function updateSeaDepthTimer(timerType, action) {
                 seaTimer = data.sea_timer || 2 * 60 * 60;
                 seaRunning = data.sea_running !== undefined ? data.sea_running : seaRunning;
                 
-                // Перезапускаем интервал если таймер запущен
-                if (seaInterval) clearInterval(seaInterval);
+                // Запускаем таймер если он активен
                 if (seaRunning) startSeaTimer();
                 
                 updateSeaDisplay();
@@ -1150,8 +1149,7 @@ async function updateSeaDepthTimer(timerType, action) {
                 depthTimer = data.depth_timer || 2 * 60 * 60;
                 depthRunning = data.depth_running !== undefined ? data.depth_running : depthRunning;
                 
-                // Перезапускаем интервал если таймер запущен
-                if (depthInterval) clearInterval(depthInterval);
+                // Запускаем таймер если он активен
                 if (depthRunning) startDepthTimer();
                 
                 updateDepthDisplay();
