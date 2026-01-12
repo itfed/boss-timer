@@ -163,6 +163,272 @@
       "previous_time": null,
       "new_time": "2026-01-12T06:02:00+03:00",
       "edited_manually": true
+    },
+    "timestamp_formatted": "12.01.2026 11:15:35",
+    "time_only": "11:15:35"
+  },
+  {
+    "id": 13,
+    "timestamp": "2026-01-12T15:28:33.199968+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 1,
+    "boss_name": "Дух",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-12T14:51:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "12.01.2026 15:28:33",
+    "time_only": "15:28:33"
+  },
+  {
+    "id": 14,
+    "timestamp": "2026-01-12T15:28:33.202380+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 2,
+    "boss_name": "Петушара",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-12T14:59:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "12.01.2026 15:28:33",
+    "time_only": "15:28:33"
+  },
+  {
+    "id": 15,
+    "timestamp": "2026-01-12T15:28:33.204478+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 3,
+    "boss_name": "Тайфун",
+    "details": {
+      "previous_time": "2026-01-12T04:14:00+03:00",
+      "new_time": "2026-01-12T04:14:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "12.01.2026 15:28:33",
+    "time_only": "15:28:33"
+  },
+  {
+    "id": 16,
+    "timestamp": "2026-01-12T15:28:33.206595+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 4,
+    "boss_name": "Гордон",
+    "details": {
+      "previous_time": "2026-01-12T04:46:00+03:00",
+      "new_time": "2026-01-12T04:46:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "12.01.2026 15:28:33",
+    "time_only": "15:28:33"
+  },
+  {
+    "id": 17,
+    "timestamp": "2026-01-12T15:28:33.208755+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 5,
+    "boss_name": "Лилит",
+    "details": {
+      "previous_time": "2026-01-12T08:36:00+03:00",
+      "new_time": "2026-01-12T08:36:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "12.01.2026 15:28:33",
+    "time_only": "15:28:33"
+  },
+  {
+    "id": 18,
+    "timestamp": "2026-01-12T15:28:33.210559+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 6,
+    "boss_name": "Галаксия",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-12T13:04:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "12.01.2026 15:28:33",
+    "time_only": "15:28:33"
+  },
+  {
+    "id": 19,
+    "timestamp": "2026-01-12T15:28:33.212258+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 8,
+    "boss_name": "Шуриэль",
+    "details": {
+      "previous_time": "2026-01-12T04:04:00+03:00",
+      "new_time": "2026-01-12T04:04:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "12.01.2026 15:28:33",
+    "time_only": "15:28:33"
+  },
+  {
+    "id": 20,
+    "timestamp": "2026-01-12T15:28:33.214001+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 12,
+    "boss_name": "Палатанос",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-12T14:44:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "12.01.2026 15:28:33",
+    "time_only": "15:28:33"
+  },
+  {
+    "id": 21,
+    "timestamp": "2026-01-12T15:28:33.215752+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 13,
+    "boss_name": "Голем",
+    "details": {
+      "previous_time": "2026-01-12T06:02:00+03:00",
+      "new_time": "2026-01-12T06:02:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "12.01.2026 15:28:33",
+    "time_only": "15:28:33"
+  },
+  {
+    "id": 22,
+    "timestamp": "2026-01-12T15:28:33.217452+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 15,
+    "boss_name": "Шиид",
+    "details": {
+      "previous_time": "2026-01-12T10:25:00+03:00",
+      "new_time": "2026-01-12T10:25:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "12.01.2026 15:28:33",
+    "time_only": "15:28:33"
+  },
+  {
+    "id": 23,
+    "timestamp": "2026-01-12T15:28:33.219427+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 18,
+    "boss_name": "Хорус",
+    "details": {
+      "previous_time": "2026-01-12T09:50:00+03:00",
+      "new_time": "2026-01-12T09:50:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "12.01.2026 15:28:33",
+    "time_only": "15:28:33"
+  },
+  {
+    "id": 24,
+    "timestamp": "2026-01-12T15:28:33.221813+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 19,
+    "boss_name": "Беква",
+    "details": {
+      "previous_time": "2026-01-12T09:15:00+03:00",
+      "new_time": "2026-01-12T09:15:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "12.01.2026 15:28:33",
+    "time_only": "15:28:33"
+  },
+  {
+    "id": 25,
+    "timestamp": "2026-01-12T15:28:33.224707+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 21,
+    "boss_name": "Эмбер",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-12T15:07:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "12.01.2026 15:28:33",
+    "time_only": "15:28:33"
+  },
+  {
+    "id": 26,
+    "timestamp": "2026-01-12T15:28:33.226588+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 22,
+    "boss_name": "Бракки",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-12T14:01:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "12.01.2026 15:28:33",
+    "time_only": "15:28:33"
+  },
+  {
+    "id": 27,
+    "timestamp": "2026-01-12T15:28:33.228732+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 23,
+    "boss_name": "Ашакиэль",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-12T14:25:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "12.01.2026 15:28:33",
+    "time_only": "15:28:33"
+  },
+  {
+    "id": 28,
+    "timestamp": "2026-01-12T15:28:33.230727+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 24,
+    "boss_name": "Нага",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-12T13:03:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "12.01.2026 15:28:33",
+    "time_only": "15:28:33"
+  },
+  {
+    "id": 29,
+    "timestamp": "2026-01-12T15:28:33.232468+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 25,
+    "boss_name": "Декарбия",
+    "details": {
+      "previous_time": "2026-01-12T10:59:00+03:00",
+      "new_time": "2026-01-12T10:59:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "12.01.2026 15:28:33",
+    "time_only": "15:28:33"
+  },
+  {
+    "id": 30,
+    "timestamp": "2026-01-12T15:28:33.234301+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 26,
+    "boss_name": "Танатос",
+    "details": {
+      "previous_time": "2026-01-12T06:03:00+03:00",
+      "new_time": "2026-01-12T06:03:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "12.01.2026 15:28:33",
+    "time_only": "15:28:33"
+  },
+  {
+    "id": 31,
+    "timestamp": "2026-01-12T15:28:33.236067+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 27,
+    "boss_name": "Налетчик",
+    "details": {
+      "previous_time": "2026-01-12T06:02:00+03:00",
+      "new_time": "2026-01-12T06:02:00+03:00",
+      "edited_manually": true
     }
   }
 ]

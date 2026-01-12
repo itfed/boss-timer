@@ -12,8 +12,6 @@ let seaTimer = 2 * 60 * 60; // 2 часа в секундах
 let depthTimer = 2 * 60 * 60; // 2 часа в секундах
 let seaRunning = false;
 let depthRunning = false;
-let seaInterval = null;
-let depthInterval = null;
 
 // Загружаем сохраненные времена нажатий из localStorage
 function loadKillTimestamps() {
@@ -1023,9 +1021,31 @@ async function initSeaDepthTimers() {
         updateSeaDisplay();
         updateDepthDisplay();
         
-        // Запускаем интервалы обновления если таймеры активны
-        if (seaRunning) startSeaTimer();
-        if (depthRunning) startDepthTimer();
+        // Запускаем периодическое обновление с сервера (каждые 5 секунд)
+        setInterval(async () => {
+            try {
+                const response = await fetch('/get_sea_depth_timers');
+                const data = await response.json();
+                
+                // Обновляем только если значения изменились
+                if (seaTimer !== data.sea_timer || seaRunning !== data.sea_running) {
+                    seaTimer = data.sea_timer;
+                    seaRunning = data.sea_running;
+                    updateSeaDisplay();
+                    console.log('Обновлен таймер Море:', seaTimer, seaRunning);
+                }
+                
+                if (depthTimer !== data.depth_timer || depthRunning !== data.depth_running) {
+                    depthTimer = data.depth_timer;
+                    depthRunning = data.depth_running;
+                    updateDepthDisplay();
+                    console.log('Обновлен таймер Глубина:', depthTimer, depthRunning);
+                }
+            } catch (error) {
+                console.error('Ошибка автообновления таймеров:', error);
+            }
+        }, 5000); // Обновляем каждые 5 секунд
+        
     } catch (error) {
         console.error('Ошибка загрузки общих таймеров:', error);
         // Используем значения по умолчанию
@@ -1034,42 +1054,18 @@ async function initSeaDepthTimers() {
     }
 }
 
-// Запуск таймера моря
+// Запуск таймера моря (только обновление отображения)
 function startSeaTimer() {
-    if (seaInterval) clearInterval(seaInterval);
-    
-    seaInterval = setInterval(() => {
-        if (seaRunning && seaTimer > 0) {
-            seaTimer--;
-            updateSeaDisplay();
-            
-            // Останавливаем таймер когда он достигает 0
-            if (seaTimer <= 0) {
-                seaRunning = false;
-                updateSeaDisplay();
-                showNotification('🔔 Таймер Море завершен!');
-            }
-        }
-    }, 1000);
+    // Больше не используем локальные интервалы
+    // Таймеры обновляются через сервер
+    console.log('Таймер Море запущен - обновление через сервер');
 }
 
-// Запуск таймера глубины
+// Запуск таймера глубины (только обновление отображения)
 function startDepthTimer() {
-    if (depthInterval) clearInterval(depthInterval);
-    
-    depthInterval = setInterval(() => {
-        if (depthRunning && depthTimer > 0) {
-            depthTimer--;
-            updateDepthDisplay();
-            
-            // Останавливаем таймер когда он достигает 0
-            if (depthTimer <= 0) {
-                depthRunning = false;
-                updateDepthDisplay();
-                showNotification('🔔 Таймер Глубина завершен!');
-            }
-        }
-    }, 1000);
+    // Больше не используем локальные интервалы
+    // Таймеры обновляются через сервер
+    console.log('Таймер Глубина запущен - обновление через сервер');
 }
 
 // Обновление отображения моря
