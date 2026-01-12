@@ -443,24 +443,46 @@ def get_boss_timers():
 
             # Определяем статус босса на основе текущего времени и времени респавна
             if max_respawn_time <= now:
-                # Босс уже доступен (прошло максимальное время респавна)
-                status = 'ПОЯВИЛСЯ!'
-                time_left_str = '00:00:00'
-                timer_label = 'Появился!'
-                min_time_str = 'Прошло'
-                max_time_str = 'Прошло'
+                # Босс уже доступен (прошло максимальное время респавна) - сбрасываем в "Не убит"
+                # Удаляем запись о времени убийства
+                timers.pop(str(boss_id), None)
+                save_timers(timers)  # Сохраняем изменения
+                
+                # Возвращаем статус "Не убит" как для нового босса
+                result[boss_id] = {
+                    'name': boss_info['name'],
+                    'icon': boss_info['icon'],
+                    'status': 'Не убит',
+                    'time_left': '--:--:--',
+                    'respawn_range': f'{boss_info["min_respawn"]}-{boss_info["max_respawn"]}ч',
+                    'killed': False,
+                    'min_time': '--:--:--',
+                    'max_time': '--:--:--',
+                    'description': boss_info['description']
+                }
+                continue  # Переходим к следующему боссу
             elif min_respawn_time <= now < max_respawn_time:
                 # Босс в респавне (прошло минимальное время, но еще не прошло максимальное)
                 status = 'В РЕСПАВНЕ'
                 time_to_max = max_respawn_time - now
                 total_seconds = int(time_to_max.total_seconds())
                 if total_seconds <= 0:
-                    # Защита от возможной ошибки округления
-                    time_left_str = '00:00:00'
-                    timer_label = 'Появился!'
-                    min_time_str = 'Прошло'
-                    max_time_str = 'Прошло'
-                    status = 'ПОЯВИЛСЯ!'
+                    # Защита от возможной ошибки округления - сбрасываем в "Не убит"
+                    timers.pop(str(boss_id), None)
+                    save_timers(timers)
+                    
+                    result[boss_id] = {
+                        'name': boss_info['name'],
+                        'icon': boss_info['icon'],
+                        'status': 'Не убит',
+                        'time_left': '--:--:--',
+                        'respawn_range': f'{boss_info["min_respawn"]}-{boss_info["max_respawn"]}ч',
+                        'killed': False,
+                        'min_time': '--:--:--',
+                        'max_time': '--:--:--',
+                        'description': boss_info['description']
+                    }
+                    continue
                 else:
                     hours = total_seconds // 3600
                     minutes = (total_seconds % 3600) // 60

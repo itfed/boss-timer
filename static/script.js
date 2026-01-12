@@ -381,47 +381,11 @@ function refreshAllTimers() {
     loadBosses();
 }
 
-// Авто-сброс таймеров боссов через 15 минут после появления
+// Авто-сброс таймеров боссов (устарело - теперь делается на сервере)
 function checkAndResetBossTimers() {
-    const now = new Date();
-    
-    for (const [bossId, boss] of Object.entries(bossData)) {
-        // Проверяем только боссов со статусом "ПОЯВИЛСЯ!"
-        if (boss.status === 'ПОЯВИЛСЯ!' && boss.last_kill) {
-            // Парсим время последнего убийства
-            const lastKillTime = new Date();
-            const [hours, minutes, seconds] = boss.last_kill.split(':').map(Number);
-            
-            // Получаем сегодняшнюю дату
-            const today = new Date();
-            lastKillTime.setHours(hours, minutes, seconds, 0);
-            
-            // Если время убийства было сегодня, но позже текущего времени
-            // (переход через полночь)
-            if (lastKillTime > now) {
-                lastKillTime.setDate(lastKillTime.getDate() - 1);
-            }
-            
-            // Вычисляем максимальное время респавна
-            const bossConfig = {
-                1: { max_respawn: 5 },
-                2: { max_respawn: 2 },
-                3: { max_respawn: 20 },
-                4: { max_respawn: 16 },
-                5: { max_respawn: 20 }
-            };
-            
-            const maxRespawnHours = bossConfig[bossId]?.max_respawn || 24;
-            const maxRespawnTime = new Date(lastKillTime.getTime() + maxRespawnHours * 60 * 60 * 1000);
-            
-            // Если прошло 15 минут с момента максимального респавна
-            const fifteenMinutes = 15 * 60 * 1000;
-            if (now.getTime() > maxRespawnTime.getTime() + fifteenMinutes) {
-                console.log(`Авто-сброс таймера босса ${boss.name} (ID: ${bossId})`);
-                resetBossTimer(bossId);
-            }
-        }
-    }
+    // Больше не используется - сброс происходит на сервере
+    // при достижении максимального времени респавна
+    console.log("Авто-сброс таймеров отключен - обработка на сервере");
 }
 
 // Сброс таймера конкретного босса
