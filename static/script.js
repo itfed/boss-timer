@@ -1079,7 +1079,7 @@ function updateSeaDisplay() {
         seaElement.textContent = formatTime(seaTimer);
         // Добавляем визуальный индикатор остановки
         if (!seaRunning) {
-            seaElement.style.color = '#FF5252'; // Красный когда остановлен
+            seaElement.style.color = '#888888'; // Серый когда остановлен
         } else {
             seaElement.style.color = '#00FFFF'; // Голубой когда работает
         }
@@ -1093,7 +1093,7 @@ function updateDepthDisplay() {
         depthElement.textContent = formatTime(depthTimer);
         // Добавляем визуальный индикатор остановки
         if (!depthRunning) {
-            depthElement.style.color = '#FF5252'; // Красный когда остановлен
+            depthElement.style.color = '#888888'; // Серый когда остановлен
         } else {
             depthElement.style.color = '#00FFFF'; // Голубой когда работает
         }
@@ -1111,9 +1111,7 @@ function toggleSeaTimer() {
 }
 
 // Остановка таймера моря (установка на 2 часа и остановка)
-function stopSeaTimer() {
-    updateSeaDepthTimer('sea', 'stop');
-}
+// stopSeaTimer удален - используем toggleSeaTimer
 
 // Сброс таймера глубины (оставляю для совместимости)
 function resetDepthTimer() {
@@ -1126,9 +1124,7 @@ function toggleDepthTimer() {
 }
 
 // Остановка таймера глубины (установка на 2 часа и остановка)
-function stopDepthTimer() {
-    updateSeaDepthTimer('depth', 'stop');
-}
+// stopDepthTimer удален - используем toggleDepthTimer
 
 // Обновление таймера через API
 async function updateSeaDepthTimer(timerType, action) {

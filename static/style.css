@@ -594,26 +594,7 @@ button {
     transform: scale(1.1);
 }
 
-.stop-btn {
-    background: transparent;
-    color: #FF5252;
-    border: 1px solid rgba(255, 82, 82, 0.3);
-    border-radius: 6px;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.stop-btn:hover {
-    background: rgba(255, 82, 82, 0.1);
-    border-color: rgba(255, 82, 82, 0.5);
-    transform: scale(1.1);
-}
+/* .stop-btn стили удалены - кнопка больше не используется */
 
 /* Убираю цветные подсветки
 .sea-timer {
