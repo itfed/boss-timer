@@ -1164,6 +1164,29 @@ async function updateSeaDepthTimer(timerType, action) {
                 updateDepthDisplay();
             }
             
+            // Принудительно обновляем данные с сервера через 1 секунду
+            // чтобы отразить актуальное состояние
+            setTimeout(async () => {
+                try {
+                    const response = await fetch('/get_sea_depth_timers');
+                    const freshData = await response.json();
+                    
+                    if (timerType === 'sea') {
+                        seaTimer = freshData.sea_timer;
+                        seaRunning = freshData.sea_running;
+                        updateSeaDisplay();
+                        console.log('Принудительное обновление Море:', seaTimer, seaRunning);
+                    } else {
+                        depthTimer = freshData.depth_timer;
+                        depthRunning = freshData.depth_running;
+                        updateDepthDisplay();
+                        console.log('Принудительное обновление Глубина:', depthTimer, depthRunning);
+                    }
+                } catch (error) {
+                    console.error('Ошибка принудительного обновления:', error);
+                }
+            }, 1000);
+            
             showNotification(data.message);
         } else {
             showNotification(`Ошибка: ${data.message || data.error}`);
