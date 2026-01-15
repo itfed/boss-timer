@@ -841,7 +841,10 @@ def get_sea_depth_timers():
     """Получить общие таймеры Море и Глубина с точным расчетом времени"""
     # Обновляем таймеры в зависимости от времени
     current_time = get_moscow_time()
+    
+    # Сначала обновляем время последнего обновления
     last_update = datetime.datetime.fromisoformat(sea_depth_timers['last_update'])
+    sea_depth_timers['last_update'] = current_time.isoformat()
     
     # Вычисляем сколько времени прошло с последнего обновления
     time_diff = (current_time - last_update).total_seconds()
@@ -854,8 +857,8 @@ def get_sea_depth_timers():
         new_time = int(sea_depth_timers['depth_timer'] - time_diff)
         sea_depth_timers['depth_timer'] = max(0, new_time)
     
-    # Обновляем время последнего обновления
-    sea_depth_timers['last_update'] = current_time.isoformat()
+    # Сохраняем обновленные таймеры
+    save_sea_depth_timers(sea_depth_timers)
     
     # Сохраняем обновленные таймеры
     save_sea_depth_timers(sea_depth_timers)
