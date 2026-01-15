@@ -309,28 +309,41 @@ def load_sea_depth_timers():
     if os.path.exists(SEA_DEPTH_FILE):
         try:
             with open(SEA_DEPTH_FILE, 'r', encoding='utf-8') as f:
-                return json.load(f)
+                data = json.load(f)
+                # Конвертируем строки времени обратно в datetime
+                for key in ['sea_end_time', 'depth_end_time']:
+                    if key in data and data[key]:
+                        data[key] = datetime.datetime.fromisoformat(data[key])
+                return data
         except Exception as e:
             print(f"Ошибка загрузки файла общих таймеров: {e}")
+            now = get_moscow_time()
             return {
-                'sea_timer': 2 * 60 * 60,  # 2 часа в секундах
-                'depth_timer': 2 * 60 * 60,  # 2 часа в секундах
+                'sea_end_time': now + datetime.timedelta(hours=2),  # 2 часа от now
+                'depth_end_time': now + datetime.timedelta(hours=2),  # 2 часа от now
                 'sea_running': False,
                 'depth_running': False,
-                'last_update': datetime.datetime.now(MOSCOW_TIMEZONE).isoformat()
+                'last_update': now.isoformat()
             }
+    now = get_moscow_time()
     return {
-        'sea_timer': 2 * 60 * 60,  # 2 часа в секундах
-        'depth_timer': 2 * 60 * 60,  # 2 часа в секундах
+        'sea_end_time': now + datetime.timedelta(hours=2),  # 2 часа от now
+        'depth_end_time': now + datetime.timedelta(hours=2),  # 2 часа от now
         'sea_running': False,
         'depth_running': False,
-        'last_update': datetime.datetime.now(MOSCOW_TIMEZONE).isoformat()
+        'last_update': now.isoformat()
     }
 
 def save_sea_depth_timers(data):
     """Сохраняем общие таймеры Море и Глубина в файл"""
+    # Конвертируем datetime в строки для сохранения
+    data_to_save = data.copy()
+    for key in ['sea_end_time', 'depth_end_time']:
+        if key in data_to_save and data_to_save[key]:
+            data_to_save[key] = data_to_save[key].isoformat()
+    
     with open(SEA_DEPTH_FILE, 'w', encoding='utf-8') as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+        json.dump(data_to_save, f, ensure_ascii=False, indent=2)
 
 # Загружаем общие таймеры
 sea_depth_timers = load_sea_depth_timers()
@@ -838,24 +851,23 @@ def undo_last_action():
 
 @app.route('/get_sea_depth_timers')
 def get_sea_depth_timers():
-    """Получить общие таймеры Море и Глубина с точным расчетом времени"""
-    # Обновляем таймеры в зависимости от времени
+    """Получить общие таймеры Море и Глубина - вычисляем оставшееся время"""
     current_time = get_moscow_time()
     
-    # Сначала обновляем время последнего обновления
-    last_update = datetime.datetime.fromisoformat(sea_depth_timers['last_update'])
+    # Обновляем время последнего обновления
     sea_depth_timers['last_update'] = current_time.isoformat()
     
-    # Вычисляем сколько времени прошло с последнего обновления
-    time_diff = (current_time - last_update).total_seconds()
+    # Вычисляем оставшееся время для каждого таймера
+    sea_remaining = 0
+    depth_remaining = 0
     
-    # Обновляем таймеры если они работают
-    if sea_depth_timers['sea_running'] and sea_depth_timers['sea_timer'] > 0:
-        new_time = int(sea_depth_timers['sea_timer'] - time_diff)
-        sea_depth_timers['sea_timer'] = max(0, new_time)
-    if sea_depth_timers['depth_running'] and sea_depth_timers['depth_timer'] > 0:
-        new_time = int(sea_depth_timers['depth_timer'] - time_diff)
-        sea_depth_timers['depth_timer'] = max(0, new_time)
+    if sea_depth_timers['sea_running']:
+        time_to_end = sea_depth_timers['sea_end_time'] - current_time
+        sea_remaining = max(0, int(time_to_end.total_seconds()))
+        
+    if sea_depth_timers['depth_running']:
+        time_to_end = sea_depth_timers['depth_end_time'] - current_time
+        depth_remaining = max(0, int(time_to_end.total_seconds()))
     
     # Сохраняем обновленные таймеры
     save_sea_depth_timers(sea_depth_timers)
@@ -865,17 +877,17 @@ def get_sea_depth_timers():
     
     # Форматируем время для клиента
     import math
-    sea_hours = math.floor(sea_depth_timers['sea_timer'] / 3600)
-    sea_minutes = math.floor((sea_depth_timers['sea_timer'] % 3600) / 60)
-    sea_seconds = sea_depth_timers['sea_timer'] % 60
+    sea_hours = math.floor(sea_remaining / 3600)
+    sea_minutes = math.floor((sea_remaining % 3600) / 60)
+    sea_seconds = sea_remaining % 60
     
-    depth_hours = math.floor(sea_depth_timers['depth_timer'] / 3600)
-    depth_minutes = math.floor((sea_depth_timers['depth_timer'] % 3600) / 60)
-    depth_seconds = sea_depth_timers['depth_timer'] % 60
+    depth_hours = math.floor(depth_remaining / 3600)
+    depth_minutes = math.floor((depth_remaining % 3600) / 60)
+    depth_seconds = depth_remaining % 60
     
     return jsonify({
-        'sea_timer': sea_depth_timers['sea_timer'],
-        'depth_timer': sea_depth_timers['depth_timer'],
+        'sea_timer': sea_remaining,
+        'depth_timer': depth_remaining,
         'sea_running': sea_depth_timers['sea_running'],
         'depth_running': sea_depth_timers['depth_running'],
         'sea_formatted': f"{sea_hours:02d}:{sea_minutes:02d}:{sea_seconds:02d}",
@@ -899,18 +911,31 @@ def update_sea_depth_timer(timer_type):
     current_time = get_moscow_time()
     
     if action == 'start':
-        # Запускаем таймер
+        # Запускаем таймер - устанавливаем время окончания через 2 часа
         sea_depth_timers[f'{timer_type}_running'] = True
+        sea_depth_timers[f'{timer_type}_end_time'] = current_time + datetime.timedelta(hours=2)
         sea_depth_timers['last_update'] = current_time.isoformat()
         save_sea_depth_timers(sea_depth_timers)
+        
+        # Вычисляем текущее оставшееся время
+        sea_remaining = 0
+        depth_remaining = 0
+        
+        if sea_depth_timers['sea_running']:
+            time_to_end = sea_depth_timers['sea_end_time'] - current_time
+            sea_remaining = max(0, int(time_to_end.total_seconds()))
+            
+        if sea_depth_timers['depth_running']:
+            time_to_end = sea_depth_timers['depth_end_time'] - current_time
+            depth_remaining = max(0, int(time_to_end.total_seconds()))
         
         response_data = {
             'success': True,
             'message': f'Таймер {timer_type} запущен',
-            f'{timer_type}_timer': sea_depth_timers[f'{timer_type}_timer'],
+            f'{timer_type}_timer': sea_remaining if timer_type == 'sea' else depth_remaining,
             f'{timer_type}_running': True,
-            'sea_timer': sea_depth_timers['sea_timer'],
-            'depth_timer': sea_depth_timers['depth_timer'],
+            'sea_timer': sea_remaining,
+            'depth_timer': depth_remaining,
             'sea_running': sea_depth_timers['sea_running'],
             'depth_running': sea_depth_timers['depth_running']
         }
@@ -920,18 +945,30 @@ def update_sea_depth_timer(timer_type):
         
     elif action == 'stop':
         # Останавливаем таймер и устанавливаем на 2 часа
-        sea_depth_timers[f'{timer_type}_timer'] = 2 * 60 * 60  # 2 часа
         sea_depth_timers[f'{timer_type}_running'] = False
+        sea_depth_timers[f'{timer_type}_end_time'] = current_time + datetime.timedelta(hours=2)
         sea_depth_timers['last_update'] = current_time.isoformat()
         save_sea_depth_timers(sea_depth_timers)
+        
+        # Вычисляем текущее оставшееся время
+        sea_remaining = 0
+        depth_remaining = 0
+        
+        if sea_depth_timers['sea_running']:
+            time_to_end = sea_depth_timers['sea_end_time'] - current_time
+            sea_remaining = max(0, int(time_to_end.total_seconds()))
+            
+        if sea_depth_timers['depth_running']:
+            time_to_end = sea_depth_timers['depth_end_time'] - current_time
+            depth_remaining = max(0, int(time_to_end.total_seconds()))
         
         response_data = {
             'success': True,
             'message': f'Таймер {timer_type} остановлен и установлен на 2 часа',
             f'{timer_type}_timer': 2 * 60 * 60,
             f'{timer_type}_running': False,
-            'sea_timer': sea_depth_timers['sea_timer'],
-            'depth_timer': sea_depth_timers['depth_timer'],
+            'sea_timer': sea_remaining,
+            'depth_timer': depth_remaining,
             'sea_running': sea_depth_timers['sea_running'],
             'depth_running': sea_depth_timers['depth_running']
         }
@@ -941,18 +978,30 @@ def update_sea_depth_timer(timer_type):
         
     elif action == 'reset':
         # Сбрасываем таймер на 2 часа и запускаем
-        sea_depth_timers[f'{timer_type}_timer'] = 2 * 60 * 60  # 2 часа
         sea_depth_timers[f'{timer_type}_running'] = True
+        sea_depth_timers[f'{timer_type}_end_time'] = current_time + datetime.timedelta(hours=2)
         sea_depth_timers['last_update'] = current_time.isoformat()
         save_sea_depth_timers(sea_depth_timers)
+        
+        # Вычисляем текущее оставшееся время
+        sea_remaining = 0
+        depth_remaining = 0
+        
+        if sea_depth_timers['sea_running']:
+            time_to_end = sea_depth_timers['sea_end_time'] - current_time
+            sea_remaining = max(0, int(time_to_end.total_seconds()))
+            
+        if sea_depth_timers['depth_running']:
+            time_to_end = sea_depth_timers['depth_end_time'] - current_time
+            depth_remaining = max(0, int(time_to_end.total_seconds()))
         
         response_data = {
             'success': True,
             'message': f'Таймер {timer_type} сброшен на 2 часа и запущен',
             f'{timer_type}_timer': 2 * 60 * 60,
             f'{timer_type}_running': True,
-            'sea_timer': sea_depth_timers['sea_timer'],
-            'depth_timer': sea_depth_timers['depth_timer'],
+            'sea_timer': sea_remaining,
+            'depth_timer': depth_remaining,
             'sea_running': sea_depth_timers['sea_running'],
             'depth_running': sea_depth_timers['depth_running']
         }

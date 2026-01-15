@@ -3,5 +3,6 @@
   "depth_timer": 7200,
   "sea_running": true,
   "depth_running": false,
-  "last_update": "2026-01-15T17:25:30.385442+03:00"
+  "last_update": "2026-01-15T17:42:40.443668+03:00",
+  "sea_end_time": "2026-01-15T19:42:21.071396+03:00"
 }
