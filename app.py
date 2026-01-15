@@ -335,6 +335,8 @@ def save_sea_depth_timers(data):
 # Загружаем общие таймеры
 sea_depth_timers = load_sea_depth_timers()
 
+# Таймеры обновляются только при запросе клиента (в get_sea_depth_timers)
+
 def load_history():
     """Загружаем историю действий"""
     if os.path.exists(HISTORY_FILE):
@@ -836,7 +838,7 @@ def undo_last_action():
 
 @app.route('/get_sea_depth_timers')
 def get_sea_depth_timers():
-    """Получить общие таймеры Море и Глубина"""
+    """Получить общие таймеры Море и Глубина с точным расчетом времени"""
     # Обновляем таймеры в зависимости от времени
     current_time = get_moscow_time()
     last_update = datetime.datetime.fromisoformat(sea_depth_timers['last_update'])
