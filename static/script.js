@@ -228,6 +228,9 @@ function displayBosses() {
     
     // Обновляем визуальное состояние кнопок после отображения
     updateKillButtonStates();
+    
+    // Восстанавливаем фильтр поиска если он был активен
+    reapplySearchFilter();
 }
 
 // Новая функция для переключения истории в первой строке
@@ -1299,6 +1302,7 @@ window.addEventListener('beforeunload', function() {
 });
 // Функциональность живого поиска по боссам
 let searchTimeout;
+let currentSearchQuery = ''; // Сохраняем текущий поисковый запрос
 
 function setupBossSearch() {
     const searchInput = document.getElementById('boss-search-input');
@@ -1311,9 +1315,22 @@ function setupBossSearch() {
     
     console.log('Инициализация поиска боссов');
     
+    // Обработчик фокуса - скрываем placeholder
+    searchInput.addEventListener('focus', function() {
+        this.placeholder = '';
+    });
+    
+    // Обработчик потери фокуса - восстанавливаем placeholder если пусто
+    searchInput.addEventListener('blur', function() {
+        if (this.value === '') {
+            this.placeholder = '🔍 Поиск босса...';
+        }
+    });
+    
     // Обработчик ввода
     searchInput.addEventListener('input', function() {
         const query = this.value.trim().toLowerCase();
+        currentSearchQuery = query; // Сохраняем запрос
         
         // Показываем/скрываем кнопку очистки
         clearButton.style.display = query ? 'flex' : 'none';
@@ -1328,6 +1345,7 @@ function setupBossSearch() {
     // Обработчик очистки
     clearButton.addEventListener('click', function() {
         searchInput.value = '';
+        currentSearchQuery = '';
         clearButton.style.display = 'none';
         filterBossesByPrefix('');
         searchInput.focus();
@@ -1337,6 +1355,7 @@ function setupBossSearch() {
     searchInput.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             searchInput.value = '';
+            currentSearchQuery = '';
             clearButton.style.display = 'none';
             filterBossesByPrefix('');
             searchInput.blur();
@@ -1365,6 +1384,14 @@ function filterBossesByPrefix(prefix) {
     });
     
     console.log(`Показано ${visibleCount} из ${bossCards.length} боссов`);
+}
+
+// Функция для повторного применения фильтра после обновления данных
+function reapplySearchFilter() {
+    if (currentSearchQuery && currentSearchQuery !== '') {
+        console.log('Восстанавливаю фильтр поиска после обновления:', currentSearchQuery);
+        filterBossesByPrefix(currentSearchQuery);
+    }
 }
 
 // Инициализация поиска при загрузке страницы
