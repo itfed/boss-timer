@@ -1297,3 +1297,78 @@ window.addEventListener('beforeunload', function() {
         clearInterval(autoRefreshInterval);
     }
 });
+// Функциональность живого поиска по боссам
+let searchTimeout;
+
+function setupBossSearch() {
+    const searchInput = document.getElementById('boss-search-input');
+    const clearButton = document.getElementById('search-clear-btn');
+    
+    if (!searchInput || !clearButton) {
+        console.log('Поля поиска не найдены');
+        return;
+    }
+    
+    console.log('Инициализация поиска боссов');
+    
+    // Обработчик ввода
+    searchInput.addEventListener('input', function() {
+        const query = this.value.trim().toLowerCase();
+        
+        // Показываем/скрываем кнопку очистки
+        clearButton.style.display = query ? 'flex' : 'none';
+        
+        // Откладываем поиск на 300мс для лучшей производительности
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            filterBossesByPrefix(query);
+        }, 300);
+    });
+    
+    // Обработчик очистки
+    clearButton.addEventListener('click', function() {
+        searchInput.value = '';
+        clearButton.style.display = 'none';
+        filterBossesByPrefix('');
+        searchInput.focus();
+    });
+    
+    // Обработчик Escape
+    searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            searchInput.value = '';
+            clearButton.style.display = 'none';
+            filterBossesByPrefix('');
+            searchInput.blur();
+        }
+    });
+}
+
+function filterBossesByPrefix(prefix) {
+    console.log('Фильтрация боссов по префиксу:', prefix);
+    
+    const bossCards = document.querySelectorAll('.boss-card');
+    let visibleCount = 0;
+    
+    bossCards.forEach(card => {
+        const bossNameElement = card.querySelector('.boss-title h2');
+        const bossName = bossNameElement ? bossNameElement.textContent.toLowerCase() : '';
+        
+        if (prefix === '' || bossName.startsWith(prefix)) {
+            card.style.display = 'flex';
+            card.style.opacity = '1';
+            visibleCount++;
+        } else {
+            card.style.display = 'none';
+            card.style.opacity = '0.3';
+        }
+    });
+    
+    console.log(`Показано ${visibleCount} из ${bossCards.length} боссов`);
+}
+
+// Инициализация поиска при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("Страница загружена, инициализируем поиск боссов...");
+    setupBossSearch();
+});

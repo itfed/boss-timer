@@ -1,33 +1,5 @@
 [
   {
-    "id": 39,
-    "timestamp": "2026-01-12T16:24:20.753822+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 9,
-    "boss_name": "Анаис",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-12T16:10:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "12.01.2026 16:24:20",
-    "time_only": "16:24:20"
-  },
-  {
-    "id": 40,
-    "timestamp": "2026-01-12T16:24:20.756054+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 12,
-    "boss_name": "Палатанос",
-    "details": {
-      "previous_time": "2026-01-12T14:44:00+03:00",
-      "new_time": "2026-01-12T14:44:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "12.01.2026 16:24:20",
-    "time_only": "16:24:20"
-  },
-  {
     "id": 41,
     "timestamp": "2026-01-12T16:24:20.758325+03:00",
     "action_type": "manual_edit",
@@ -1393,6 +1365,34 @@
     "boss_name": "Гестия",
     "details": {
       "previous_time": "2026-01-16T14:42:00+03:00",
+      "new_time": "2026-01-17T04:07:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "17.01.2026 05:05:33",
+    "time_only": "05:05:33"
+  },
+  {
+    "id": 99,
+    "timestamp": "2026-01-17T09:59:32.921891+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 4,
+    "boss_name": "Гордон",
+    "details": {
+      "previous_time": "2026-01-17T02:57:00+03:00",
+      "new_time": "2026-01-17T02:57:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "17.01.2026 09:59:32",
+    "time_only": "09:59:32"
+  },
+  {
+    "id": 100,
+    "timestamp": "2026-01-17T09:59:32.929610+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 11,
+    "boss_name": "Гестия",
+    "details": {
+      "previous_time": "2026-01-17T04:07:00+03:00",
       "new_time": "2026-01-17T04:07:00+03:00",
       "edited_manually": true
     }
