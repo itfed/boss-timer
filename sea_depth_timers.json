@@ -1,8 +1,8 @@
 {
   "sea_timer": 6924,
   "depth_timer": 7200,
-  "sea_running": true,
+  "sea_running": false,
   "depth_running": false,
-  "last_update": "2026-01-15T17:42:40.443668+03:00",
-  "sea_end_time": "2026-01-15T19:42:21.071396+03:00"
+  "last_update": "2026-01-17T05:10:33.944038+03:00",
+  "sea_end_time": "2026-01-16T06:17:20.472146+03:00"
 }

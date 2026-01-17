@@ -263,10 +263,12 @@ button {
 /* Кнопка - прижата к правой стороне (оригинальное позиционирование) */
 .boss-actions {
     display: flex;
-    min-width: 130px;
+    flex-direction: row; /* Располагаем кнопки горизонтально */
+    min-width: 160px; /* Увеличенная ширина для двух элементов */
     flex-shrink: 0;
     justify-content: flex-end; /* Прижимаем к правому краю */
     align-self: center; /* Центрируем по вертикали */
+    gap: 8px; /* Отступ между кнопкой и иконкой */
 }
 
 .kill-btn {
@@ -282,6 +284,23 @@ button {
     white-space: nowrap;
     width: 100%;
     box-shadow: 0 2px 8px rgba(255, 65, 108, 0.3);
+    /* margin-bottom удален - теперь используем gap в .boss-actions */
+}
+
+.undo-icon-btn {
+    background: rgba(255, 193, 7, 0.2); /* Желтый фон */
+    color: #FFC107;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    padding: 8px 12px; /* Компактные отступы */
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.2rem; /* Размер иконки */
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px; /* Фиксированная ширина */
+    height: 40px; /* Фиксированная высота */
 }
 
 .kill-btn:hover:not(:disabled) {
@@ -289,11 +308,27 @@ button {
     box-shadow: 0 6px 16px rgba(255, 65, 108, 0.5);
 }
 
+.undo-icon-btn:hover:not(:disabled) {
+    background: rgba(255, 193, 7, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 193, 7, 0.4);
+    /* hover эффект как у оригинальной кнопки Отменить */
+}
+
 .kill-btn:disabled {
     background: #616161;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
+}
+
+.undo-icon-btn:disabled {
+    background: #616161;
+    color: #999999;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    border: 1px solid #616161;
 }
 
 /* Кнопка истории в первой строке */
@@ -622,4 +657,27 @@ button {
     .timer-value {
         font-size: 1.1rem;
     }
+}
+
+
+/* Скрытые админ-кнопки внизу страницы */
+.admin-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.admin-controls button {
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.admin-controls button:hover {
+    opacity: 1;
+    transform: scale(1.05);
 }

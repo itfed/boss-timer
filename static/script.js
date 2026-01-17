@@ -207,6 +207,9 @@ function displayBosses() {
                         <button class="kill-btn" onclick="markBossKilled(${bossId})">
                             Босс убит!
                         </button>
+                        <button class="undo-icon-btn" onclick="undoBossAction(${bossId})" title="Отменить последнее действие">
+                            ↩️
+                        </button>
                     </div>
                 </div>
                 
@@ -734,6 +737,70 @@ async function undoLastAction() {
     } catch (error) {
         console.error("Ошибка:", error);
         showNotification('❌ Ошибка при откате');
+    }
+}
+
+// Откатить последнее действие конкретного босса
+async function undoBossAction(bossId) {
+    // Находим последние действия этого босса
+    const bossActions = historyData
+        .filter(record => record.boss_id == bossId && (record.action_type === 'kill' || record.action_type === 'manual_edit'))
+        .sort((a, b) => b.id - a.id);
+    
+    if (bossActions.length === 0) {
+        showNotification('❌ Нет действий для отката');
+        return;
+    }
+    
+    const lastAction = bossActions[0];
+    const bossName = lastAction.boss_name;
+    let actionDesc = '';
+    
+    switch(lastAction.action_type) {
+        case 'kill':
+            actionDesc = 'убийство';
+            break;
+        case 'manual_edit':
+            actionDesc = 'изменение времени';
+            break;
+        default:
+            actionDesc = 'действие';
+    }
+    
+    const confirmed = await showConfirmDialog(
+        '↩️ Откат действия',
+        `Ты уверен, что хочешь отменить последнее действие для ${bossName}?<br><br>` +
+        `<strong>Будет отменено:</strong> ${actionDesc}<br>` +
+        `<strong>Время:</strong> ${lastAction.time_only}`
+    );
+    
+    if (!confirmed) return;
+    
+    try {
+        const response = await fetch('/undo_last_action', {
+            method: 'POST',
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            showNotification(`✅ ${result.message}`);
+            await loadBosses(); // Перезагружаем данные
+            await loadHistory(); // Обновляем историю
+            
+            // Снимаем блокировку для отмененного босса
+            delete lastKillTimestamps[bossId];
+            saveKillTimestamps();
+            
+            // Обновляем визуальное состояние кнопок
+            updateKillButtonStates();
+        } else {
+            showNotification(`❌ ${result.error || result.message}`);
+        }
+
+    } catch (error) {
+        console.error("Ошибка:", error);
+        showNotification('❌ Ошибка при откате действия');
     }
 }
 
