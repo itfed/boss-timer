@@ -208,7 +208,10 @@ function displayBosses() {
                             Босс убит!
                         </button>
                         <button class="undo-icon-btn" onclick="undoBossAction(${bossId})" title="Отменить последнее действие">
-                            ↩️
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 8C8 8 5 11 5 15C5 19 8 22 12 22C16 22 19 19 19 15C19 13 18 11 17 10" stroke="#FFC107" stroke-width="2.5" stroke-linecap="round"/>
+                                <path d="M17 10L20 7L17 4" stroke="#FFC107" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                         </button>
                     </div>
                 </div>

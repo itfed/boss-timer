@@ -722,8 +722,8 @@ button {
     color: #888899;
     font-size: 1.2rem;
     cursor: pointer;
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -734,4 +734,12 @@ button {
 .search-clear-btn:hover {
     background: rgba(255, 255, 255, 0.1);
     color: #ffffff;
+}
+
+
+/* Стили для SVG иконок в кнопках */
+.undo-icon-btn svg {
+    width: 28px;
+    height: 28px;
+    display: block;
 }
