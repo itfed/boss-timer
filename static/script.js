@@ -50,6 +50,28 @@ setInterval(async () => {
     }
 }, 30000); // 30 секунд
 
+// Функция для переключения отображения глобальной истории
+function toggleGlobalHistory() {
+    const historyList = document.getElementById('kill-history');
+    const toggleIcon = document.getElementById('global-history-toggle');
+    const header = document.querySelector('.history-header');
+    
+    if (historyList.style.display === 'none' || !historyList.style.display) {
+        // Развернуть
+        historyList.style.display = 'block';
+        header.classList.add('history-expanded');
+        
+        // Загружаем историю если она еще не загружена
+        if (historyList.innerHTML.trim() === '') {
+            displayGlobalHistory();
+        }
+    } else {
+        // Свернуть
+        historyList.style.display = 'none';
+        header.classList.remove('history-expanded');
+    }
+}
+
 // Функция для переключения отображения истории босса
 function toggleBossHistory(bossId) {
     const historyContainer = document.getElementById(`history-${bossId}`);

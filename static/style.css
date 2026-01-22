@@ -361,7 +361,40 @@ button {
     transition: transform 0.3s ease;
 }
 
+/* Стили для заголовка глобальной истории */
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+    user-select: none;
+}
+
+.history-header:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.history-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#global-history-toggle {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
 .boss-history-trigger.expanded .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.history-expanded #global-history-toggle {
     transform: rotate(180deg);
 }
 
