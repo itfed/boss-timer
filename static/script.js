@@ -590,7 +590,16 @@ function openEditModal(bossId) {
     
     // Фокус на поле ввода
     setTimeout(() => {
-        document.getElementById('edit-time').focus();
+        const timeInput = document.getElementById('edit-time');
+        timeInput.focus();
+        
+        // Автоматическая вставка двоеточия
+        timeInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, ''); // Только цифры
+            if (value.length >= 2 && !e.target.value.includes(':')) {
+                e.target.value = value.substring(0, 2) + ':' + value.substring(2);
+            }
+        });
     }, 100);
 }
 
