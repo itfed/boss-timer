@@ -1,33 +1,5 @@
 [
   {
-    "id": 82,
-    "timestamp": "2026-01-15T16:41:31.564425+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 18,
-    "boss_name": "Хорус",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-15T09:54:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 16:41:31",
-    "time_only": "16:41:31"
-  },
-  {
-    "id": 83,
-    "timestamp": "2026-01-15T16:41:31.567789+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 19,
-    "boss_name": "Беква",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-15T10:01:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 16:41:31",
-    "time_only": "16:41:31"
-  },
-  {
     "id": 84,
     "timestamp": "2026-01-15T16:41:31.570684+03:00",
     "action_type": "manual_edit",
@@ -1394,6 +1366,34 @@
     "details": {
       "previous_time": null,
       "new_time": "2026-01-20T18:48:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "20.01.2026 19:15:11",
+    "time_only": "19:15:11"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-22T10:18:36.020675+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 30,
+    "boss_name": "Горголос",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-22T01:39:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "22.01.2026 10:18:36",
+    "time_only": "10:18:36"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-22T10:18:36.722394+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 31,
+    "boss_name": "Утенус",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-22T07:29:00+03:00",
       "edited_manually": true
     }
   }
