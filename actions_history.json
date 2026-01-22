@@ -1,75 +1,5 @@
 [
   {
-    "id": 87,
-    "timestamp": "2026-01-15T16:41:31.579515+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 23,
-    "boss_name": "Ашакиэль",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-15T13:24:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 16:41:31",
-    "time_only": "16:41:31"
-  },
-  {
-    "id": 88,
-    "timestamp": "2026-01-15T16:41:31.582553+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 24,
-    "boss_name": "Нага",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-15T10:36:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 16:41:31",
-    "time_only": "16:41:31"
-  },
-  {
-    "id": 89,
-    "timestamp": "2026-01-15T16:41:31.585302+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 25,
-    "boss_name": "Декарбия",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-15T11:14:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 16:41:31",
-    "time_only": "16:41:31"
-  },
-  {
-    "id": 90,
-    "timestamp": "2026-01-15T16:41:31.588649+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 26,
-    "boss_name": "Танатос",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-15T08:59:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 16:41:31",
-    "time_only": "16:41:31"
-  },
-  {
-    "id": 91,
-    "timestamp": "2026-01-15T16:41:31.591438+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 28,
-    "boss_name": "Тайр",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-15T09:54:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 16:41:31",
-    "time_only": "16:41:31"
-  },
-  {
     "id": 92,
     "timestamp": "2026-01-15T17:27:56.264120+03:00",
     "action_type": "manual_edit",
@@ -1388,6 +1318,76 @@
   {
     "id": 101,
     "timestamp": "2026-01-22T11:06:58.084952+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 31,
+    "boss_name": "Утенус",
+    "details": {
+      "previous_time": "2026-01-22T07:29:00+03:00",
+      "new_time": "2026-01-22T07:29:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "22.01.2026 11:06:58",
+    "time_only": "11:06:58"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-22T14:17:12.807923+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 1,
+    "boss_name": "Дух",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-22T11:55:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "22.01.2026 14:17:12",
+    "time_only": "14:17:12"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-22T14:17:13.492966+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 2,
+    "boss_name": "Петушара",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-22T12:48:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "22.01.2026 14:17:13",
+    "time_only": "14:17:13"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-22T14:17:14.177663+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 4,
+    "boss_name": "Гордон",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-22T12:30:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "22.01.2026 14:17:14",
+    "time_only": "14:17:14"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-22T14:17:15.551883+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 30,
+    "boss_name": "Горголос",
+    "details": {
+      "previous_time": "2026-01-22T01:39:00+03:00",
+      "new_time": "2026-01-22T01:39:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "22.01.2026 14:17:15",
+    "time_only": "14:17:15"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-22T14:17:16.239943+03:00",
     "action_type": "manual_edit",
     "boss_id": 31,
     "boss_name": "Утенус",
