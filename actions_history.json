@@ -1,75 +1,5 @@
 [
   {
-    "id": 98,
-    "timestamp": "2026-01-15T17:27:56.283288+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 11,
-    "boss_name": "Гестия",
-    "details": {
-      "previous_time": "2026-01-15T11:47:00+03:00",
-      "new_time": "2026-01-15T11:47:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 17:27:56",
-    "time_only": "17:27:56"
-  },
-  {
-    "id": 99,
-    "timestamp": "2026-01-15T17:27:56.287281+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 12,
-    "boss_name": "Палатанос",
-    "details": {
-      "previous_time": "2026-01-15T11:53:00+03:00",
-      "new_time": "2026-01-15T11:53:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 17:27:56",
-    "time_only": "17:27:56"
-  },
-  {
-    "id": 100,
-    "timestamp": "2026-01-15T17:27:56.290339+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 15,
-    "boss_name": "Шиид",
-    "details": {
-      "previous_time": "2026-01-15T09:17:00+03:00",
-      "new_time": "2026-01-15T09:17:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 17:27:56",
-    "time_only": "17:27:56"
-  },
-  {
-    "id": 101,
-    "timestamp": "2026-01-15T17:27:56.293586+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 16,
-    "boss_name": "Глаки",
-    "details": {
-      "previous_time": "2026-01-15T09:17:00+03:00",
-      "new_time": "2026-01-15T09:17:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 17:27:56",
-    "time_only": "17:27:56"
-  },
-  {
-    "id": 101,
-    "timestamp": "2026-01-15T17:27:56.296512+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 17,
-    "boss_name": "Ипос",
-    "details": {
-      "previous_time": "2026-01-15T07:54:00+03:00",
-      "new_time": "2026-01-15T07:54:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 17:27:56",
-    "time_only": "17:27:56"
-  },
-  {
     "id": 101,
     "timestamp": "2026-01-15T17:27:56.300061+03:00",
     "action_type": "manual_edit",
@@ -1394,6 +1324,76 @@
     "details": {
       "previous_time": "2026-01-22T07:29:00+03:00",
       "new_time": "2026-01-22T07:29:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "22.01.2026 18:45:19",
+    "time_only": "18:45:19"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-25T16:25:32.855360+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 2,
+    "boss_name": "Петушара",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-25T15:30:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "25.01.2026 16:25:32",
+    "time_only": "16:25:32"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-25T16:25:33.828755+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 5,
+    "boss_name": "Лилит",
+    "details": {
+      "previous_time": "2026-01-24T20:30:00+03:00",
+      "new_time": "2026-01-25T11:29:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "25.01.2026 16:25:33",
+    "time_only": "16:25:33"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-25T16:25:35.206345+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 29,
+    "boss_name": "Марпанак",
+    "details": {
+      "previous_time": "2026-01-24T22:20:00+03:00",
+      "new_time": "2026-01-25T15:13:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "25.01.2026 16:25:35",
+    "time_only": "16:25:35"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-25T16:25:35.858361+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 30,
+    "boss_name": "Горголос",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-25T13:10:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "25.01.2026 16:25:35",
+    "time_only": "16:25:35"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-25T16:25:36.510127+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 31,
+    "boss_name": "Утенус",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-25T09:26:00+03:00",
       "edited_manually": true
     }
   }

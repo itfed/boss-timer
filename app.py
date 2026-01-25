@@ -281,6 +281,38 @@ BOSSES_CONFIG = {
         'max_respawn': 20,  # максимальное
         'icon': '🧀',
         'description': 'Респавн: 12-20 часа'
+    },
+    33: {
+        'id': 33,
+        'name': 'Флоранис (MiD)',
+        'min_respawn': 2,  # минимальное
+        'max_respawn': 4,  # максимальное
+        'icon': '♉️',
+        'description': 'Респавн: 2-4 часа'
+    },
+    34: {
+        'id': 34,
+        'name': 'Стемфил (TOP)',
+        'min_respawn': 4,  # минимальное
+        'max_respawn': 6,  # максимальное
+        'icon': '🦄',
+        'description': 'Респавн: 4-6 часа'
+    },
+    35: {
+        'id': 35,
+        'name': 'Дарклинг (TOP)',
+        'min_respawn': 4,  # минимальное
+        'max_respawn': 6,  # максимальное
+        'icon': '🐞',
+        'description': 'Респавн: 4-6 часа'
+    },
+    36: {
+        'id': 36,
+        'name': 'Глумвинг (Hight)',
+        'min_respawn': 2,  # минимальное
+        'max_respawn': 4,  # максимальное
+        'icon': '🪱',
+        'description': 'Респавн: 2-4 часа'
     }
 }
 
