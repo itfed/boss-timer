@@ -1,132 +1,6 @@
 [
   {
     "id": 101,
-    "timestamp": "2026-01-15T17:27:56.303908+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 19,
-    "boss_name": "Беква",
-    "details": {
-      "previous_time": "2026-01-15T10:01:00+03:00",
-      "new_time": "2026-01-15T10:01:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 17:27:56",
-    "time_only": "17:27:56"
-  },
-  {
-    "id": 101,
-    "timestamp": "2026-01-15T17:27:56.306979+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 20,
-    "boss_name": "Кло",
-    "details": {
-      "previous_time": "2026-01-15T08:13:00+03:00",
-      "new_time": "2026-01-15T08:13:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 17:27:56",
-    "time_only": "17:27:56"
-  },
-  {
-    "id": 101,
-    "timestamp": "2026-01-15T17:27:56.309936+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 21,
-    "boss_name": "Эмбер",
-    "details": {
-      "previous_time": "2026-01-15T10:38:00+03:00",
-      "new_time": "2026-01-15T10:38:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 17:27:56",
-    "time_only": "17:27:56"
-  },
-  {
-    "id": 101,
-    "timestamp": "2026-01-15T17:27:56.312808+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 22,
-    "boss_name": "Бракки",
-    "details": {
-      "previous_time": "2026-01-15T11:44:00+03:00",
-      "new_time": "2026-01-15T11:44:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 17:27:56",
-    "time_only": "17:27:56"
-  },
-  {
-    "id": 101,
-    "timestamp": "2026-01-15T17:27:56.315936+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 23,
-    "boss_name": "Ашакиэль",
-    "details": {
-      "previous_time": "2026-01-15T13:24:00+03:00",
-      "new_time": "2026-01-15T13:24:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 17:27:56",
-    "time_only": "17:27:56"
-  },
-  {
-    "id": 101,
-    "timestamp": "2026-01-15T17:27:56.320309+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 24,
-    "boss_name": "Нага",
-    "details": {
-      "previous_time": "2026-01-15T10:36:00+03:00",
-      "new_time": "2026-01-15T10:36:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 17:27:56",
-    "time_only": "17:27:56"
-  },
-  {
-    "id": 101,
-    "timestamp": "2026-01-15T17:27:56.323636+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 25,
-    "boss_name": "Декарбия",
-    "details": {
-      "previous_time": "2026-01-15T11:14:00+03:00",
-      "new_time": "2026-01-15T11:14:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 17:27:56",
-    "time_only": "17:27:56"
-  },
-  {
-    "id": 101,
-    "timestamp": "2026-01-15T17:27:56.327246+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 26,
-    "boss_name": "Танатос",
-    "details": {
-      "previous_time": "2026-01-15T08:59:00+03:00",
-      "new_time": "2026-01-15T08:59:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 17:27:56",
-    "time_only": "17:27:56"
-  },
-  {
-    "id": 101,
-    "timestamp": "2026-01-15T17:27:56.330595+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 28,
-    "boss_name": "Тайр",
-    "details": {
-      "previous_time": "2026-01-15T09:54:00+03:00",
-      "new_time": "2026-01-15T09:54:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 17:27:56",
-    "time_only": "17:27:56"
-  },
-  {
-    "id": 101,
     "timestamp": "2026-01-16T22:03:38.762380+03:00",
     "action_type": "manual_edit",
     "boss_id": 3,
@@ -1394,6 +1268,132 @@
     "details": {
       "previous_time": null,
       "new_time": "2026-01-27T10:20:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "27.01.2026 10:57:28",
+    "time_only": "10:57:28"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-27T12:50:40.475379+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 2,
+    "boss_name": "Петушара",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-27T11:38:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "27.01.2026 12:50:40",
+    "time_only": "12:50:40"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-27T12:50:41.176442+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 4,
+    "boss_name": "Гордон",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-27T11:12:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "27.01.2026 12:50:41",
+    "time_only": "12:50:41"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-27T12:50:42.565675+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 33,
+    "boss_name": "Флоранис (MiD)",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-27T12:33:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "27.01.2026 12:50:42",
+    "time_only": "12:50:42"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-27T12:50:45.266716+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 35,
+    "boss_name": "Дарклинг (TOP)",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-27T12:16:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "27.01.2026 12:50:45",
+    "time_only": "12:50:45"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-27T12:55:10.221364+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 2,
+    "boss_name": "Петушара",
+    "details": {
+      "previous_time": "2026-01-27T11:38:00+03:00",
+      "new_time": "2026-01-27T11:38:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "27.01.2026 12:55:10",
+    "time_only": "12:55:10"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-27T12:55:10.920636+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 4,
+    "boss_name": "Гордон",
+    "details": {
+      "previous_time": "2026-01-27T11:12:00+03:00",
+      "new_time": "2026-01-27T11:12:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "27.01.2026 12:55:10",
+    "time_only": "12:55:10"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-27T12:55:12.306754+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 33,
+    "boss_name": "Флоранис (MiD)",
+    "details": {
+      "previous_time": "2026-01-27T12:33:00+03:00",
+      "new_time": "2026-01-27T12:33:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "27.01.2026 12:55:12",
+    "time_only": "12:55:12"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-27T12:55:13.004554+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 35,
+    "boss_name": "Дарклинг (TOP)",
+    "details": {
+      "previous_time": "2026-01-27T12:16:00+03:00",
+      "new_time": "2026-01-27T12:16:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "27.01.2026 12:55:13",
+    "time_only": "12:55:13"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-27T12:55:13.704207+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 36,
+    "boss_name": "Глумвинг (Hight)",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-27T12:53:00+03:00",
       "edited_manually": true
     }
   }
