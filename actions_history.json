@@ -1,20 +1,6 @@
 [
   {
     "id": 101,
-    "timestamp": "2026-01-15T17:27:56.300061+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 18,
-    "boss_name": "Хорус",
-    "details": {
-      "previous_time": "2026-01-15T09:54:00+03:00",
-      "new_time": "2026-01-15T09:54:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "15.01.2026 17:27:56",
-    "time_only": "17:27:56"
-  },
-  {
-    "id": 101,
     "timestamp": "2026-01-15T17:27:56.303908+03:00",
     "action_type": "manual_edit",
     "boss_id": 19,
@@ -1394,6 +1380,20 @@
     "details": {
       "previous_time": null,
       "new_time": "2026-01-25T09:26:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "25.01.2026 16:25:36",
+    "time_only": "16:25:36"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-01-27T10:57:28.530760+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 2,
+    "boss_name": "Петушара",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-01-27T10:20:00+03:00",
       "edited_manually": true
     }
   }
