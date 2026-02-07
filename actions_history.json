@@ -1,76 +1,6 @@
 [
   {
     "id": 101,
-    "timestamp": "2026-01-16T22:03:38.775865+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 8,
-    "boss_name": "Шуриэль",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-16T21:17:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "16.01.2026 22:03:38",
-    "time_only": "22:03:38"
-  },
-  {
-    "id": 101,
-    "timestamp": "2026-01-16T22:03:38.779349+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 9,
-    "boss_name": "Анаис",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-16T19:11:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "16.01.2026 22:03:38",
-    "time_only": "22:03:38"
-  },
-  {
-    "id": 101,
-    "timestamp": "2026-01-16T22:03:38.782931+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 10,
-    "boss_name": "Шакс",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-16T13:18:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "16.01.2026 22:03:38",
-    "time_only": "22:03:38"
-  },
-  {
-    "id": 101,
-    "timestamp": "2026-01-16T22:03:38.786460+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 11,
-    "boss_name": "Гестия",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-16T14:42:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "16.01.2026 22:03:38",
-    "time_only": "22:03:38"
-  },
-  {
-    "id": 101,
-    "timestamp": "2026-01-16T22:03:38.789914+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 12,
-    "boss_name": "Палатанос",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-16T16:26:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "16.01.2026 22:03:38",
-    "time_only": "22:03:38"
-  },
-  {
-    "id": 101,
     "timestamp": "2026-01-16T22:03:38.792969+03:00",
     "action_type": "manual_edit",
     "boss_id": 13,
@@ -1393,6 +1323,76 @@
     "boss_name": "Утенус",
     "details": {
       "previous_time": null,
+      "new_time": "2026-02-07T10:07:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "07.02.2026 10:39:23",
+    "time_only": "10:39:23"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-02-07T10:54:25.543092+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 2,
+    "boss_name": "Петушара",
+    "details": {
+      "previous_time": "2026-02-07T10:28:00+03:00",
+      "new_time": "2026-02-07T10:28:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "07.02.2026 10:54:25",
+    "time_only": "10:54:25"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-02-07T10:54:25.549780+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 5,
+    "boss_name": "Лилит",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-02-07T10:46:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "07.02.2026 10:54:25",
+    "time_only": "10:54:25"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-02-07T10:54:25.554508+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 29,
+    "boss_name": "Марпанак",
+    "details": {
+      "previous_time": "2026-02-07T00:08:00+03:00",
+      "new_time": "2026-02-07T00:08:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "07.02.2026 10:54:25",
+    "time_only": "10:54:25"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-02-07T10:54:25.559467+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 30,
+    "boss_name": "Горголос",
+    "details": {
+      "previous_time": "2026-02-07T09:05:00+03:00",
+      "new_time": "2026-02-07T09:05:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "07.02.2026 10:54:25",
+    "time_only": "10:54:25"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-02-07T10:54:25.563292+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 31,
+    "boss_name": "Утенус",
+    "details": {
+      "previous_time": "2026-02-07T10:07:00+03:00",
       "new_time": "2026-02-07T10:07:00+03:00",
       "edited_manually": true
     }
