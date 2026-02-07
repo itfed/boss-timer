@@ -1,62 +1,6 @@
 [
   {
     "id": 101,
-    "timestamp": "2026-01-16T22:03:38.762380+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 3,
-    "boss_name": "Тайфун",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-16T08:54:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "16.01.2026 22:03:38",
-    "time_only": "22:03:38"
-  },
-  {
-    "id": 101,
-    "timestamp": "2026-01-16T22:03:38.766336+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 4,
-    "boss_name": "Гордон",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-16T13:00:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "16.01.2026 22:03:38",
-    "time_only": "22:03:38"
-  },
-  {
-    "id": 101,
-    "timestamp": "2026-01-16T22:03:38.769639+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 6,
-    "boss_name": "Галаксия",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-16T18:34:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "16.01.2026 22:03:38",
-    "time_only": "22:03:38"
-  },
-  {
-    "id": 101,
-    "timestamp": "2026-01-16T22:03:38.772693+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 7,
-    "boss_name": "Шадит",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-16T16:23:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "16.01.2026 22:03:38",
-    "time_only": "22:03:38"
-  },
-  {
-    "id": 101,
     "timestamp": "2026-01-16T22:03:38.775865+03:00",
     "action_type": "manual_edit",
     "boss_id": 8,
@@ -1394,6 +1338,62 @@
     "details": {
       "previous_time": null,
       "new_time": "2026-01-27T12:53:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "27.01.2026 12:55:13",
+    "time_only": "12:55:13"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-02-07T10:39:23.096326+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 2,
+    "boss_name": "Петушара",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-02-07T10:28:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "07.02.2026 10:39:23",
+    "time_only": "10:39:23"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-02-07T10:39:23.101738+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 29,
+    "boss_name": "Марпанак",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-02-07T00:08:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "07.02.2026 10:39:23",
+    "time_only": "10:39:23"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-02-07T10:39:23.105145+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 30,
+    "boss_name": "Горголос",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-02-07T09:05:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "07.02.2026 10:39:23",
+    "time_only": "10:39:23"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-02-07T10:39:23.108265+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 31,
+    "boss_name": "Утенус",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-02-07T10:07:00+03:00",
       "edited_manually": true
     }
   }
