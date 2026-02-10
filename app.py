@@ -39,7 +39,7 @@ BOSSES_CONFIG = {
         'name': 'Петушара',
         'min_respawn': 1,  # минимальное
         'max_respawn': 2,  # максимальное
-        'icon': '🐓',
+        'icon': '',
         'description': 'Респавн: 1-2 часа'
     },
     # 3: {

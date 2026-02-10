@@ -186,7 +186,7 @@ function displayBosses() {
             <div class="boss-card">
                 <div class="first-row">
                     <div class="boss-header">
-                        <div class="boss-icon">${boss.icon || '👾'}</div>
+                        <div class="boss-icon"></div>
                         <div class="boss-title">
                             <h2>${boss.name}</h2>
                             <div class="respawn-range">${boss.respawn_range || ''}</div>
@@ -208,13 +208,13 @@ function displayBosses() {
                     <!-- Информация об убийстве -->
                     <div class="boss-kill-info">
                         <div class="info-row">
-                            <span class="label">🗡️ Убит:</span>
+                            <span class="label">Убит:</span>
                             <span class="kill-time" onclick="${boss.killed ? `openEditModal(${bossId})` : ''}">
                                 ${boss.last_kill || '--:--:--'}
                             </span>
                         </div>
                         <div class="info-row">
-                            <span class="label">⏱️ Появится с:</span>
+                            <span class="label">Появится с:</span>
                             <span class="value">${boss.min_respawn_time || '--:--:--'}</span>
                         </div>
                     </div>

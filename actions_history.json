@@ -1,48 +1,6 @@
 [
   {
     "id": 101,
-    "timestamp": "2026-01-16T22:03:38.792969+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 13,
-    "boss_name": "Голем",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-16T09:10:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "16.01.2026 22:03:38",
-    "time_only": "22:03:38"
-  },
-  {
-    "id": 101,
-    "timestamp": "2026-01-16T22:03:38.796142+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 14,
-    "boss_name": "Голконда",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-16T12:55:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "16.01.2026 22:03:38",
-    "time_only": "22:03:38"
-  },
-  {
-    "id": 101,
-    "timestamp": "2026-01-16T22:03:38.800155+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 15,
-    "boss_name": "Шиид",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-16T13:18:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "16.01.2026 22:03:38",
-    "time_only": "22:03:38"
-  },
-  {
-    "id": 101,
     "timestamp": "2026-01-16T22:03:38.803495+03:00",
     "action_type": "manual_edit",
     "boss_id": 16,
@@ -1394,6 +1352,48 @@
     "details": {
       "previous_time": "2026-02-07T10:07:00+03:00",
       "new_time": "2026-02-07T10:07:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "07.02.2026 10:54:25",
+    "time_only": "10:54:25"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-02-10T18:09:48.791936+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 4,
+    "boss_name": "Гордон",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-02-10T05:20:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "10.02.2026 18:09:48",
+    "time_only": "18:09:48"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-02-10T18:09:48.797624+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 29,
+    "boss_name": "Марпанак",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-02-10T05:05:00+03:00",
+      "edited_manually": true
+    },
+    "timestamp_formatted": "10.02.2026 18:09:48",
+    "time_only": "18:09:48"
+  },
+  {
+    "id": 101,
+    "timestamp": "2026-02-10T18:09:48.802012+03:00",
+    "action_type": "manual_edit",
+    "boss_id": 32,
+    "boss_name": "Хекатон",
+    "details": {
+      "previous_time": null,
+      "new_time": "2026-02-10T06:20:00+03:00",
       "edited_manually": true
     }
   }
