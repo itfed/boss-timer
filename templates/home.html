@@ -80,11 +80,12 @@
 
     <script>
         async function fakeJoinTeam(button) {
-            if (button.dataset.done === 'true' || button.dataset.loading === 'true') {
+            if (button.dataset.loading === 'true') {
                 return;
             }
 
             const label = button.querySelector('.join-team-label');
+            const step = Number(button.dataset.step || '0');
             button.dataset.loading = 'true';
             button.classList.add('is-loading');
             label.textContent = 'Загрузка';
@@ -99,16 +100,33 @@
 
             clearInterval(interval);
             button.classList.remove('is-loading');
-            button.classList.add('is-finished');
             button.dataset.loading = 'false';
-            button.dataset.done = 'true';
-            label.textContent = 'дохуя хочешь :)';
 
-            setTimeout(() => {
-                button.classList.remove('is-finished');
-                button.dataset.done = 'false';
-                label.textContent = 'Стать частью команды';
-            }, 2200);
+            if (step === 0) {
+                button.classList.add('is-finished');
+                button.dataset.step = '1';
+                label.textContent = 'дохуя хочешь :)';
+                setTimeout(() => {
+                    button.classList.remove('is-finished');
+                    label.textContent = 'Стать частью команды';
+                }, 2200);
+                return;
+            }
+
+            if (step === 1) {
+                button.classList.add('is-finished');
+                button.dataset.step = '2';
+                label.textContent = 'да иди ты нахуй!';
+                setTimeout(() => {
+                    button.classList.remove('is-finished');
+                    label.textContent = 'Стать частью команды';
+                }, 2200);
+                return;
+            }
+
+            button.classList.add('is-finished', 'is-final');
+            button.dataset.step = '3';
+            label.textContent = '🖕';
         }
 
         async function copyPromoCode(button) {

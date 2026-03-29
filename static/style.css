@@ -731,6 +731,12 @@ button {
     border-color: var(--line);
 }
 
+.join-team-btn.is-final {
+    background: #111111;
+    color: #ffffff;
+    border-color: transparent;
+}
+
 .promo-card {
     margin-top: 24px;
     max-width: 348px;
