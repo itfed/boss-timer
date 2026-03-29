@@ -15,7 +15,7 @@
                     <span class="brand-logo" aria-hidden="true">
                         <img src="/static/cookie-rider-logo-crop.jpg" alt="Печенька на печеньке-льве">
                     </span>
-                    Печеньки
+                    Главная
                 </h1>
             </div>
             <nav class="top-nav" aria-label="Основное меню">
@@ -31,6 +31,12 @@
                     <h2>Мы Печеньки.</h2>
                     <p>Самое дружное комьюнити на словах и самое шумное в голосе. Мы иногда спорим, подкалываем друг друга, а потом всё равно собираемся и идём охотиться на боссов вместе.</p>
                     <p>Эта страница теперь наша маленькая база: отсюда можно быстро перейти к таймерам, следить за респами и просто помнить, что даже самый хаотичный рейд становится лучше, когда рядом свои.</p>
+
+                    <div class="home-cta">
+                        <button class="join-team-btn" type="button" onclick="fakeJoinTeam(this)">
+                            <span class="join-team-label">Стать частью команды</span>
+                        </button>
+                    </div>
 
                     <section class="promo-card" aria-label="Промокоды">
                         <div class="promo-head">
@@ -73,6 +79,38 @@
     </div>
 
     <script>
+        async function fakeJoinTeam(button) {
+            if (button.dataset.done === 'true' || button.dataset.loading === 'true') {
+                return;
+            }
+
+            const label = button.querySelector('.join-team-label');
+            button.dataset.loading = 'true';
+            button.classList.add('is-loading');
+            label.textContent = 'Загрузка';
+
+            let dots = 0;
+            const interval = setInterval(() => {
+                dots = (dots + 1) % 4;
+                label.textContent = `Загрузка${'.'.repeat(dots)}`;
+            }, 280);
+
+            await new Promise(resolve => setTimeout(resolve, 1700));
+
+            clearInterval(interval);
+            button.classList.remove('is-loading');
+            button.classList.add('is-finished');
+            button.dataset.loading = 'false';
+            button.dataset.done = 'true';
+            label.textContent = 'дохуя хочешь :)';
+
+            setTimeout(() => {
+                button.classList.remove('is-finished');
+                button.dataset.done = 'false';
+                label.textContent = 'Стать частью команды';
+            }, 2200);
+        }
+
         async function copyPromoCode(button) {
             const code = button.dataset.code;
             const label = button.querySelector('.promo-copy-text');
