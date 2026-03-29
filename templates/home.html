@@ -116,6 +116,17 @@
             if (step === 1) {
                 button.classList.add('is-finished');
                 button.dataset.step = '2';
+                label.textContent = 'так не работает!';
+                setTimeout(() => {
+                    button.classList.remove('is-finished');
+                    label.textContent = 'Стать частью команды';
+                }, 2200);
+                return;
+            }
+
+            if (step === 2) {
+                button.classList.add('is-finished');
+                button.dataset.step = '3';
                 label.textContent = 'да иди ты нахуй!';
                 setTimeout(() => {
                     button.classList.remove('is-finished');
@@ -125,7 +136,7 @@
             }
 
             button.classList.add('is-finished', 'is-final');
-            button.dataset.step = '3';
+            button.dataset.step = '4';
             label.textContent = '🖕';
         }
 
