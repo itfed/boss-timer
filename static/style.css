@@ -700,6 +700,37 @@ button {
     line-height: 1.65;
 }
 
+.home-cta {
+    margin-top: 22px;
+}
+
+.join-team-btn {
+    position: relative;
+    justify-content: center;
+    min-width: 220px;
+    padding: 13px 18px;
+    border: 1px solid rgba(17, 17, 17, 0.1);
+    border-radius: 16px;
+    background: #111111;
+    color: #ffffff;
+    box-shadow: var(--shadow-sm);
+}
+
+.join-team-btn:hover {
+    background: #242424;
+}
+
+.join-team-btn.is-loading {
+    background: #1f1f1f;
+    pointer-events: none;
+}
+
+.join-team-btn.is-finished {
+    background: #ffffff;
+    color: #111111;
+    border-color: var(--line);
+}
+
 .promo-card {
     margin-top: 24px;
     padding: 18px;
