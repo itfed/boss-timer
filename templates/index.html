@@ -5,16 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Таймеры боссов</title>
     <link rel="stylesheet" href="/static/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-dragon"></i> Boss Timer</h1>
-            <div class="server-time">
-                Текущее время: <span id="server-time">--:--:--</span>
+            <div class="hero-copy">
+                <h1>
+                    <span class="brand-logo" aria-hidden="true">
+                        <img src="/static/cookie-rider-logo-crop.jpg" alt="Печенька на печеньке-льве">
+                    </span>
+                    Boss Timer
+                </h1>
             </div>
+            <nav class="top-nav" aria-label="Основное меню">
+                <a class="nav-link" href="/">Главная</a>
+                <a class="nav-link active" href="/boss-timer">BossTimer</a>
+            </nav>
         </header>
         
         <!-- Компактные таймеры Море и Глубина -->
@@ -33,9 +41,14 @@
         </div>
         
         <!-- Поле поиска боссов -->
-        <div class="boss-search-container">
-            <input type="text" id="boss-search-input" placeholder="🔍 Поиск босса..." class="boss-search-input">
-            <button class="search-clear-btn" id="search-clear-btn" style="display: none;">×</button>
+        <div class="toolbar-row">
+            <div class="boss-search-container">
+                <input type="text" id="boss-search-input" placeholder="🔍 Поиск босса..." class="boss-search-input">
+                <button class="search-clear-btn" id="search-clear-btn" style="display: none;">×</button>
+            </div>
+            <div class="server-time toolbar-time">
+                Текущее время: <span id="server-time">--:--:--</span>
+            </div>
         </div>
         
         <main>

@@ -39,7 +39,7 @@ BOSSES_CONFIG = {
         'name': 'Петушара',
         'min_respawn': 1,  # минимальное
         'max_respawn': 2,  # максимальное
-        'icon': '',
+        'icon': '🐓',
         'description': 'Респавн: 1-2 часа'
     },
     # 3: {
@@ -483,8 +483,14 @@ history = load_history()
 
 
 @app.route('/')
-def index():
+def home():
     """Главная страница сайта"""
+    return render_template('home.html')
+
+
+@app.route('/boss-timer')
+def index():
+    """Страница таймеров боссов"""
     # Передаем текущее московское время в шаблон
     moscow_time = get_moscow_time().strftime('%H:%M:%S')
     return render_template('index.html', bosses=BOSSES_CONFIG, moscow_time=moscow_time)

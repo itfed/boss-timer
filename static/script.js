@@ -238,12 +238,8 @@ function displayBosses() {
                     </div>
                 </div>
                 
-                <div class="second-row">
-                    <div class="boss-history">
-                        <div class="history-list-small" id="history-${bossId}" style="display: none;">
-                            <div class="loading-history">Загрузка...</div>
-                        </div>
-                    </div>
+                <div class="history-list-small" id="history-${bossId}" style="display: none;">
+                    <div class="loading-history">Загрузка...</div>
                 </div>
             </div>
         `;
@@ -881,13 +877,16 @@ function showNotification(message) {
         position: fixed;
         top: 20px;
         right: 20px;
-        background: linear-gradient(45deg, #00c6ff, #0072ff);
-        color: white;
-        padding: 15px 25px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        background: rgba(255, 255, 255, 0.96);
+        color: #111111;
+        padding: 15px 18px;
+        border-radius: 18px;
+        border: 1px solid rgba(17, 17, 17, 0.08);
+        box-shadow: 0 18px 40px rgba(17, 17, 17, 0.1);
         z-index: 1000;
         animation: slideIn 0.3s ease-out;
+        font-weight: 600;
+        max-width: min(420px, calc(100vw - 32px));
     `;
 
     document.body.appendChild(notification);
@@ -904,16 +903,18 @@ function showError(message) {
     const container = document.getElementById('bosses-container');
     container.innerHTML = `
         <div class="error-message" style="grid-column: 1 / -1; text-align: center; padding: 50px;">
-            <h3 style="color: #ff416c;">⚠️ Ошибка загрузки</h3>
-            <p style="margin: 15px 0;">${message}</p>
+            <h3 style="color: #111111;">⚠️ Ошибка загрузки</h3>
+            <p style="margin: 15px 0; color: #444444;">${message}</p>
             <button onclick="loadBosses()" style="
-                padding: 10px 20px;
-                background: #00c6ff;
-                color: white;
+                padding: 12px 18px;
+                background: #111111;
+                color: #ffffff;
                 border: none;
-                border-radius: 5px;
+                border-radius: 14px;
                 cursor: pointer;
                 font-size: 16px;
+                font-weight: 700;
+                box-shadow: 0 12px 24px rgba(17, 17, 17, 0.12);
             ">
                 🔄 Повторить попытку
             </button>
@@ -935,7 +936,7 @@ style.textContent = `
     }
 
     .error {
-        color: #ff416c;
+        color: #111111;
         text-align: center;
         padding: 40px;
         grid-column: 1 / -1;
@@ -948,26 +949,29 @@ style.textContent = `
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(17, 17, 17, 0.18);
+        backdrop-filter: blur(10px);
         display: flex;
         justify-content: center;
         align-items: center;
         z-index: 2000;
+        padding: 16px;
     }
     
     .modal-content {
-        background: #1e1e2e;
-        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.96);
+        color: #111111;
+        border-radius: 28px;
         padding: 0;
         min-width: 400px;
         max-width: 90vw;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 24px 60px rgba(17, 17, 17, 0.12);
+        border: 1px solid rgba(17, 17, 17, 0.08);
     }
     
     .modal-header {
         padding: 20px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 1px solid rgba(17, 17, 17, 0.08);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -975,51 +979,62 @@ style.textContent = `
     
     .modal-header h3 {
         margin: 0;
-        color: #00c6ff;
+        color: #111111;
+        font-size: 1.2rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
     }
     
     .modal-close {
-        background: none;
+        background: rgba(17, 17, 17, 0.04);
         border: none;
-        color: #aaa;
+        color: #555555;
         font-size: 24px;
         cursor: pointer;
         padding: 0;
-        width: 30px;
-        height: 30px;
+        width: 36px;
+        height: 36px;
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
     }
     
+    .modal-close:hover {
+        background: rgba(17, 17, 17, 0.08);
+        color: #111111;
+    }
+
     .modal-body {
         padding: 20px;
+        color: #444444;
     }
     
     .modal-footer {
         padding: 15px 20px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        border-top: 1px solid rgba(17, 17, 17, 0.08);
         display: flex;
         justify-content: flex-end;
         gap: 10px;
     }
     
     .btn-cancel, .btn-confirm {
-        padding: 10px 20px;
+        padding: 12px 18px;
         border: none;
-        border-radius: 8px;
+        border-radius: 14px;
         cursor: pointer;
-        font-weight: bold;
+        font-weight: 700;
     }
     
     .btn-cancel {
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
+        background: rgba(17, 17, 17, 0.05);
+        color: #111111;
     }
     
     .btn-confirm {
-        background: linear-gradient(45deg, #00c6ff, #0072ff);
-        color: white;
+        background: #111111;
+        color: #ffffff;
+        box-shadow: 0 12px 24px rgba(17, 17, 17, 0.12);
     }
     
     .form-group {
@@ -1029,23 +1044,30 @@ style.textContent = `
     .form-group label {
         display: block;
         margin-bottom: 5px;
-        color: #aaa;
+        color: #444444;
+        font-weight: 700;
     }
     
     .form-group input {
         width: 100%;
-        padding: 10px;
-        border-radius: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: rgba(0, 0, 0, 0.3);
-        color: white;
+        padding: 12px 14px;
+        border-radius: 14px;
+        border: 1px solid rgba(17, 17, 17, 0.08);
+        background: rgba(255, 255, 255, 0.82);
+        color: #111111;
         font-size: 16px;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: rgba(17, 17, 17, 0.16);
+        box-shadow: 0 0 0 4px rgba(17, 17, 17, 0.04);
     }
     
     .form-group small {
         display: block;
         margin-top: 5px;
-        color: #777;
+        color: #8d8d8d;
         font-size: 12px;
     }
     
@@ -1053,11 +1075,11 @@ style.textContent = `
     .boss-history {
         margin-top: 20px;
         padding-top: 15px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        border-top: 1px solid rgba(17, 17, 17, 0.06);
     }
     
     .boss-history h4 {
-        color: #00c6ff;
+        color: #111111;
         margin-bottom: 10px;
         font-size: 1rem;
         display: flex;
@@ -1075,31 +1097,32 @@ style.textContent = `
         justify-content: space-between;
         padding: 8px 12px;
         margin-bottom: 5px;
-        border-radius: 6px;
+        border-radius: 12px;
         font-size: 0.9rem;
     }
     
     .kill-action {
-        background: rgba(76, 175, 80, 0.1);
-        border-left: 3px solid #4caf50;
+        background: #fcfcfb;
+        border-left: 3px solid rgba(17, 17, 17, 0.18);
     }
     
     .edit-action {
-        background: rgba(255, 193, 7, 0.1);
-        border-left: 3px solid #FFC107;
+        background: #fafaf8;
+        border-left: 3px solid rgba(17, 17, 17, 0.12);
     }
     
     .action-type {
         font-weight: bold;
+        color: #111111;
     }
     
     .action-time {
-        color: #aaa;
-        font-family: 'Courier New', monospace;
+        color: #8d8d8d;
+        font-family: 'IBM Plex Mono', monospace;
     }
     
     .no-history {
-        color: #777;
+        color: #8d8d8d;
         font-style: italic;
         text-align: center;
         padding: 10px;
