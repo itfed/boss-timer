@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Печеньки</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="home-page">
+    <div class="container">
+        <header class="site-header">
+            <div class="hero-copy">
+                <h1>
+                    <span class="brand-logo" aria-hidden="true">
+                        <img src="/static/cookie-rider-logo-crop.jpg" alt="Печенька на печеньке-льве">
+                    </span>
+                    Печеньки
+                </h1>
+            </div>
+            <nav class="top-nav" aria-label="Основное меню">
+                <a class="nav-link active" href="/">Главная</a>
+                <a class="nav-link" href="/boss-timer">BossTimer</a>
+            </nav>
+        </header>
+
+        <main class="home-hero">
+            <section class="home-hero-card">
+                <div class="home-copy">
+                    <span class="home-eyebrow">Boss Hunters</span>
+                    <h2>Мы Печеньки.</h2>
+                    <p>Самое дружное комьюнити на словах и самое шумное в голосе. Мы иногда спорим, подкалываем друг друга, а потом всё равно собираемся и идём охотиться на боссов вместе.</p>
+                    <p>Эта страница теперь наша маленькая база: отсюда можно быстро перейти к таймерам, следить за респами и просто помнить, что даже самый хаотичный рейд становится лучше, когда рядом свои.</p>
+
+                    <section class="promo-card" aria-label="Промокоды">
+                        <div class="promo-head">
+                            <span class="promo-label">Актуальный промокод</span>
+                            <button class="promo-copy-btn" type="button" data-code="PECHENKI" onclick="copyPromoCode(this)">
+                                <span class="promo-copy-icon">⧉</span>
+                                <span class="promo-copy-text">Скопировать</span>
+                            </button>
+                        </div>
+
+                        <div class="promo-current">
+                            <code id="current-promo-code">PECHENKI</code>
+                        </div>
+
+                        <details class="promo-archive">
+                            <summary>Архив промокодов</summary>
+                            <div class="promo-archive-list">
+                                <div class="promo-archive-item">
+                                    <code>COOKIEBOSS</code>
+                                    <span>Февраль 2026</span>
+                                </div>
+                                <div class="promo-archive-item">
+                                    <code>GINGERGG</code>
+                                    <span>Январь 2026</span>
+                                </div>
+                                <div class="promo-archive-item">
+                                    <code>RAIDCOOKIE</code>
+                                    <span>Декабрь 2025</span>
+                                </div>
+                            </div>
+                        </details>
+                    </section>
+                </div>
+
+                <div class="cookie-scene" aria-hidden="true">
+                    <img src="/static/cookies-home-hero.jpg" alt="Весёлая печенька на цветочном поле">
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        async function copyPromoCode(button) {
+            const code = button.dataset.code;
+            const label = button.querySelector('.promo-copy-text');
+            try {
+                await navigator.clipboard.writeText(code);
+                label.textContent = 'Скопировано';
+                setTimeout(() => {
+                    label.textContent = 'Скопировать';
+                }, 1600);
+            } catch (error) {
+                label.textContent = 'Не удалось';
+                setTimeout(() => {
+                    label.textContent = 'Скопировать';
+                }, 1600);
+            }
+        }
+    </script>
+</body>
+</html>
