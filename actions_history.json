@@ -1,20 +1,6 @@
 [
   {
     "id": 101,
-    "timestamp": "2026-01-16T22:03:38.803495+03:00",
-    "action_type": "manual_edit",
-    "boss_id": 16,
-    "boss_name": "Глаки",
-    "details": {
-      "previous_time": null,
-      "new_time": "2026-01-16T15:09:00+03:00",
-      "edited_manually": true
-    },
-    "timestamp_formatted": "16.01.2026 22:03:38",
-    "time_only": "22:03:38"
-  },
-  {
-    "id": 101,
     "timestamp": "2026-01-16T22:03:38.806556+03:00",
     "action_type": "manual_edit",
     "boss_id": 17,
@@ -1395,6 +1381,8 @@
       "previous_time": null,
       "new_time": "2026-02-10T06:20:00+03:00",
       "edited_manually": true
-    }
+    },
+    "timestamp_formatted": "10.02.2026 18:09:48",
+    "time_only": "18:09:48"
   }
 ]

@@ -664,7 +664,7 @@ button {
     display: grid;
     grid-template-columns: minmax(260px, 0.85fr) minmax(360px, 1.15fr);
     gap: 28px;
-    align-items: center;
+    align-items: start;
     padding: 18px 4px 8px;
 }
 
@@ -733,11 +733,13 @@ button {
 
 .promo-card {
     margin-top: 24px;
-    padding: 18px;
+    max-width: 348px;
+    padding: 14px;
     border: 1px solid var(--line);
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.74);
-    box-shadow: var(--shadow-sm);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.58);
+    box-shadow: none;
+    margin-left: -6px;
 }
 
 .promo-head {
@@ -749,19 +751,19 @@ button {
 
 .promo-label {
     color: var(--text-muted);
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
 }
 
 .promo-copy-btn {
-    padding: 9px 12px;
+    padding: 8px 10px;
     border: 1px solid var(--line);
     border-radius: 12px;
     background: #ffffff;
     color: var(--text-soft);
-    font-size: 0.9rem;
+    font-size: 0.86rem;
     font-weight: 600;
     box-shadow: none;
 }
@@ -777,33 +779,33 @@ button {
 }
 
 .promo-current {
-    margin-top: 14px;
+    margin-top: 12px;
 }
 
 .promo-current code {
     display: inline-flex;
     align-items: center;
-    padding: 12px 14px;
-    border-radius: 14px;
-    background: #111111;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(17, 17, 17, 0.94);
     color: #ffffff;
     font-family: 'SF Mono', 'IBM Plex Mono', monospace;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     letter-spacing: 0.04em;
 }
 
 .promo-archive {
-    margin-top: 14px;
+    margin-top: 12px;
     border-top: 1px solid var(--line);
-    padding-top: 14px;
+    padding-top: 12px;
 }
 
 .promo-archive summary {
     list-style: none;
     cursor: pointer;
     color: var(--text-soft);
-    font-size: 0.94rem;
+    font-size: 0.9rem;
     font-weight: 600;
 }
 
@@ -825,7 +827,7 @@ button {
 .promo-archive-list {
     display: grid;
     gap: 10px;
-    margin-top: 14px;
+    margin-top: 12px;
 }
 
 .promo-archive-item {
@@ -833,21 +835,21 @@ button {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 10px 12px;
-    border-radius: 14px;
-    background: rgba(17, 17, 17, 0.03);
+    padding: 9px 10px;
+    border-radius: 12px;
+    background: rgba(17, 17, 17, 0.025);
 }
 
 .promo-archive-item code {
     color: var(--text);
     font-family: 'SF Mono', 'IBM Plex Mono', monospace;
-    font-size: 0.9rem;
+    font-size: 0.86rem;
     font-weight: 600;
 }
 
 .promo-archive-item span {
     color: var(--text-muted);
-    font-size: 0.88rem;
+    font-size: 0.84rem;
 }
 
 .cookie-scene {
@@ -863,6 +865,8 @@ button {
         linear-gradient(180deg, #fcfcfb 0%, #f2f6ef 100%);
     box-shadow: var(--shadow-md);
     overflow: hidden;
+    position: sticky;
+    top: 24px;
 }
 
 .cookie-scene img {
@@ -985,8 +989,13 @@ button {
         align-items: flex-start;
     }
 
+    .promo-card {
+        margin-left: 0;
+    }
+
     .cookie-scene {
         min-height: 360px;
+        position: static;
     }
 
     .compact-timers {
@@ -1062,6 +1071,7 @@ button {
     .cookie-scene {
         min-height: 280px;
         padding: 8px;
+        position: static;
     }
 
     .promo-archive-item {
