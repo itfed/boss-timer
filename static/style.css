@@ -657,51 +657,106 @@ button {
 }
 
 .home-hero {
-    min-height: calc(100vh - 180px);
-}
-
-.home-hero-card {
     display: grid;
-    grid-template-columns: minmax(260px, 0.85fr) minmax(360px, 1.15fr);
-    gap: 28px;
-    align-items: start;
-    padding: 18px 4px 8px;
+    gap: 18px;
 }
 
-.home-copy {
-    max-width: 420px;
+.hero-banner {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    min-height: 340px;
+    box-shadow: var(--shadow-md);
+}
+
+.hero-banner-image {
+    position: absolute;
+    inset: 0;
+}
+
+.hero-banner-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center 22%;
+}
+
+.hero-banner-overlay {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 28px 32px;
+    min-height: 340px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
 }
 
 .home-eyebrow {
     display: inline-flex;
     padding: 8px 12px;
     border-radius: 999px;
-    background: rgba(17, 17, 17, 0.05);
-    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    color: #ffffff;
     font-size: 0.82rem;
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
 }
 
-.home-copy h2 {
-    margin-top: 18px;
-    color: var(--text);
-    font-size: clamp(2.2rem, 5vw, 4.6rem);
-    line-height: 0.94;
-    letter-spacing: -0.08em;
+.hero-banner-overlay h2 {
+    color: #ffffff;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    line-height: 1.02;
+    letter-spacing: -0.06em;
     font-weight: 700;
 }
 
-.home-copy p {
-    margin-top: 18px;
+.hero-welcome {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+.home-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.home-about-card {
+    padding: 22px 24px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+}
+
+.card-label {
+    display: inline-flex;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(17, 17, 17, 0.05);
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.home-about-card p {
+    margin-top: 14px;
     color: var(--text-soft);
-    font-size: 1rem;
+    font-size: 0.95rem;
     line-height: 1.65;
 }
 
 .home-cta {
-    margin-top: 22px;
+    margin-top: 20px;
 }
 
 .join-team-btn {
@@ -738,14 +793,11 @@ button {
 }
 
 .promo-card {
-    margin-top: 24px;
-    max-width: 348px;
-    padding: 14px;
+    padding: 22px 24px;
     border: 1px solid var(--line);
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.58);
-    box-shadow: none;
-    margin-left: -6px;
+    border-radius: 22px;
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
 }
 
 .promo-head {
@@ -793,8 +845,8 @@ button {
     align-items: center;
     padding: 10px 12px;
     border-radius: 12px;
-    background: rgba(17, 17, 17, 0.94);
-    color: #ffffff;
+    background: rgba(17, 17, 17, 0.06);
+    color: var(--text);
     font-family: 'SF Mono', 'IBM Plex Mono', monospace;
     font-size: 0.95rem;
     font-weight: 600;
@@ -858,31 +910,6 @@ button {
     font-size: 0.84rem;
 }
 
-.cookie-scene {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 520px;
-    padding: 10px;
-    border: 1px solid var(--line);
-    border-radius: 28px;
-    background:
-        radial-gradient(circle at top, rgba(255,255,255,0.88), transparent 30%),
-        linear-gradient(180deg, #fcfcfb 0%, #f2f6ef 100%);
-    box-shadow: var(--shadow-md);
-    overflow: hidden;
-    position: sticky;
-    top: 24px;
-}
-
-.cookie-scene img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-    object-position: center 22%;
-    border-radius: 22px;
-}
 
 .fa-spin {
     margin-right: 8px;
@@ -986,22 +1013,18 @@ button {
         width: fit-content;
     }
 
-    .home-hero-card {
+    .home-cards {
         grid-template-columns: 1fr;
+    }
+
+    .hero-banner,
+    .hero-banner-overlay {
+        min-height: 280px;
     }
 
     .promo-head {
         flex-direction: column;
         align-items: flex-start;
-    }
-
-    .promo-card {
-        margin-left: 0;
-    }
-
-    .cookie-scene {
-        min-height: 360px;
-        position: static;
     }
 
     .compact-timers {
@@ -1074,10 +1097,13 @@ button {
         flex: 1;
     }
 
-    .cookie-scene {
-        min-height: 280px;
-        padding: 8px;
-        position: static;
+    .hero-banner,
+    .hero-banner-overlay {
+        min-height: 240px;
+    }
+
+    .hero-banner-overlay {
+        padding: 20px;
     }
 
     .promo-archive-item {

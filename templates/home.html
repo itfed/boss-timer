@@ -15,7 +15,7 @@
                     <span class="brand-logo" aria-hidden="true">
                         <img src="/static/cookie-rider-logo-crop.jpg" alt="Печенька на печеньке-льве">
                     </span>
-                    Главная
+                    Печеньки
                 </h1>
             </div>
             <nav class="top-nav" aria-label="Основное меню">
@@ -25,54 +25,59 @@
         </header>
 
         <main class="home-hero">
-            <section class="home-hero-card">
-                <div class="home-copy">
+            <section class="hero-banner">
+                <div class="hero-banner-image">
+                    <img src="/static/cookies-home-hero.jpg" alt="Весёлая печенька на цветочном поле">
+                </div>
+                <div class="hero-banner-overlay">
                     <span class="home-eyebrow">Boss Hunters</span>
                     <h2>Мы Печеньки.</h2>
+                    <span class="hero-welcome">Добро пожаловать в наш новый дом!</span>
+                </div>
+            </section>
+
+            <section class="home-cards">
+                <div class="home-about-card">
+                    <span class="card-label">О нас</span>
                     <p>Самое дружное комьюнити на словах и самое шумное в голосе. Мы иногда спорим, подкалываем друг друга, а потом всё равно собираемся и идём охотиться на боссов вместе.</p>
                     <p>Эта страница теперь наша маленькая база: отсюда можно быстро перейти к таймерам, следить за респами и просто помнить, что даже самый хаотичный рейд становится лучше, когда рядом свои.</p>
-
                     <div class="home-cta">
                         <button class="join-team-btn" type="button" onclick="fakeJoinTeam(this)">
                             <span class="join-team-label">Стать частью команды</span>
                         </button>
                     </div>
-
-                    <section class="promo-card" aria-label="Промокоды">
-                        <div class="promo-head">
-                            <span class="promo-label">Актуальный промокод</span>
-                            <button class="promo-copy-btn" type="button" data-code="PECHENKI" onclick="copyPromoCode(this)">
-                                <span class="promo-copy-icon">⧉</span>
-                                <span class="promo-copy-text">Скопировать</span>
-                            </button>
-                        </div>
-
-                        <div class="promo-current">
-                            <code id="current-promo-code">PECHENKI</code>
-                        </div>
-
-                        <details class="promo-archive">
-                            <summary>Архив промокодов</summary>
-                            <div class="promo-archive-list">
-                                <div class="promo-archive-item">
-                                    <code>COOKIEBOSS</code>
-                                    <span>Февраль 2026</span>
-                                </div>
-                                <div class="promo-archive-item">
-                                    <code>GINGERGG</code>
-                                    <span>Январь 2026</span>
-                                </div>
-                                <div class="promo-archive-item">
-                                    <code>RAIDCOOKIE</code>
-                                    <span>Декабрь 2025</span>
-                                </div>
-                            </div>
-                        </details>
-                    </section>
                 </div>
 
-                <div class="cookie-scene" aria-hidden="true">
-                    <img src="/static/cookies-home-hero.jpg" alt="Весёлая печенька на цветочном поле">
+                <div class="promo-card">
+                    <div class="promo-head">
+                        <span class="promo-label">Актуальный промокод</span>
+                        <button class="promo-copy-btn" type="button" data-code="PECHENKI" onclick="copyPromoCode(this)">
+                            <span class="promo-copy-icon">⧉</span>
+                            <span class="promo-copy-text">Скопировать</span>
+                        </button>
+                    </div>
+
+                    <div class="promo-current">
+                        <code id="current-promo-code">PECHENKI</code>
+                    </div>
+
+                    <details class="promo-archive">
+                        <summary>Архив промокодов</summary>
+                        <div class="promo-archive-list">
+                            <div class="promo-archive-item">
+                                <code>COOKIEBOSS</code>
+                                <span>Февраль 2026</span>
+                            </div>
+                            <div class="promo-archive-item">
+                                <code>GINGERGG</code>
+                                <span>Январь 2026</span>
+                            </div>
+                            <div class="promo-archive-item">
+                                <code>RAIDCOOKIE</code>
+                                <span>Декабрь 2025</span>
+                            </div>
+                        </div>
+                    </details>
                 </div>
             </section>
         </main>
@@ -80,7 +85,7 @@
 
     <script>
         async function fakeJoinTeam(button) {
-            if (button.dataset.loading === 'true') {
+            if (button.dataset.loading === 'true' || button.dataset.step === '4') {
                 return;
             }
 
@@ -137,6 +142,7 @@
 
             button.classList.add('is-finished', 'is-final');
             button.dataset.step = '4';
+            button.disabled = true;
             label.textContent = '🖕';
         }
 
